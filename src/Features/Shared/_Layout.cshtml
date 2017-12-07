@@ -1,159 +1,209 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using CameraVillage.Domain.Models
+@using CameraVillage.Infra.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+<!DOCTYPE html>
 <html>
-<head>
+
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Bank</title>
+    <title>@ViewData["Title"] - Web</title>
+    <link rel="stylesheet" href="~/styles.css" />
 
-    <environment names="Development">
-        <link rel="stylesheet" href="~/lib/semantic-ui/dist/semantic.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+    <style type="text/css">
 
-  <link rel="stylesheet" type="text/css" href="lib/semantic-ui/dist/components/reset.css">
-  <link rel="stylesheet" type="text/css" href="lib/semantic-ui/dist/components/site.css">
+    body > .grid {
+      height: 100%;
+    }
 
-  <link rel="stylesheet" type="text/css" href="lib/semantic-ui/dist/components/container.css">
-  <link rel="stylesheet" type="text/css" href="lib/semantic-ui/dist/components/grid.css">
-  <link rel="stylesheet" type="text/css" href="lib/semantic-ui/dist/components/header.css">
-  <link rel="stylesheet" type="text/css" href="lib/semantic-ui/dist/components/image.css">
-  <link rel="stylesheet" type="text/css" href="lib/semantic-ui/dist/components/menu.css">
+    .column {
+      max-width: 450px;
+    }
 
-  <link rel="stylesheet" type="text/css" href="lib/semantic-ui/dist/components/divider.css">
-  <link rel="stylesheet" type="text/css" href="lib/semantic-ui/dist/components/list.css">
-  <link rel="stylesheet" type="text/css" href="lib/semantic-ui/dist/components/segment.css">
-  <link rel="stylesheet" type="text/css" href="lib/semantic-ui/dist/components/dropdown.css">
-  <link rel="stylesheet" type="text/css" href="lib/semantic-ui/dist/components/icon.css">
+      .main.container{
+        margin-top: 7em;
+      }
+
+      .secondary.menu .toc.item {
+        display: none;
+      }
+
+      .text-danger{
+        color: red;
+      }
+
+      .secondary.menu .right.item .item.button{
+        display: none;
+      }
+
+      .secondary.menu .logo.header.item {
+        display: none;
+      }
+
+      .secondary.menu .right.item .ui.button {
+        margin-left: 0.5em;
+      }
+
+      .pusher {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+      }
+
+      .pusher > footer{
+        flex: 1;
+      }
+
+      body > .grid {
+        height: 100%;
+      }
+
+      .column {
+        max-width: 450px;
+      }
+
+      @@media only screen and (max-width: 700px) {
+
+        .ui.secondary.menu .right.item{
+          display: none;
+        }
+
+        .ui.sidebar.menu > .button {
+          display: none;
+        }
+
+        .ui.secondary.menu .header.item {
+          display: none;
+        }
+
+        .ui.secondary.menu .logo.header.item {
+          display: flex;
+        }
+
+        .ui.secondary.menu .toc.item {
+          display: block;
+        }
 
 
-    </environment>
-    <environment names="Staging,Production">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css"
-              asp-fallback-href="~/lib/semantic/dist/semantic.min.css"
-              asp-fallback-test-class="transition" asp-fallback-test-property="animation-iteration-count" asp-fallback-test-value="1" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+      }
+    </style>
 
-  <style type="text/css">
-  body {
-    background-color: #FFFFFF;
-  }
-  .ui.menu .item img.logo {
-    margin-right: 1.5em;
-  }
-  .main.container {
-    margin-top: 7em;
-  }
-  .wireframe {
-    margin-top: 2em;
-  }
-  .ui.footer.segment {
-    margin: 5em 0em 0em;
-    padding: 5em 0em;
-  }
-  </style>
+  <script type="text/javascript" src="~/node-static.js"></script>
+  <script type="text/javascript" src="~/main.js"></script>
 
-</head>
+  <script>
+  $(document)
+    .ready(function() {
+      $('.ui.sidebar')
+        .sidebar('attach events', '.toc.item');
 
-<body>
+      $('.ui.form')
+        .form({
+          fields: {
+            email: {
+              identifier  : 'email',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your e-mail'
+                },
+                {
+                  type   : 'email',
+                  prompt : 'Please enter a valid e-mail'
+                }
+              ]
+            },
+            password: {
+              identifier  : 'password',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your password'
+                },
+                {
+                  type   : 'length[6]',
+                  prompt : 'Your password must be at least 6 characters'
+                }
+              ]
+            }
+          }
+        })
+      ;
+    })
+  ;
 
-  <div class="ui fixed inverted menu">
-    <div class="ui container">
-      <a href="#" class="header item">
-        <img class="logo" src="images/logo.png">
-        Camera Village
-      </a>
-      <a href="#" class="item">Home</a>
-      <div class="ui simple dropdown item">
-        Dropdown <i class="dropdown icon"></i>
-        <div class="menu">
-          <a class="item" href="#">Link Item</a>
-          <a class="item" href="#">Link Item</a>
-          <div class="divider"></div>
-          <div class="header">Header Item</div>
-          <div class="item">
-            <i class="dropdown icon"></i>
-            Sub Menu
-            <div class="menu">
-              <a class="item" href="#">Link Item</a>
-              <a class="item" href="#">Link Item</a>
+  </script>
+
+  </head>
+
+  <body>
+
+    <div class="ui vertical thin sidebar menu">
+      <a href='#' class="active header item">Home</a>
+      <a href='#' class="item">Cameras</a>
+      <a href='#' class="item">Film</a>
+      <a href='#' class="item">Cart</a>
+      @await Html.PartialAsync("_LoginPartial")
+    </div>
+
+    <div class="pusher">
+      <div class ="ui container">
+        <div class="ui large secondary menu">
+          <a class="toc item">
+            <i class="sidebar icon"></i>
+          </a>
+
+          <a asp-area="" asp-controller="Home" asp-action="Index"
+          class="header item">
+            <span style=" padding-right: 15px;">
+              <img class="ui avatar image" src="~/images/logo.png" height="25">
+            </span>
+            Camera Village
+          </a>
+
+          <a href='#' class="item">
+            Cameras
+          </a>
+          <a href='#' class="item">
+            Film
+          </a>
+          <a href='#' class="item">
+            Cart
+          </a>
+
+          <div class="right menu" style="width: 100%;">
+            <div class="item" style="width: 100%;">
+              <div class="ui fluid icon input">
+                 <input type="text" placeholder="Search...">
+                 <i class="search link icon"></i>
+              </div>
             </div>
           </div>
-          <a class="item" href="#">Link Item</a>
+
+          <div class="right item">
+            @await Html.PartialAsync("_LoginPartial")
+          </div>
+
+          <a asp-area="" asp-controller="Home" asp-action="Index"
+          class="logo header item">
+            <span style=" padding-right: 15px;">
+              <img class="ui avatar image" src="~/images/logo.png" height="25">
+            </span>
+            Camera Village
+          </a>
+
         </div>
       </div>
+
+      @RenderBody()
+
     </div>
-  </div>
 
-  <div class="ui main text container">
-        @RenderBody()
-  </div>
+    @RenderSection("scripts", required: false)
 
-  <div class="ui inverted vertical footer segment">
-    <div class="ui center aligned container">
-      <div class="ui stackable inverted divided grid">
-        <div class="three wide column">
-          <h4 class="ui inverted header">Group 1</h4>
-          <div class="ui inverted link list">
-            <a href="#" class="item">Link One</a>
-            <a href="#" class="item">Link Two</a>
-            <a href="#" class="item">Link Three</a>
-            <a href="#" class="item">Link Four</a>
-          </div>
-        </div>
-        <div class="three wide column">
-          <h4 class="ui inverted header">Group 2</h4>
-          <div class="ui inverted link list">
-            <a href="#" class="item">Link One</a>
-            <a href="#" class="item">Link Two</a>
-            <a href="#" class="item">Link Three</a>
-            <a href="#" class="item">Link Four</a>
-          </div>
-        </div>
-        <div class="three wide column">
-          <h4 class="ui inverted header">Group 3</h4>
-          <div class="ui inverted link list">
-            <a href="#" class="item">Link One</a>
-            <a href="#" class="item">Link Two</a>
-            <a href="#" class="item">Link Three</a>
-            <a href="#" class="item">Link Four</a>
-          </div>
-        </div>
-        <div class="seven wide column">
-          <h4 class="ui inverted header">Footer Header</h4>
-          <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
-        </div>
-      </div>
-      <div class="ui inverted section divider"></div>
-      <img src="assets/images/logo.png" class="ui centered mini image">
-      <div class="ui horizontal inverted small divided link list">
-        <a class="item" href="#">Site Map</a>
-        <a class="item" href="#">Contact Us</a>
-        <a class="item" href="#">Terms and Conditions</a>
-        <a class="item" href="#">Privacy Policy</a>
-      </div>
-    </div>
-  </div>
-
-
-
-<environment names="Development">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/semantic-ui/dist/semantic.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-</environment>
-<environment names="Staging,Production">
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-            asp-fallback-test="window.jQuery">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.js"
-            asp-fallback-src="~/lib/semantic/dist/js/semantic.min.js"
-            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.site">
-
-    </script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
-</environment>
-
-@RenderSection("scripts", required: false)
-</body>
+  </body>
 </html>

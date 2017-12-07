@@ -1,120 +1,108 @@
-"use strict"
-{
-    // Required to form a complete output path
-    let path = require('path');
+const path = require('path');
+const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
 
-    // Plagin for cleaning up the output folder (bundle) before creating a new one
-    const CleanWebpackPlugin = require('clean-webpack-plugin');
+module.exports = {
+  context: __dirname + '/ClientApp',
+  devtool: 'eval-source-map',
+  entry: {
+    main: './main.js'
+  },
+  resolve: {
+    extensions: ['.js', '.scss', '.css', '.less', '.ts'],
+    modules: [path.resolve('./'), path.resolve('./node_modules')]
+  },
+  module: {
+    rules: [
+      {
+        test: /\.exec\.js$/,
+        use: ['script-loader']
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      },
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader'
+      },
+      {
+        test: /\.jpe?g$|\.gif$|\.png$|\.ttf$|\.eot$|\.svg$/,
+        use: 'file-loader?name=[name].[ext]?[hash]'
+      },
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader?limit=10000&mimetype=application/fontwoff'
+      },
 
-    // Path to the output folder
-    const bundleFolder = "wwwroot/bundle/";
-
-    module.exports = {
-        // Application entry point
-        entry: "./Scripts/main.ts",
-
-        // Output file
-        output: {
-            filename: 'script.js',
-            path: path.resolve(__dirname, bundleFolder)
-        },
-        module: {
-          rules: [
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
+      },
+      {
+        test: /\.less$/,
+        use: ExtractTextPlugin.extract({
+          use: ['css-loader', 'less-loader']
+        })
+      },
+      {
+        test: /\.(scss)$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
             {
-              test: /\.tsx?$/,
-              loader: "ts-loader",
-              exclude: /node_modules/,
+              loader: 'css-loader'
             },
-          ]
-        },
-        resolve: {
-            extensions: [".tsx", ".ts", ".js"]
-        },
-        plugins: [
-            new CleanWebpackPlugin([bundleFolder])
-        ],
-        // Include the generation of debugging information within the output file
-        // (Required for debugging client scripts)
-        devtool: "inline-source-map"
-    };
-}
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-"use strict"
-{
-    // Required to form a complete output path
-    let path = require('path');
- 
-    // Plagin for cleaning up the output folder (bundle) before creating a new one
-    const CleanWebpackPlugin = require('clean-webpack-plugin');
- 
-    // Path to the output folder
-    const bundleFolder = "wwwroot/bundle/";
- 
-    module.exports = {
-        // Application entry point
-        entry: "./Scripts/main.ts",
- 
-        // Output file
-        output: {
-            filename: 'script.js',
-            path: path.resolve(__dirname, bundleFolder)
-        },
-        module: {
-          rules: [
             {
-              test: /\.tsx?$/,
-              loader: "ts-loader",
-              exclude: /node_modules/,
+              loader: 'postcss-loader',
+              options: {
+                plugins: function() {
+                  return [require('precss'), require('autoprefixer')];
+                }
+              }
             },
+            {
+              loader: 'sass-loader'
+            }
           ]
-        },
-        resolve: {
-            extensions: [".tsx", ".ts", ".js"]
-        },
-        plugins: [
-            new CleanWebpackPlugin([bundleFolder])
-        ],
-        // Include the generation of debugging information within the output file
-        // (Required for debugging client scripts)
-        devtool: "inline-source-map"
-    };
-}
+        })
+      }
+    ]
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery'
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'node-static',
+      filename: 'node-static.js',
+      minChunks(module, count) {
+        var context = module.context;
+        return context && context.indexOf('node_modules') >= 0;
+      }
+    }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new ExtractTextPlugin('styles.css'),
+    new CleanWebpackPlugin(['wwwroot']),
+    new CopyWebpackPlugin([{ from: 'images', to: 'images' }])
+  ],
+  output: {
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'wwwroot')
+  }
+};

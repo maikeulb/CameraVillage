@@ -23,12 +23,12 @@ namespace CameraVillage
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<IdentityDbContext> (options =>
+                options.UseNpgsql (_config.GetConnectionString ("IdentityConnectionString")));
+
             services.AddIdentity<ApplicationUser, IdentityRole> ()
                 .AddEntityFrameworkStores<IdentityDbContext> ()
                 .AddDefaultTokenProviders ();
-
-            services.AddDbContext<IdentityDbContext> (options =>
-                options.UseNpgsql (_config.GetConnectionString ("IdentityConnectionString")));
 
             services.AddTransient<IEmailSender, EmailSender>();
 
