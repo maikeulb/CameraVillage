@@ -270,6 +270,8 @@ __pycache__/
 # Ignore build files
 /obj
 /bin
+/semantic
+/Semantic-UI-CSS
 /Migrations.bak
 
 # Ignore temp backup files

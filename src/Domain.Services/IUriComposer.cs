@@ -1,4 +1,4 @@
-namespace CameraVillage.Domain.Models.Interfaces
+namespace CameraVillage.Domain.Services
 {
     public interface IUriComposer
     {

@@ -9,26 +9,39 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CameraVillage.Infra.App;
 using CameraVillage.Infra.Identity;
+using CameraVillage.Domain.Services;
+using CameraVillage.Domain.Models.Interfaces;
+using CameraVillage.Infra.Data.Repositories;
+using CameraVillage.Infra.Data.Context;
 
 namespace CameraVillage
 {
     public class Startup
     {
-        private readonly IConfiguration _config;
-
-        public Startup (IConfiguration config)
+        public Startup (IConfiguration configuration)
         {
-            _config = config;
+            Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<IdentityDbContext> (options =>
-                options.UseNpgsql (_config.GetConnectionString ("IdentityConnectionString")));
+            services.AddDbContext<ApplicationDbContext> (options =>
+                options.UseNpgsql (Configuration.GetConnectionString ("CameraVillage")));
+
+            services.AddDbContext<IdentityDbContext>(options =>
+                options.UseNpgsql (Configuration.GetConnectionString ("Identity")));
 
             services.AddIdentity<ApplicationUser, IdentityRole> ()
                 .AddEntityFrameworkStores<IdentityDbContext> ()
                 .AddDefaultTokenProviders ();
+
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+
+            services.AddScoped<ICatalogService, CatalogService>();
+            services.AddSingleton<IUriComposer>(new UriComposer(Configuration.Get<CatalogSettings>()));
 
             services.AddTransient<IEmailSender, EmailSender>();
 

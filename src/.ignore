@@ -2,3 +2,5 @@ node_modules/
 wwwroot/
 bin/
 obj/
+semantic/
+Semantic-UI-CSS/
