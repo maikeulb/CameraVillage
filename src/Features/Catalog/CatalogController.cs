@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CameraVillage.Features.Catalog
 {
-    [Route("")]
     public class CatalogController : Controller
     {
         private readonly ICatalogService _catalogService;
@@ -15,7 +14,7 @@ namespace CameraVillage.Features.Catalog
 
         [HttpGet]
         [HttpPost]
-        public async Task<IActionResult> Index(int? brandFilterApplied, int? typesFilterApplied, int? page)
+        public async Task<IActionResult> Cameras (int? brandFilterApplied, int? typesFilterApplied, int? page)
         {
             var itemsPage = 10;
             var catalogModel = await _catalogService.GetCatalogItems(page ?? 0, itemsPage, brandFilterApplied, typesFilterApplied);

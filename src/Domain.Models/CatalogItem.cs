@@ -19,20 +19,16 @@ namespace CameraVillage.Domain.Models
                 int catalogBrandId,
                 string name,
                 string description,
-                string pictureUri,
                 decimal price,
-                CatalogType catalogType,
-                CatalogBrand catalogBrand
+                string pictureUri
                 )
         {
             CatalogTypeId = catalogTypeId;
             CatalogBrandId = catalogBrandId;
             Name = name;
             Description = description;
-            PictureUri = pictureUri;
             Price = price;
-            CatalogType = catalogType;
-            CatalogBrand  = catalogBrand;
+            PictureUri = pictureUri;
         }
 
         public static CatalogItem Create (
@@ -40,10 +36,8 @@ namespace CameraVillage.Domain.Models
                 int catalogBrandId,
                 string name,
                 string description,
-                string pictureUri,
                 decimal price,
-                CatalogType catalogType,
-                CatalogBrand catalogBrand
+                string pictureUri
                 )
         {
             return new CatalogItem (
@@ -51,10 +45,9 @@ namespace CameraVillage.Domain.Models
                 catalogBrandId,
                 name,
                 description,
-                pictureUri,
                 price,
-                catalogType,
-                catalogBrand);
+                pictureUri
+                );
         }
     }
 }
