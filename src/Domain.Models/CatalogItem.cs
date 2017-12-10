@@ -11,8 +11,9 @@ namespace CameraVillage.Domain.Models
         public string Name { get; private set; }
         public string ShortDescription { get; private set; }
         public string LongDescription { get; private set; }
-        public string ThumbnailUrl { get; set; } //fix
-        public string ImageUrl { get; set; } //fix
+        public string ImageName{ get; private set; } 
+        public string ThumbnailUrl { get; private set; } //delete after imagesharp
+        public string ImageUrl { get; private set; } //delete after imagesharp
 
         public CatalogType CatalogType { get; private set; }
         public CatalogBrand CatalogBrand { get; private set; }
@@ -27,6 +28,7 @@ namespace CameraVillage.Domain.Models
                 string name,
                 string shortDescription,
                 string longDescription,
+                string imageName,
                 string thumbnailUrl,
                 string imageUrl
                 )
@@ -38,6 +40,7 @@ namespace CameraVillage.Domain.Models
             Name = name;
             ShortDescription = shortDescription;
             LongDescription = longDescription;
+            ImageName = imageName;
             ThumbnailUrl = thumbnailUrl;
             ImageUrl = imageUrl;
         }
@@ -50,6 +53,7 @@ namespace CameraVillage.Domain.Models
                 string name,
                 string shortDescription,
                 string longDescription,
+                string imageName,
                 string thumbnailUrl,
                 string imageUrl
                 )
@@ -62,6 +66,7 @@ namespace CameraVillage.Domain.Models
                 name,
                 shortDescription,
                 longDescription,
+                imageName,
                 thumbnailUrl,
                 imageUrl
                 );

@@ -3,3 +3,6 @@ Figure out hidden form values on cshtml pages
 add json seed
 async repository
 migrate contexts simultaneously
+1. HOw to add multiple categories
+2. How to upload images
+3. Add IMageSharp

@@ -3,16 +3,23 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace CameraVillage.Features.Catalog
 {
     public class CatalogController : Controller
     {
         private readonly ICatalogService _catalogService;
+        private readonly IHostingEnvironment _environment;
 
-        public CatalogController(ICatalogService catalogService) 
+        public CatalogController(
+                ICatalogService catalogService,
+                IHostingEnvironment environment)
         {
             _catalogService = catalogService;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -37,12 +44,31 @@ namespace CameraVillage.Features.Catalog
             return View(catalogModel);
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CatalogItemFormViewModel item)
+        {
+            var uploadPath = Path.Combine(_environment.WebRootPath, "images/products");
+
+            if (item.ImageUpload.Length > 0)
+            {
+                using (var fileStream = new FileStream(Path.Combine(uploadPath, item.ImageUpload.FileName), FileMode.Create))
+                {
+                    await item.ImageUpload.CopyToAsync(fileStream);
+                }
+            }
+            return View();
+        }
+ 
         [HttpGet("Error")]
         public IActionResult Error()
         {
             return View();
         }
-
     }
 
     public class CatalogIndexViewModel
@@ -80,5 +106,10 @@ namespace CameraVillage.Features.Catalog
         public int TotalPages { get; set; }
         public string Previous { get; set; }
         public string Next { get; set; }
+    }
+
+    public class CatalogItemFormViewModel
+    {
+        public IFormFile ImageUpload { get; set; }
     }
 }

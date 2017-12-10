@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using CameraVillage.Domain.Models;
 using CameraVillage.Domain.Models.Interfaces;
-using CameraVillage.Domain.Services;
 using CameraVillage.Domain.Specifications;
 using CameraVillage.Features.Catalog;
 using CameraVillage.Infra.App;
@@ -19,21 +18,18 @@ namespace CameraVillage.Infra.App
         private readonly IRepository<CatalogItem> _itemRepository;
         private readonly IAsyncRepository<CatalogBrand> _brandRepository;
         private readonly IAsyncRepository<CatalogType> _typeRepository;
-        private readonly IUrlComposer _urlComposer;
 
         public CatalogService(
             ILoggerFactory loggerFactory,
             IRepository<CatalogItem> itemRepository,
             IAsyncRepository<CatalogBrand> brandRepository,
-            IAsyncRepository<CatalogType> typeRepository,
-            IUrlComposer urlComposer
+            IAsyncRepository<CatalogType> typeRepository
             )
         {
             _logger = loggerFactory.CreateLogger<CatalogService>();
             _itemRepository = itemRepository;
             _brandRepository = brandRepository;
             _typeRepository = typeRepository;
-            _urlComposer = urlComposer;
         }
 
         public async Task<CatalogIndexViewModel> GetCatalogItems(int pageIndex, int itemsPage, int? brandId, int? typeId)
@@ -46,12 +42,6 @@ namespace CameraVillage.Infra.App
                 .Skip(itemsPage * pageIndex)
                 .Take(itemsPage)
                 .ToList();
-
-            itemsOnPage.ForEach(x =>
-            {
-                x.ImageUrl = _urlComposer.ComposeImageUrl(x.ImageUrl);
-                x.ThumbnailUrl = _urlComposer.ComposeImageUrl(x.ThumbnailUrl);
-            });
 
             var vm = new CatalogIndexViewModel()
             {

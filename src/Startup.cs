@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CameraVillage.Infra.App;
 using CameraVillage.Infra.Identity;
-using CameraVillage.Domain.Services;
 using CameraVillage.Domain.Models.Interfaces;
 using CameraVillage.Infra.Data.Repositories;
 using CameraVillage.Infra.Data.Context;
@@ -41,7 +40,6 @@ namespace CameraVillage
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
             services.AddScoped<ICatalogService, CatalogService>();
-            services.AddSingleton<IUrlComposer>(new UrlComposer(Configuration.Get<CatalogSettings>()));
 
             services.AddTransient<IEmailSender, EmailSender>();
 
