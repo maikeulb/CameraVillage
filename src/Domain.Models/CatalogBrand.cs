@@ -4,7 +4,7 @@ namespace CameraVillage.Domain.Models
 {
     public class CatalogBrand : Entity
     {
-        public string Brand { get; set; }
+        public string Brand { get; private set; }
 
         private CatalogBrand () {}
 
@@ -13,7 +13,7 @@ namespace CameraVillage.Domain.Models
             Brand = brand;
         }
 
-        public static CatalogBrand Create ( string brand)
+        public static CatalogBrand Create (string brand)
         {
             return new CatalogBrand(brand);
         }

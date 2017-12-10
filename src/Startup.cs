@@ -41,7 +41,7 @@ namespace CameraVillage
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
             services.AddScoped<ICatalogService, CatalogService>();
-            services.AddSingleton<IUriComposer>(new UriComposer(Configuration.Get<CatalogSettings>()));
+            services.AddSingleton<IUrlComposer>(new UrlComposer(Configuration.Get<CatalogSettings>()));
 
             services.AddTransient<IEmailSender, EmailSender>();
 

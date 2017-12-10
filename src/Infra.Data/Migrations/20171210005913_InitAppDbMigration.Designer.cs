@@ -11,24 +11,20 @@ using System;
 namespace CameraVillage.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171210005913_InitAppDbMigration")]
+    partial class InitAppDbMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
-                .HasAnnotation("Relational:Sequence:.catalog_brand_hilo", "'catalog_brand_hilo', '', '1', '10', '', '', 'Int64', 'False'")
-                .HasAnnotation("Relational:Sequence:.catalog_hilo", "'catalog_hilo', '', '1', '10', '', '', 'Int64', 'False'")
-                .HasAnnotation("Relational:Sequence:.catalog_type_hilo", "'catalog_type_hilo', '', '1', '10', '', '', 'Int64', 'False'");
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
             modelBuilder.Entity("CameraVillage.Domain.Models.CatalogBrand", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:HiLoSequenceName", "catalog_brand_hilo")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Brand")
                         .IsRequired()
@@ -42,23 +38,23 @@ namespace CameraVillage.Migrations
             modelBuilder.Entity("CameraVillage.Domain.Models.CatalogItem", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:HiLoSequenceName", "catalog_hilo")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AvailableStock");
 
                     b.Property<int>("CatalogBrandId");
 
                     b.Property<int>("CatalogTypeId");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("LongDescription");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<string>("PictureUri");
-
                     b.Property<decimal>("Price");
+
+                    b.Property<string>("ShortDescription");
 
                     b.HasKey("Id");
 
@@ -72,9 +68,7 @@ namespace CameraVillage.Migrations
             modelBuilder.Entity("CameraVillage.Domain.Models.CatalogType", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:HiLoSequenceName", "catalog_type_hilo")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Type")
                         .IsRequired()

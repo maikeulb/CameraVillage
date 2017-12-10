@@ -5,22 +5,10 @@ using System.Collections.Generic;
 
 namespace CameraVillage.Migrations
 {
-    public partial class InitialAppDbMigration : Migration
+    public partial class InitAppDbMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateSequence(
-                name: "catalog_brand_hilo",
-                incrementBy: 10);
-
-            migrationBuilder.CreateSequence(
-                name: "catalog_hilo",
-                incrementBy: 10);
-
-            migrationBuilder.CreateSequence(
-                name: "catalog_type_hilo",
-                incrementBy: 10);
-
             migrationBuilder.CreateTable(
                 name: "CatalogBrand",
                 columns: table => new
@@ -53,12 +41,13 @@ namespace CameraVillage.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    AvailableStock = table.Column<int>(nullable: false),
                     CatalogBrandId = table.Column<int>(nullable: false),
                     CatalogTypeId = table.Column<int>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
+                    LongDescription = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
-                    PictureUri = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(nullable: false)
+                    Price = table.Column<decimal>(nullable: false),
+                    ShortDescription = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -98,15 +87,6 @@ namespace CameraVillage.Migrations
 
             migrationBuilder.DropTable(
                 name: "CatalogType");
-
-            migrationBuilder.DropSequence(
-                name: "catalog_brand_hilo");
-
-            migrationBuilder.DropSequence(
-                name: "catalog_hilo");
-
-            migrationBuilder.DropSequence(
-                name: "catalog_type_hilo");
         }
     }
 }

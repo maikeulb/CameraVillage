@@ -10,14 +10,30 @@ namespace CameraVillage.Features.Catalog
     {
         private readonly ICatalogService _catalogService;
 
-        public CatalogController(ICatalogService catalogService) => _catalogService = catalogService;
+        public CatalogController(ICatalogService catalogService) 
+        {
+            _catalogService = catalogService;
+        }
 
         [HttpGet]
         [HttpPost]
-        public async Task<IActionResult> Cameras (int? brandFilterApplied, int? typesFilterApplied, int? page)
+        public async Task<IActionResult> Index (int? brandFilterApplied, int? typesFilterApplied, int? page)
         {
             var itemsPage = 10;
             var catalogModel = await _catalogService.GetCatalogItems(page ?? 0, itemsPage, brandFilterApplied, typesFilterApplied);
+            return View(catalogModel);
+        }
+
+        public IActionResult Details (int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var catalogModel = _catalogService.GetCatalogDetailItem(id);
+            if (catalogModel == null)
+                return NotFound();
             return View(catalogModel);
         }
 
@@ -26,6 +42,7 @@ namespace CameraVillage.Features.Catalog
         {
             return View();
         }
+
     }
 
     public class CatalogIndexViewModel
@@ -38,11 +55,20 @@ namespace CameraVillage.Features.Catalog
         public PaginationInfoViewModel PaginationInfo { get; set; }
     }
 
+    public class CatalogDetailViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string ImageUrl { get; set; }
+        public string LongDescription { get; set; }
+        public decimal Price { get; set; }
+    }
+
     public class CatalogItemViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string PictureUri { get; set; }
+        public string ThumbnailUrl { get; set; }
         public decimal Price { get; set; }
     }
 

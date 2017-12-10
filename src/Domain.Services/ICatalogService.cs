@@ -8,6 +8,7 @@ namespace CameraVillage.Infra.App
     public interface ICatalogService
     {
         Task<CatalogIndexViewModel> GetCatalogItems(int pageIndex, int itemsPage, int? brandId, int? typeId);
+        CatalogDetailViewModel GetCatalogDetailItem(int catalogItemId);
         Task<IEnumerable<SelectListItem>> GetBrands();
         Task<IEnumerable<SelectListItem>> GetTypes();
     }

@@ -19,31 +19,29 @@ namespace CameraVillage.Infra.App
         private readonly IRepository<CatalogItem> _itemRepository;
         private readonly IAsyncRepository<CatalogBrand> _brandRepository;
         private readonly IAsyncRepository<CatalogType> _typeRepository;
-        private readonly IUriComposer _uriComposer;
+        private readonly IUrlComposer _urlComposer;
 
         public CatalogService(
             ILoggerFactory loggerFactory,
             IRepository<CatalogItem> itemRepository,
             IAsyncRepository<CatalogBrand> brandRepository,
             IAsyncRepository<CatalogType> typeRepository,
-            IUriComposer uriComposer)
+            IUrlComposer urlComposer
+            )
         {
             _logger = loggerFactory.CreateLogger<CatalogService>();
             _itemRepository = itemRepository;
             _brandRepository = brandRepository;
             _typeRepository = typeRepository;
-            _uriComposer = uriComposer;
+            _urlComposer = urlComposer;
         }
 
         public async Task<CatalogIndexViewModel> GetCatalogItems(int pageIndex, int itemsPage, int? brandId, int? typeId)
         {
             _logger.LogInformation("GetCatalogItems called.");
-
-            var filterSpecification = new CatalogFilterSpecification(brandId, typeId);
-            var root = _itemRepository.List(filterSpecification);
-
+            var filterSpecification = new CatalogFilterSpecification(brandId, typeId); 
+            var root = _itemRepository.List(filterSpecification); 
             var totalItems = root.Count();
-
             var itemsOnPage = root
                 .Skip(itemsPage * pageIndex)
                 .Take(itemsPage)
@@ -51,7 +49,8 @@ namespace CameraVillage.Infra.App
 
             itemsOnPage.ForEach(x =>
             {
-                x.PictureUri = _uriComposer.ComposePicUri(x.PictureUri);
+                x.ImageUrl = _urlComposer.ComposeImageUrl(x.ImageUrl);
+                x.ThumbnailUrl = _urlComposer.ComposeImageUrl(x.ThumbnailUrl);
             });
 
             var vm = new CatalogIndexViewModel()
@@ -60,7 +59,7 @@ namespace CameraVillage.Infra.App
                 {
                     Id = i.Id,
                     Name = i.Name,
-                    PictureUri = i.PictureUri,
+                    ThumbnailUrl = i.ThumbnailUrl,
                     Price = i.Price
                 }),
                 Brands = await GetBrands(),
@@ -82,11 +81,26 @@ namespace CameraVillage.Infra.App
             return vm;
         }
 
+        public CatalogDetailViewModel GetCatalogDetailItem(int catalogItemId)
+        {
+            _logger.LogInformation("GetCatalogItem called.");
+            var catalogItem = _itemRepository.GetById(catalogItemId);
+            var vm = new CatalogDetailViewModel
+            {
+                Id = catalogItem.Id,
+                Name = catalogItem.Name,
+                ImageUrl = catalogItem.ImageUrl,
+                LongDescription = catalogItem.LongDescription,
+                Price = catalogItem.Price
+            };
+
+            return vm;
+        }
+
         public async Task<IEnumerable<SelectListItem>> GetBrands()
         {
             _logger.LogInformation("GetBrands called.");
             var brands = await _brandRepository.ListAllAsync();
-
             var items = new List<SelectListItem>
             {
                 new SelectListItem() { Value = null, Text = "All", Selected = true }

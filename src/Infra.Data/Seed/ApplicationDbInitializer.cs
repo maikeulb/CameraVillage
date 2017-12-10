@@ -63,22 +63,94 @@ namespace CameraVillage.Infra.Data.Seed
             };
         }
 
-        static IEnumerable<CatalogItem> GetPreconfiguredItems()
+        static IEnumerable<CatalogItem> GetPreconfiguredItems() //todo: JSON
         {
             return new List<CatalogItem>()
             {
-                CatalogItem.Create(1, 1, "Rolleiflex 2.8E", "Rolleiflex 2.8E", 19.5M, "http://catalogbaseurltobereplaced/images/products/1.png"),
-                CatalogItem.Create(1, 1, "Rolleiflex T", "Rolleiflex T", 19.5M, "http://catalogbaseurltobereplaced/images/products/2.png") ,
-                CatalogItem.Create(2, 1, "Rolleiflex SL66", "Rolleiflex SL66", 8.50M, "http://catalogbaseurltobereplaced/images/products/3.png") ,
-                CatalogItem.Create(2, 2, "Hasselblad 500cm", "Hasselblad 500cm", 12, "http://catalogbaseurltobereplaced/images/products/4.png") ,
-                CatalogItem.Create(3, 2, "Hasselblad 203fe", "Hasselblad 203fe", 12, "http://catalogbaseurltobereplaced/images/products/5.png") ,
-                CatalogItem.Create(2, 2, "Hasselblad SWA", "Hasselblad SWA", 12, "http://catalogbaseurltobereplaced/images/products/6.png") ,
-                CatalogItem.Create(2, 3, "Mamiya RB67", "Mamiya RB67", 12, "http://catalogbaseurltobereplaced/images/products/7.png") ,
-                CatalogItem.Create(1, 3, "Mamiya C330", "Mamiya C330", 8.5M, "http://catalogbaseurltobereplaced/images/products/8.png"), 
-                CatalogItem.Create(3, 3, "Mamiya 6", "Mamiya 6", 12, "http://catalogbaseurltobereplaced/images/products/9.png") ,
-                CatalogItem.Create(2, 4, "Fuji GX680", "Fuji GX680", 12, "http://catalogbaseurltobereplaced/images/products/10.png") , 
-                CatalogItem.Create(3, 4, "Fuji GF670", "Fuji GF670", 8.5M, "http://catalogbaseurltobereplaced/images/products/11.png"),
-                CatalogItem.Create(3, 4, "Fuji GS645", "Fuji GS645", 8.5M, "http://catalogbaseurltobereplaced/images/products/12.png") 
+                CatalogItem.Create(
+                        1, 1, 10, 19.5M, 
+                        "Rolleiflex 2.8E", 
+                        "Rolleiflex 2.8E",
+                        "Rolleiflex 2.8E Camera",
+                        "http://catalogbaseurl/images/products/1.png",
+                        "http://catalogbaseurl/images/products/1.png"),
+                CatalogItem.Create(
+                        1, 1, 10, 19.5M, 
+                        "Rolleiflex T", 
+                        "Rolleiflex T",
+                        "Rolleiflex T Camera",
+                        "http://catalogbaseurl/images/products/2.png",
+                        "http://catalogbaseurl/images/products/2.png") ,
+                CatalogItem.Create(
+                        2, 1, 10, 8.5M, 
+                        "Rolleiflex SL66", 
+                        "Rolleiflex SL66",
+                        "Rolleiflex SL66 Camera",
+                        "http://catalogbaseurl/images/products/3.png",
+                        "http://catalogbaseurl/images/products/3.png") ,
+                CatalogItem.Create(
+                        2, 2, 10, 12, 
+                        "Hasselblad 500cm", 
+                        "Hasselblad 500cm",
+                        "Hasselblad 500cm Camera",
+                        "http://catalogbaseurl/images/products/4.png",
+                        "http://catalogbaseurl/images/products/4.png") ,
+                CatalogItem.Create(
+                        3, 2, 10, 100, 
+                        "Hasselblad 203fe", 
+                        "Hasselblad 203fe",
+                        "Hasselblad 203fe Camera",
+                        "http://catalogbaseurl/images/products/5.png",
+                        "http://catalogbaseurl/images/products/5.png"),
+                CatalogItem.Create(
+                        2, 2, 10, 15, 
+                        "Hasselblad SWA", 
+                        "Hasselblad SWA",
+                        "Hasselblad SWA Camera",
+                        "http://catalogbaseurl/images/products/6.png",
+                        "http://catalogbaseurl/images/products/6.png") ,
+                CatalogItem.Create(
+                        2, 3, 10, 13, 
+                        "Mamiya RB67", 
+                        "Mamiya RB67",
+                        "Mamiya RB67 Camera",
+                        "http://catalogbaseurl/images/products/7.png",
+                        "http://catalogbaseurl/images/products/7.png") ,
+                CatalogItem.Create(
+                        1, 3, 10, 11, 
+                        "Mamiya C330", 
+                        "Mamiya C330",
+                        "Mamiya C330 Camera",
+                        "http://catalogbaseurl/images/products/8.png", 
+                        "http://catalogbaseurl/images/products/8.png"), 
+                CatalogItem.Create(
+                        3, 3, 10, 12, 
+                        "Mamiya 6", 
+                        "Mamiya 6",
+                        "Mamiya 6 Camera",
+                        "http://catalogbaseurl/images/products/9.png",
+                        "http://catalogbaseurl/images/products/9.png") ,
+                CatalogItem.Create(
+                        2, 4, 10, 9.5M, 
+                        "Fuji GX680", 
+                        "Fuji GX680",
+                        "Fuji GX680 Camera", 
+                        "http://catalogbaseurl/images/products/10.png", 
+                        "http://catalogbaseurl/images/products/10.png") , 
+                CatalogItem.Create(
+                        3, 4, 10, 8.5M, 
+                        "Fuji GF670", 
+                        "Fuji GF670",
+                        "Fuji GF670 Camera",
+                        "http://catalogbaseurl/images/products/11.png",
+                        "http://catalogbaseurl/images/products/11.png"),
+                CatalogItem.Create(
+                        3, 4, 10, 8.5M, 
+                        "Fuji GS645", 
+                        "Fuji GS645", 
+                        "Fuji GS645 Camera", 
+                        "http://catalogbaseurl/images/products/12.png",
+                        "http://catalogbaseurl/images/products/12.png") 
             };
         }
     }

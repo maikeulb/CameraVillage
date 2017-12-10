@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace CameraVillage.Data.Migrations
+namespace CameraVillage.Migrations.IdentityDb
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20171208201515_InitialIdentityMigration")]
-    partial class InitialIdentityMigration
+    [Migration("20171210010011_InitIdentityDbMigration")]
+    partial class InitIdentityDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

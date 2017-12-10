@@ -2,7 +2,7 @@ namespace CameraVillage.Domain.Models
 {
     public class CatalogType : Entity
     {
-        public string Type { get; set; }
+        public string Type { get; private set; }
 
         private CatalogType () {}
 
