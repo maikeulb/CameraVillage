@@ -1,16 +1,12 @@
-@model CameraVillage.Features.Catalog.CatalogItemFormViewModel
+@model CameraVillage.Features.Catalog.CatalogItemEditFormViewModel
 <h1>File Upload Asp Net Core</h1>
 <hr />
 
-@using (Html.BeginForm("Create", "Catalog", FormMethod.Post,
-new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "Catalog"))
 {
   <div asp-validation-summary="All" class="text-danger"></div>
 
-  <div class="field">
-    <label asp-for="Name" class="label"></label>
-    <input asp-for="Name" class="control input" type="text"></input>
-  </div>
+  @Html.HiddenFor(m => m.Id)
 
   <div class="field">
     <label asp-for="ShortDescription" class="label"></label>
@@ -23,16 +19,6 @@ new { enctype = "multipart/form-data" }))
   </div>
 
   <div class="field">
-    <label asp-for="CatalogBrandId" class="label"></label>
-    <input asp-for="CatalogBrandId" class="control input" type="text"></input>
-  </div>
-
-  <div class="field">
-    <label asp-for="CatalogTypeId" class="label"></label>
-    <input asp-for="CatalogTypeId" class="control input" type="text"></input>
-  </div>
-
-  <div class="field">
     <label asp-for="AvailableStock" class="label"></label>
     <input asp-for="AvailableStock" class="control input" type="text"></input>
   </div>
@@ -42,13 +28,8 @@ new { enctype = "multipart/form-data" }))
     <input asp-for="Price" class="control input" type="text"></input>
   </div>
 
-  <div class="form-horizontal">
-    <div class="form-group">
-      <input type="file" name="ImageUpload" />
-    </div>
     <div class="form-group">
       <button type="submit" class="btn btn-info">Submit</button>
-    </div>
   </div>
 
 }

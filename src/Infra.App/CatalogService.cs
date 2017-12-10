@@ -75,6 +75,7 @@ namespace CameraVillage.Infra.App
         {
             _logger.LogInformation("GetCatalogItem called.");
             var catalogItem = _itemRepository.GetById(catalogItemId);
+
             var vm = new CatalogDetailViewModel
             {
                 Id = catalogItem.Id,
