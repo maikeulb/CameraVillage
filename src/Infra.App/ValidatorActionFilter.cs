@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 
-namespace CameraVillage.Infra.App
+namespace RolleiShop.Infra.App
 {
     public class ValidatorActionFilter : IActionFilter
     {

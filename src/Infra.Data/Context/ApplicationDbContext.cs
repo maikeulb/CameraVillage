@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using CameraVillage.Domain.Models;
-using CameraVillage.Infra.Data.Configurations;
+using RolleiShop.Domain.Models;
+using RolleiShop.Infra.Data.Configurations;
 
-namespace CameraVillage.Infra.Data.Context
+namespace RolleiShop.Infra.Data.Context
 {
     public class ApplicationDbContext : DbContext
     {

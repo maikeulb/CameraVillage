@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace CameraVillage.Features.Manage.ManageViewModels
+namespace RolleiShop.Features.Manage.ManageViewModels
 {
     public class ExternalLoginsViewModel
     {

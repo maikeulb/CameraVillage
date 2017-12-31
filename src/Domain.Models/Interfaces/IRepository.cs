@@ -1,7 +1,7 @@
-﻿using CameraVillage.Domain.Models;
+﻿using RolleiShop.Domain.Models;
 using System.Collections.Generic;
 
-namespace CameraVillage.Domain.Models.Interfaces
+namespace RolleiShop.Domain.Models.Interfaces
 {
     public interface IRepository<T> where T : Entity
     {

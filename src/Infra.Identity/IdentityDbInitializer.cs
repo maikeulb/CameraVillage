@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
-namespace CameraVillage.Infra.Identity
+namespace RolleiShop.Infra.Identity
 {
     public class IdentityDbInitializer
     {

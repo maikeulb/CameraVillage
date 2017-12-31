@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using CameraVillage.Domain.Models.Interfaces;
-using CameraVillage.Domain.Models;
-using CameraVillage.Infra.App;
-using CameraVillage.Infra.Data.Context;
+using RolleiShop.Domain.Models.Interfaces;
+using RolleiShop.Domain.Models;
+using RolleiShop.Infra.App;
+using RolleiShop.Infra.Data.Context;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CameraVillage.Infra.Data.Repositories
+namespace RolleiShop.Infra.Data.Repositories
 {
     public class EfRepository<T> : IRepository<T>, IAsyncRepository<T> where T : Entity
     {

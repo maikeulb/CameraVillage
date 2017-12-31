@@ -1,6 +1,6 @@
-﻿using CameraVillage.Domain.Models;
+﻿using RolleiShop.Domain.Models;
 
-namespace CameraVillage.Domain.Specifications
+namespace RolleiShop.Domain.Specifications
 {
     public class CatalogFilterSpecification : BaseSpecification<CatalogItem>
     {

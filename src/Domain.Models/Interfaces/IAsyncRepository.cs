@@ -1,8 +1,8 @@
-﻿using CameraVillage.Domain.Models;
+﻿using RolleiShop.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CameraVillage.Domain.Models.Interfaces
+namespace RolleiShop.Domain.Models.Interfaces
 {
     public interface IAsyncRepository<T> where T : Entity
     {

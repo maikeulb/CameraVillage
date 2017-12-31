@@ -1,9 +1,9 @@
-﻿using CameraVillage.Domain.Models.Interfaces;
+﻿using RolleiShop.Domain.Models.Interfaces;
 using System;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
-namespace CameraVillage.Domain.Specifications
+namespace RolleiShop.Domain.Specifications
 {
     public abstract class BaseSpecification<T> : ISpecification<T>
     {

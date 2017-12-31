@@ -1,6 +1,6 @@
 using System;
 
-namespace CameraVillage.Domain.Models
+namespace RolleiShop.Domain.Models
 {
     public abstract class Entity
     {

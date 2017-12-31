@@ -1,6 +1,6 @@
 using System;
 
-namespace CameraVillage.Features.Home
+namespace RolleiShop.Features.Home
 {
     public class ErrorViewModel
     {

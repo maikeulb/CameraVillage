@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CameraVillage.Infra.App;
-using CameraVillage.Infra.Identity;
-using CameraVillage.Domain.Models.Interfaces;
-using CameraVillage.Infra.Data.Repositories;
-using CameraVillage.Infra.Data.Context;
+using RolleiShop.Infra.App;
+using RolleiShop.Infra.Identity;
+using RolleiShop.Domain.Models.Interfaces;
+using RolleiShop.Infra.Data.Repositories;
+using RolleiShop.Infra.Data.Context;
 
-namespace CameraVillage
+namespace RolleiShop
 {
     public class Startup
     {
@@ -27,7 +27,7 @@ namespace CameraVillage
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext> (options =>
-                options.UseNpgsql (Configuration.GetConnectionString ("CameraVillage")));
+                options.UseNpgsql (Configuration.GetConnectionString ("RolleiShop")));
 
             services.AddDbContext<IdentityDbContext>(options =>
                 options.UseNpgsql (Configuration.GetConnectionString ("Identity")));

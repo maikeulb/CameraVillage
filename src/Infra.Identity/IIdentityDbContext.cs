@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace CameraVillage.Infra.Identity
+namespace RolleiShop.Infra.Identity
 {
     public interface IIdentityDbContext
     {

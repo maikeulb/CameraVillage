@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CameraVillage.Features.Account.AccountViewModels
+namespace RolleiShop.Features.Account.AccountViewModels
 {
     public class LoginWith2faViewModel
     {

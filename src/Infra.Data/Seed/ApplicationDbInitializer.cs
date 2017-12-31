@@ -1,13 +1,13 @@
-using Microsoft.AspNetCore.Builder;
-using CameraVillage.Domain.Models;
-using CameraVillage.Infra.Data.Context;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
+using RolleiShop.Domain.Models;
+using RolleiShop.Infra.Data.Context;
 
-namespace CameraVillage.Infra.Data.Seed
+namespace RolleiShop.Infra.Data.Seed
 {
     public class ApplicationDbInitializer
     {

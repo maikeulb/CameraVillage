@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace CameraVillage.Migrations.IdentityDb
+namespace RolleiShop.Migrations.IdentityDb
 {
     public partial class InitIdentityDbMigration : Migration
     {

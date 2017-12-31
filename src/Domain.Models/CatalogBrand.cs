@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CameraVillage.Domain.Models
+namespace RolleiShop.Domain.Models
 {
     public class CatalogBrand : Entity
     {

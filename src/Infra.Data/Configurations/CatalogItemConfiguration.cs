@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using CameraVillage.Domain.Models;
+using RolleiShop.Domain.Models;
 
-namespace CameraVillage.Infra.Data.Configurations
+namespace RolleiShop.Infra.Data.Configurations
 {
     class CatalogItemConfiguration
         : IEntityTypeConfiguration<CatalogItem>

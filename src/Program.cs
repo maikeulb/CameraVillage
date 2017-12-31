@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using CameraVillage.Domain.Models;
-using CameraVillage.Infra.Data.Seed;
-using CameraVillage.Infra.Data.Context;
-using CameraVillage.Infra.Identity;
+using RolleiShop.Domain.Models;
+using RolleiShop.Infra.Data.Seed;
+using RolleiShop.Infra.Data.Context;
+using RolleiShop.Infra.Identity;
 
-namespace CameraVillage
+namespace RolleiShop
 {
     public class Program
     {

@@ -1,7 +1,7 @@
-using CameraVillage.Features.Catalog;
+using RolleiShop.Features.Catalog;
 using System;
 
-namespace CameraVillage.Domain.Models
+namespace RolleiShop.Domain.Models
 {
     public class CatalogItem : Entity
     {

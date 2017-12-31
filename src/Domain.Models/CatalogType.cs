@@ -1,4 +1,4 @@
-namespace CameraVillage.Domain.Models
+namespace RolleiShop.Domain.Models
 {
     public class CatalogType : Entity
     {

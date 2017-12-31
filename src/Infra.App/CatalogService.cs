@@ -3,14 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using CameraVillage.Domain.Models;
-using CameraVillage.Domain.Models.Interfaces;
-using CameraVillage.Domain.Specifications;
-using CameraVillage.Features.Catalog;
-using CameraVillage.Infra.App;
+using RolleiShop.Domain.Models;
+using RolleiShop.Domain.Models.Interfaces;
+using RolleiShop.Domain.Specifications;
+using RolleiShop.Features.Catalog;
+using RolleiShop.Infra.App;
 using System;
 
-namespace CameraVillage.Infra.App
+namespace RolleiShop.Infra.App
 {
     public class CatalogService : ICatalogService
     {

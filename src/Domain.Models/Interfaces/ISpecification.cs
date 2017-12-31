@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace CameraVillage.Domain.Models.Interfaces
+namespace RolleiShop.Domain.Models.Interfaces
 {
     public interface ISpecification<T>
     {

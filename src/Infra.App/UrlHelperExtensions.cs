@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CameraVillage.Features.Account;
+using RolleiShop.Features.Account;
 
 namespace Microsoft.AspNetCore.Mvc
 {

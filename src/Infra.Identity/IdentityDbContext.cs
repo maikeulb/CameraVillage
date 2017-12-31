@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace CameraVillage.Infra.Identity
+namespace RolleiShop.Infra.Identity
 {
     public class IdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentityDbContext
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using CameraVillage.Features.Account.AccountViewModels;
-using CameraVillage.Features.Home;
-using CameraVillage.Infra.App;
-using CameraVillage.Infra.Identity;
+using RolleiShop.Features.Account.AccountViewModels;
+using RolleiShop.Features.Home;
+using RolleiShop.Infra.App;
+using RolleiShop.Infra.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CameraVillage.Features.Account
+namespace RolleiShop.Features.Account
 {
     [Authorize]
     [Route ("[controller]/[action]")]

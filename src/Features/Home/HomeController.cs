@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using CameraVillage.Infra.Identity;
+using RolleiShop.Infra.Identity;
 
-namespace CameraVillage.Features.Home
+namespace RolleiShop.Features.Home
 {
     public class HomeController : Controller
     {

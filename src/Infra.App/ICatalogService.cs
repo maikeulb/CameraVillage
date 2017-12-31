@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
-using CameraVillage.Features.Catalog;
+using RolleiShop.Features.Catalog;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CameraVillage.Infra.App
+namespace RolleiShop.Infra.App
 {
     public interface ICatalogService
     {

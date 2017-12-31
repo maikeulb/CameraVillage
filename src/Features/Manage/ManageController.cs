@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using CameraVillage.Infra.Identity;
-using CameraVillage.Infra.App;
-using CameraVillage.Features.Manage.ManageViewModels;
+using RolleiShop.Infra.Identity;
+using RolleiShop.Infra.App;
+using RolleiShop.Features.Manage.ManageViewModels;
 
-namespace CameraVillage.Features.Manage
+namespace RolleiShop.Features.Manage
 {
     [Authorize]
     [Route("[controller]/[action]")]
@@ -495,7 +495,7 @@ namespace CameraVillage.Features.Manage
         {
             return string.Format(
                 AuthenicatorUriFormat,
-                _urlEncoder.Encode("CameraVillage"),
+                _urlEncoder.Encode("RolleiShop"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

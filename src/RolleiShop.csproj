@@ -2,7 +2,7 @@
         <PropertyGroup>
                 <TargetFramework>netcoreapp2.0</TargetFramework>
                 <UserSecretsId>
-                aspnet-CameraVillage-527A064D-0F7A-4BF9-9109-F652B96B7CAE</UserSecretsId>
+                aspnet-RolleiShop-527A064D-0F7A-4BF9-9109-F652B96B7CAE</UserSecretsId>
         </PropertyGroup>
         <PropertyGroup>
                 <TypeScriptCompileBlocked>

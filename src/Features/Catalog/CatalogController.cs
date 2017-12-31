@@ -1,7 +1,7 @@
-using CameraVillage.Domain.Models;
-using CameraVillage.Domain.Models.Interfaces;
-using CameraVillage.Infra.App;
-using CameraVillage.Infra.Data.Context;
+using RolleiShop.Domain.Models;
+using RolleiShop.Domain.Models.Interfaces;
+using RolleiShop.Infra.App;
+using RolleiShop.Infra.Data.Context;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Net.Http.Headers;
 using System.IO;
 
-namespace CameraVillage.Features.Catalog
+namespace RolleiShop.Features.Catalog
 {
     public class CatalogController : Controller
     {

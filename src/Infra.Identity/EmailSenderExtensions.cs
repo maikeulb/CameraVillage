@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace CameraVillage.Infra.App
+namespace RolleiShop.Infra.App
 {
     public static class EmailSenderExtensions
     {
