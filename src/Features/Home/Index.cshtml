@@ -4,7 +4,6 @@
   <style type="text/css">
 
     .masthead.segment {
-      min-height: 700px;
       padding: 1em 0em;
       margin-right: 1em;
       margin-left: 1em;
@@ -24,6 +23,29 @@
     .masthead .image.mobile {
       display: none;
     }
+
+    .ui.fluid.image.full.parallax {
+      height: 32em;
+    }
+    .ui.fluid.image.full.parallax {
+      background-attachment: fixed;
+      background-position: center;
+    }
+    .ui.fluid.image.full.parallax{
+      width: 100%;  
+    }
+
+    .ui.fluid.image.mobile.parallax {
+      height: 32em;
+    }
+    .ui.fluid.image.mobile.parallax {
+      background-attachment: fixed;
+      background-position: center;
+    }
+    .ui.fluid.image.mobile.parallax{
+      width: 100%;  
+    }
+
 
     @@media only screen and (max-width: 700px) {
 
@@ -53,14 +75,33 @@
         display: block;
       }
 
-
   </style>
 
+  <div class="ui container center aligned" style="padding:40px;">
+    <h2> Welcome to RolleiShop </h2>
+  </div>
 
-
-  <div class="ui container">
+  <div >
     <div class="ui vertical masthead center aligned segment">
-      <img class="ui fluid image full" src="/images/rollei.jpg">
-      <img class="ui fluid image mobile" src="/images/rollei-2.jpg">
+    <div class="ui fluid image full parallax" style="display: none;" data-imgsrc="/images/rollei.jpg"></div>
+    <div class="ui fluid image mobile parallax" style="display: block;" data-imgsrc="/images/rollei.jpg"></div>
     </div>
   </div>
+
+ <script>
+    
+    // semantic's module function
+    $.fn.uiParallax = function(){
+      
+      $(this).each(function(){
+        var imageUrl = $(this).data('imgsrc');
+        $(this).css('background-image', 'url(' + imageUrl + ')');
+      });
+      
+    };
+    
+    
+    // user's code to initialise parallaxes
+    $('.ui.parallax').uiParallax();
+    
+  </script> 
