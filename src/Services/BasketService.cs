@@ -5,6 +5,7 @@ using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
 using RolleiShop.Data.Context;
 using RolleiShop.Specifications;
+using RolleiShop.Features.Catalog;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,11 @@ namespace RolleiShop.Services
 
         public async Task AddItemToBasket(int basketId, int catalogItemId, decimal price, int quantity)
         {
-            throw new NotImplementedException();
+            var basket = await _basketRepository.GetByIdAsync(basketId);
+
+            basket.AddItem(catalogItemId, price, quantity);
+
+            await _basketRepository.UpdateAsync(basket);
         }
 
         public async Task DeleteBasketAsync(int basketId)
@@ -36,7 +41,12 @@ namespace RolleiShop.Services
 
         public async Task<int> GetBasketItemCountAsync(string userName)
         {
-            throw new NotImplementedException();
+            var basketSpec = new BasketWithItemsSpecification(userName);
+            var basket = (await _basketRepository.ListAsync(basketSpec)).FirstOrDefault();
+            if (basket == null)
+                return 0;
+            int count = basket.Items.Sum(i => i.Quantity);
+            return count;
         }
 
         public async Task SetQuantities(int basketId, Dictionary<string, int> quantities)
@@ -50,11 +60,6 @@ namespace RolleiShop.Services
                 }
             }
             await _basketRepository.UpdateAsync(basket);
-        }
-
-        public async Task TransferBasketAsync(string anonymousId, string userName)
-        {
-            throw new NotImplementedException();
         }
     }
 }

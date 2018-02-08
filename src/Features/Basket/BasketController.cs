@@ -4,6 +4,7 @@ using RolleiShop.Infra.App;
 using RolleiShop.Infra.Identity;
 using RolleiShop.Data.Context;
 using RolleiShop.Services.Interfaces;
+using RolleiShop.Features.Catalog;
 using RolleiShop.Infra.App.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
@@ -47,6 +48,26 @@ namespace RolleiShop.Features.Basket
             await _basketService.SetQuantities(basketViewModel.Id, items);
 
             return View(await GetBasketViewModelAsync());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddToBasket(CatalogItemViewModel productDetails)
+        {
+            if (productDetails?.Id == null)
+            {
+                return RedirectToAction("Index", "Catalog");
+            }
+            var basketViewModel = await GetBasketViewModelAsync();
+
+            await _basketService.AddItemToBasket(basketViewModel.Id, productDetails.Id, productDetails.Price, 1);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Checkout(Dictionary<string, int> items)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task<BasketViewModel> GetBasketViewModelAsync()

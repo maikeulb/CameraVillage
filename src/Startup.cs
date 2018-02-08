@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RolleiShop.Infra.App;
-using RolleiShop.Infra.App.Interfaces;
 using RolleiShop.Infra.Identity;
 using RolleiShop.Models.Interfaces;
 using RolleiShop.Data.Repositories;
