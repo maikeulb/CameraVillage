@@ -115,4 +115,9 @@ namespace RolleiShop.Features.Basket
         public int Quantity { get; set; }
         public string ImageUrl { get; set; }
     }
+
+    public class BasketComponentViewModel
+    {
+        public int ItemsCount { get; set; }
+    }
 }
