@@ -13,6 +13,12 @@ using RolleiShop.Infra.Identity;
 using RolleiShop.Models.Interfaces;
 using RolleiShop.Data.Repositories;
 using RolleiShop.Data.Context;
+using RolleiShop.Infra.App;
+using RolleiShop.Infra.App.Interfaces;
+using RolleiShop.Services;
+using RolleiShop.Services.Interfaces;
+using System;
+using System.Text;
 
 namespace RolleiShop
 {
@@ -41,8 +47,20 @@ namespace RolleiShop
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
             services.AddScoped<ICatalogService, CatalogService>();
+            services.AddScoped<IBasketService, BasketService>();
+            services.AddScoped<IBasketViewModelService, BasketViewModelService>();
 
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromHours(1);
+                options.LoginPath = "/Account/Signin";
+                options.LogoutPath = "/Account/Signout";
+            });
+
+            services.AddMemoryCache();
 
             services.AddMvc (options =>
                 {

@@ -51,7 +51,25 @@ namespace RolleiShop.Features.Basket
 
         private async Task<BasketViewModel> GetBasketViewModelAsync()
         {
-            return await _basketViewModelService.GetOrCreateBasketForUser(User.Identity.Name);
+            if (_signInManager.IsSignedIn(HttpContext.User))
+            {
+                return await _basketViewModelService.GetOrCreateBasketForUser(User.Identity.Name);
+            }
+            string anonymousId = GetOrSetBasketCookie();
+            return await _basketViewModelService.GetOrCreateBasketForUser(anonymousId);
+        }
+
+        private string GetOrSetBasketCookie()
+        {
+            if (Request.Cookies.ContainsKey("RolleiShop"))
+            {
+                return Request.Cookies["RolleiShop"];
+            }
+            string anonymousId = Guid.NewGuid().ToString();
+            var cookieOptions = new CookieOptions();
+            cookieOptions.Expires = DateTime.Today.AddYears(10);
+            Response.Cookies.Append("RolleiShop", anonymousId, cookieOptions);
+            return anonymousId;
         }
     }
 
