@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using RolleiShop.Domain.Models;
-using RolleiShop.Infra.Data.Seed;
-using RolleiShop.Infra.Data.Context;
+using RolleiShop.Models.Entities;
+using RolleiShop.Data.Seed;
+using RolleiShop.Data.Context;
 using RolleiShop.Infra.Identity;
 
 namespace RolleiShop

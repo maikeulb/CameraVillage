@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
-using RolleiShop.Infra.Data.Context;
+using RolleiShop.Data.Context;
 using System;
 
 namespace RolleiShop.Migrations
@@ -21,7 +21,7 @@ namespace RolleiShop.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
-            modelBuilder.Entity("RolleiShop.Domain.Models.CatalogBrand", b =>
+            modelBuilder.Entity("RolleiShop.Models.Entities.CatalogBrand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -35,7 +35,7 @@ namespace RolleiShop.Migrations
                     b.ToTable("CatalogBrand");
                 });
 
-            modelBuilder.Entity("RolleiShop.Domain.Models.CatalogItem", b =>
+            modelBuilder.Entity("RolleiShop.Models.Entities.CatalogItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -67,7 +67,7 @@ namespace RolleiShop.Migrations
                     b.ToTable("Catalog");
                 });
 
-            modelBuilder.Entity("RolleiShop.Domain.Models.CatalogType", b =>
+            modelBuilder.Entity("RolleiShop.Models.Entities.CatalogType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -81,14 +81,14 @@ namespace RolleiShop.Migrations
                     b.ToTable("CatalogType");
                 });
 
-            modelBuilder.Entity("RolleiShop.Domain.Models.CatalogItem", b =>
+            modelBuilder.Entity("RolleiShop.Models.Entities.CatalogItem", b =>
                 {
-                    b.HasOne("RolleiShop.Domain.Models.CatalogBrand", "CatalogBrand")
+                    b.HasOne("RolleiShop.Models.Entities.CatalogBrand", "CatalogBrand")
                         .WithMany()
                         .HasForeignKey("CatalogBrandId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("RolleiShop.Domain.Models.CatalogType", "CatalogType")
+                    b.HasOne("RolleiShop.Models.Entities.CatalogType", "CatalogType")
                         .WithMany()
                         .HasForeignKey("CatalogTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
