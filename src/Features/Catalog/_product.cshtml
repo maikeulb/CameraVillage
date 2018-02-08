@@ -1,14 +1,16 @@
 ﻿@model CatalogItemViewModel
 
 <form asp-controller="Basket" asp-action="AddToBasket">
+  <img class="ui image" src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Rollei_35_S.jpg" />
 
-    <img class="esh-catalog-thumbnail" src="@Model.ImageUrl" />
-    <input class="esh-catalog-button" type="submit" value="[ ADD TO BASKET ]" />
+  <button class="ui secondary basic button" type="submit">Add to Cart</button>
 
-    <div class="esh-catalog-name">
-        <span>@Model.Name</span>
-    </div>
-    <div class="esh-catalog-price">
-        <span>@Model.Price.ToString("N2")</span>
-    </div>
+  <div class="catalog-name">
+    <span>@Model.Name</span>
+  </div>
+
+  <div class="price">
+    <span>@Model.Price.ToString("N2")</span>
+  </div>
+
 </form>

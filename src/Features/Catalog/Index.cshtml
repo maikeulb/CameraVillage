@@ -1,49 +1,60 @@
 ﻿@{
-    ViewData["Title"] = "Catalog";
-    @model CatalogIndexViewModel
+  ViewData["Title"] = "Catalog";
+  @model CatalogIndexViewModel
 }
 
-<section class="esh-catalog-hero">
-    <div class="container">
-        <img class="esh-catalog-title" src="../images/main_banner_text.png" />
-    </div>
-</section>
+<div class="ui container center aligned" style="padding:40px;">
 
-<section class="esh-catalog-filters">
-    <div class="container">
-        <form asp-action="Index" asp-controller="Catalog" method="post">
-            <label class="esh-catalog-label" data-title="brand">
-                <select asp-for="@Model.BrandFilterApplied" asp-items="@Model.Brands" class="esh-catalog-filter"></select>
+  <div class="ui center text container segment">
+
+  <section class="catalog-filters">
+
+    <div class = "ui equal width form">
+
+      <form asp-action="Index" asp-controller="Catalog" method="post">
+
+        <div class = "fields">
+
+          <div class = "field">
+            <label data-title="brand">
+              <select class = "ui search dropdown" asp-for="@Model.BrandFilterApplied" asp-items="@Model.Brands"></select>
             </label>
-            <label class="esh-catalog-label" data-title="type">
-                <select asp-for="@Model.TypesFilterApplied" asp-items="@Model.Types" class="esh-catalog-filter"></select>
+          </div>
+
+          <div class = "field">
+            <label data-title="type">
+              <select class = "ui search dropdown" asp-for="@Model.TypesFilterApplied" asp-items="@Model.Types"></select>
             </label>
-            <input class="esh-catalog-send" type="image" src="images/arrow-right.svg" />
-        </form>
-    </div>
-</section>
+          </div>
 
-<div class="container">
+          <button class="ui button" type="submit">Submit</button>
 
-    @if (Model.CatalogItems.Any())
-    {
-        @Html.Partial("_pagination", Model.PaginationInfo)
-
-        <div class="esh-catalog-items row">
-            @foreach (var catalogItem in Model.CatalogItems)
-            {
-                <div class="esh-catalog-item col-md-4">
-                    @Html.Partial("_product", catalogItem)
-                </div>
-            }
         </div>
 
-        @Html.Partial("_pagination", Model.PaginationInfo)
-    }
-    else
-    {
-        <div class="esh-catalog-items row">
-            THERE ARE NO RESULTS THAT MATCH YOUR SEARCH
+      </form>
+
+    </div>
+
+  </section>
+    </div>
+
+  @if (Model.CatalogItems.Any())
+  {
+    <div class="ui grid">
+      @foreach (var catalogItem in Model.CatalogItems)
+      {
+        <div class="four wide column">
+          @Html.Partial("_product", catalogItem)
         </div>
-    }
+      }
+    </div>
+    @Html.Partial("_pagination", Model.PaginationInfo)
+  }
+  else
+  {
+    <div>
+      Sorry cameras found.
+    </div>
+  }
+
 </div>
