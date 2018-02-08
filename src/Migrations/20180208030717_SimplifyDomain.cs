@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace RolleiShop.Migrations
 {
-    public partial class InitAppDbMigration : Migration
+    public partial class SimplifyDomain : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,10 +44,11 @@ namespace RolleiShop.Migrations
                     AvailableStock = table.Column<int>(nullable: false),
                     CatalogBrandId = table.Column<int>(nullable: false),
                     CatalogTypeId = table.Column<int>(nullable: false),
-                    LongDescription = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    ImageName = table.Column<string>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
-                    Price = table.Column<decimal>(nullable: false),
-                    ShortDescription = table.Column<string>(nullable: true)
+                    Price = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {

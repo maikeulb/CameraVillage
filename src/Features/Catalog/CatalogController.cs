@@ -70,7 +70,6 @@ namespace RolleiShop.Features.Catalog
             using (var fileStream = new FileStream(Path.Combine(uploadPath, product.ImageUpload.FileName), FileMode.Create))
             {
                 await product.ImageUpload.CopyToAsync(fileStream);
-                product.ThumbnailUrl = "http://images/products" + product.ImageName; //MagicString
                 product.ImageUrl = "http://images/products" + product.ImageName;
             }
 
@@ -80,10 +79,8 @@ namespace RolleiShop.Features.Catalog
                 product.AvailableStock,
                 product.Price,
                 product.Name,
-                product.ShortDescription,
-                product.LongDescription,
+                product.Description,
                 product.ImageName,
-                product.ThumbnailUrl,
                 product.ImageUrl
                 );
 
@@ -107,8 +104,7 @@ namespace RolleiShop.Features.Catalog
                 Id = catalogItem.Id,
                 AvailableStock = catalogItem.AvailableStock,
                 Price = catalogItem.Price,
-                ShortDescription = catalogItem.ShortDescription,
-                LongDescription = catalogItem.LongDescription,
+                Description = catalogItem.Description,
             };
 
             if (vm == null)
@@ -158,7 +154,7 @@ namespace RolleiShop.Features.Catalog
         public int Id { get; set; }
         public string Name { get; set; }
         public string ImageUrl { get; set; }
-        public string LongDescription { get; set; }
+        public string Description { get; set; }
         public decimal Price { get; set; }
     }
 
@@ -166,7 +162,7 @@ namespace RolleiShop.Features.Catalog
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string ThumbnailUrl { get; set; }
+        public string ImageUrl { get; set; }
         public decimal Price { get; set; }
     }
 
@@ -188,12 +184,10 @@ namespace RolleiShop.Features.Catalog
         public int AvailableStock { get; set; }
         public decimal Price { get; set; }
         public string Name { get; set; }
-        public string ShortDescription { get; set; }
-        public string LongDescription { get; set; }
+        public string Description { get; set; }
         public IFormFile ImageUpload { get; set; }
         public string ImageName { get; set; }
         public string ImageUrl { get; set; }
-        public string ThumbnailUrl{ get; set; }
     }
 
     public class CatalogItemEditFormViewModel
@@ -202,7 +196,6 @@ namespace RolleiShop.Features.Catalog
         public int AvailableStock { get; set; }
         public decimal Price { get; set; }
         public string Name { get; set; }
-        public string ShortDescription { get; set; }
-        public string LongDescription { get; set; }
+        public string Description { get; set; }
     }
 }

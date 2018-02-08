@@ -49,7 +49,7 @@ namespace RolleiShop.Infra.App
                 {
                     Id = i.Id,
                     Name = i.Name,
-                    ThumbnailUrl = i.ThumbnailUrl,
+                    ImageUrl = i.ImageUrl,
                     Price = i.Price
                 }),
                 Brands = await GetBrands(),
@@ -81,7 +81,7 @@ namespace RolleiShop.Infra.App
                 Id = catalogItem.Id,
                 Name = catalogItem.Name,
                 ImageUrl = catalogItem.ImageUrl,
-                LongDescription = catalogItem.LongDescription,
+                Description = catalogItem.Description,
                 Price = catalogItem.Price
             };
 

@@ -21,9 +21,6 @@ namespace RolleiShop.Infra.Data.Configurations
             builder.Property(ci => ci.Price)
                 .IsRequired(true);
 
-            builder.Property(ci => ci.ThumbnailUrl)
-                .IsRequired(false);
-
             builder.Property(ci => ci.ImageUrl)
                 .IsRequired(false);
 

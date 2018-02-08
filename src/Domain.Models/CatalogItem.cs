@@ -10,10 +10,8 @@ namespace RolleiShop.Domain.Models
         public int AvailableStock { get; private set; }
         public decimal Price { get; private set; }
         public string Name { get; private set; }
-        public string ShortDescription { get; private set; }
-        public string LongDescription { get; private set; }
+        public string Description { get; private set; }
         public string ImageName{ get; private set; } 
-        public string ThumbnailUrl { get; private set; } //delete after imagesharp
         public string ImageUrl { get; private set; } //delete after imagesharp
 
         public CatalogType CatalogType { get; private set; }
@@ -27,10 +25,8 @@ namespace RolleiShop.Domain.Models
                 int availableStock,
                 decimal price,
                 string name,
-                string shortDescription,
-                string longDescription,
+                string description,
                 string imageName,
-                string thumbnailUrl,
                 string imageUrl
                 )
         {
@@ -39,10 +35,8 @@ namespace RolleiShop.Domain.Models
             AvailableStock = availableStock;
             Price = price;
             Name = name;
-            ShortDescription = shortDescription;
-            LongDescription = longDescription;
+            Description = description;
             ImageName = imageName;
-            ThumbnailUrl = thumbnailUrl;
             ImageUrl = imageUrl;
         }
 
@@ -52,10 +46,8 @@ namespace RolleiShop.Domain.Models
                 int availableStock,
                 decimal price,
                 string name,
-                string shortDescription,
-                string longDescription,
+                string description,
                 string imageName,
-                string thumbnailUrl,
                 string imageUrl
                 )
         {
@@ -65,10 +57,8 @@ namespace RolleiShop.Domain.Models
                 availableStock,
                 price,
                 name,
-                shortDescription,
-                longDescription,
+                description,
                 imageName,
-                thumbnailUrl,
                 imageUrl
                 );
         }
@@ -77,8 +67,7 @@ namespace RolleiShop.Domain.Models
         {
             AvailableStock = command.AvailableStock;
             Price = command.Price;
-            ShortDescription = command.ShortDescription;
-            LongDescription = command.LongDescription;
+            Description = command.Description;
         }
 
         public int RemoveStock(int quantityDesired)
