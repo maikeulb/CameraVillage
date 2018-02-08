@@ -16,19 +16,19 @@ namespace RolleiShop.Infra.App
 {
     public class CatalogService : ICatalogService
     {
-        private readonly ILogger<CatalogService> _logger;
+        private readonly ILogger _logger;
         private readonly IRepository<CatalogItem> _itemRepository;
         private readonly IAsyncRepository<CatalogBrand> _brandRepository;
         private readonly IAsyncRepository<CatalogType> _typeRepository;
 
         public CatalogService(
-            ILoggerFactory loggerFactory,
+            ILogger<CatalogService> logger,
             IRepository<CatalogItem> itemRepository,
             IAsyncRepository<CatalogBrand> brandRepository,
             IAsyncRepository<CatalogType> typeRepository
             )
         {
-            _logger = loggerFactory.CreateLogger<CatalogService>();
+            _logger = logger;
             _itemRepository = itemRepository;
             _brandRepository = brandRepository;
             _typeRepository = typeRepository;
@@ -36,7 +36,6 @@ namespace RolleiShop.Infra.App
 
         public async Task<CatalogIndexViewModel> GetCatalogItems(int pageIndex, int itemsPage, int? brandId, int? typeId)
         {
-            _logger.LogInformation("GetCatalogItems called.");
             var filterSpecification = new CatalogFilterSpecification(brandId, typeId); 
             var root = _itemRepository.List(filterSpecification); 
             var totalItems = root.Count();
@@ -67,6 +66,9 @@ namespace RolleiShop.Infra.App
                 }
             };
 
+            foreach (var vmimg in vm.CatalogItems) {
+            _logger.LogInformation("***ImageUrl{vm}****", vmimg.ImageUrl);
+            }
             vm.PaginationInfo.Next = (vm.PaginationInfo.ActualPage == vm.PaginationInfo.TotalPages - 1) ? "is-disabled" : "";
             vm.PaginationInfo.Previous = (vm.PaginationInfo.ActualPage == 0) ? "is-disabled" : "";
 

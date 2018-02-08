@@ -31,6 +31,7 @@ namespace RolleiShop
 
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<ApplicationDbContext> (options =>
                 options.UseNpgsql (Configuration.GetConnectionString ("RolleiShop")));
 

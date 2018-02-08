@@ -6,6 +6,7 @@ using RolleiShop.Data.Context;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Features.Catalog;
 using RolleiShop.Infra.App.Interfaces;
+using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -19,15 +20,18 @@ namespace RolleiShop.Features.Basket
 {
     public class BasketController : Controller
     {
+        private readonly ILogger _logger;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IBasketService _basketService;
         private readonly IBasketViewModelService _basketViewModelService;
 
         public BasketController(
             SignInManager<ApplicationUser> signInManager,
+            ILogger<BasketController> logger,
             IBasketService basketService,
             IBasketViewModelService basketViewModelService)
         {
+            _logger = logger;
             _signInManager = signInManager;
             _basketService = basketService;
             _basketViewModelService = basketViewModelService;
@@ -53,6 +57,10 @@ namespace RolleiShop.Features.Basket
         [HttpPost]
         public async Task<IActionResult> AddToBasket(CatalogItemViewModel productDetails)
         {
+            _logger.LogInformation("************prodct.Id{prd}********************",productDetails.Id);
+            _logger.LogInformation("************prodct.Price{prd}********************",productDetails.Price);
+            _logger.LogInformation("************prodct.Name{prd}********************",productDetails.Name);
+            _logger.LogInformation("************prodct.ImageUrl{prd}********************",productDetails.ImageUrl);
             if (productDetails?.Id == null)
             {
                 return RedirectToAction("Index", "Catalog");
@@ -72,8 +80,9 @@ namespace RolleiShop.Features.Basket
 
         private async Task<BasketViewModel> GetBasketViewModelAsync()
         {
-            if (_signInManager.IsSignedIn(HttpContext.User))
+            if (_signInManager.IsSignedIn(User))
             {
+                _logger.LogInformation("********************************");
                 return await _basketViewModelService.GetOrCreateBasketForUser(User.Identity.Name);
             }
             string anonymousId = GetOrSetBasketCookie();

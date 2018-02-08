@@ -1,16 +1,26 @@
 ﻿@model CatalogItemViewModel
 
+
 <form asp-controller="Basket" asp-action="AddToBasket">
-  <img class="ui image" src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Rollei_35_S.jpg" />
 
-  <button class="ui secondary basic button" type="submit">Add to Cart</button>
+    <img class="esh-catalog-thumbnail" src="@Model.ImageUrl" />
+    <input class="esh-catalog-button" type="submit" value="[ ADD TO BASKET ]" />
 
-  <div class="catalog-name">
-    <span>@Model.Name</span>
-  </div>
+    <div class="esh-catalog-name">
+        <span>@Model.Name</span>
+    </div>
+    <div class="esh-catalog-price">
+        <span>@Model.Price.ToString("N2")</span>
+    </div>
 
-  <div class="price">
-    <span>@Model.Price.ToString("N2")</span>
-  </div>
+    @*<input type="hidden" asp-for="@Model.CatalogBrand" name="brand" />
+    <input type="hidden" asp-for="@Model.CatalogBrandId" name="brandId" />
+    <input type="hidden" asp-for="@Model.CatalogType" name="type" />
+    <input type="hidden" asp-for="@Model.CatalogTypeId" name="typeId" />
+    <input type="hidden" asp-for="@Model.Description" name="description" />*@
+    <input type="hidden" asp-for="@Model.Id" name="id" />
+    <input type="hidden" asp-for="@Model.Name" name="name" />
+    <input type="hidden" asp-for="@Model.ImageUrl" name="ImageUrl" />
+    <input type="hidden" asp-for="@Model.Price" name="price" />
 
 </form>

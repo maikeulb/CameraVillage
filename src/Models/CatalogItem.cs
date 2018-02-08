@@ -12,7 +12,7 @@ namespace RolleiShop.Models.Entities
         public string Name { get; private set; }
         public string Description { get; private set; }
         public string ImageName{ get; private set; } 
-        public string ImageUrl { get; private set; } //delete after imagesharp
+        public string ImageUrl { get; private set; } 
 
         public CatalogType CatalogType { get; private set; }
         public CatalogBrand CatalogBrand { get; private set; }

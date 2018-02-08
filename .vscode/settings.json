@@ -153,6 +153,8 @@
     "bin": "explorerExcludedFiles",
     "Migrations.bak": "explorerExcludedFiles",
     "*.bak": "explorerExcludedFiles",
-    "__OmniSharpScratch__": "explorerExcludedFiles"
+    "__OmniSharpScratch__": "explorerExcludedFiles",
+    "semantic": "explorerExcludedFiles",
+    "Semantic-UI-CSS": "explorerExcludedFiles"
   }
 }

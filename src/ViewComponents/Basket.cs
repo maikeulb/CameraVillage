@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RolleiShop.Services.Interfaces;
 using RolleiShop.Features.Basket;
 using RolleiShop.Infra.Identity;
 using RolleiShop.Infra.App.Interfaces;
