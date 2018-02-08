@@ -19,12 +19,12 @@ namespace RolleiShop.Features.Basket
 {
     public class BasketController : Controller
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IBasketService _basketService;
         private readonly IBasketViewModelService _basketViewModelService;
 
         public BasketController(
-            SignInManager<IdentityUser> signInManager,
+            SignInManager<ApplicationUser> signInManager,
             IBasketService basketService,
             IBasketViewModelService basketViewModelService)
         {

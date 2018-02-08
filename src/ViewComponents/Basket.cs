@@ -14,10 +14,10 @@ namespace RolleiShop.ViewComponents
     public class Basket : ViewComponent
     {
         private readonly IBasketViewModelService _basketService;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public Basket(IBasketViewModelService basketService,
-                        SignInManager<IdentityUser> signInManager)
+                        SignInManager<ApplicationUser> signInManager)
         {
             _basketService = basketService;
             _signInManager = signInManager;
