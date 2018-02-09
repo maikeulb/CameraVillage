@@ -1,4 +1,5 @@
 using RolleiShop.Models.Entities;
+using RolleiShop.Models.Entities.Order;
 using RolleiShop.Models.Interfaces;
 using RolleiShop.Infra.App;
 using RolleiShop.Infra.Identity;
@@ -80,7 +81,7 @@ namespace RolleiShop.Features.Basket
 
             await _basketService.DeleteBasketAsync(basketViewModel.Id);
 
-            return View("Checkout");
+            return View();
         }
 
         private async Task<BasketViewModel> GetBasketViewModelAsync()

@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RolleiShop.Models.Entities;
+using RolleiShop.Models.Entities.Order;
 
 namespace RolleiShop.Data.Configurations
 {
-    class CatalogItemConfiguration
+    class OrderConfiguration
         : IEntityTypeConfiguration<Order>
     {
         public void Configure(EntityTypeBuilder<Order> builder)

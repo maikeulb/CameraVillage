@@ -1,4 +1,4 @@
-using Rolleishop.Models.Entities.Order
+using RolleiShop.Models.Entities.Order;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

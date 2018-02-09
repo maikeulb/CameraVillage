@@ -1,4 +1,4 @@
-using Rolleishop.Models.Entities;
+using RolleiShop.Models.Entities;
 
 namespace RolleiShop.Models.Entities.Buyer
 {

@@ -1,5 +1,5 @@
-using Rolleishop.Models.Order;
-using Rolleishop.Models.Entities;
+using RolleiShop.Models.Entities.Order;
+using RolleiShop.Models.Entities;
 using System.Threading.Tasks;
 
 namespace RolleiShop.Models.Interfaces

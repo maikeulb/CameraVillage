@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RolleiShop.Models.Entities;
+using RolleiShop.Models.Entities.Order;
 using RolleiShop.Data.Configurations;
 
 namespace RolleiShop.Data.Context
@@ -22,7 +23,7 @@ namespace RolleiShop.Data.Context
             builder.ApplyConfiguration(new CatalogBrandConfiguration());
             builder.ApplyConfiguration(new CatalogTypeConfiguration());
             builder.ApplyConfiguration(new CatalogItemConfiguration());
-            builder.ApplyConfiguration(new OrderTypeConfiguration());
+            builder.ApplyConfiguration(new OrderConfiguration());
             builder.ApplyConfiguration(new OrderItemConfiguration());
         }
     }

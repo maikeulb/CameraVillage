@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RolleiShop.Models.Interfaces;
-using RolleiShop.Models.Order;
+using RolleiShop.Models.Entities.Order;
 using RolleiShop.Models.Entities;
 using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
@@ -13,11 +13,11 @@ namespace RolleiShop.Data.Repositories
 {
     public class OrderRepository : EfRepository<Order>, IOrderRepository
     {
-        public OrderRepository(CatalogContext dbContext) : base(dbContext) {}
+        public OrderRepository(ApplicationDbContext _context) : base(_context) {}
 
         public Order GetByIdWithItems(int id)
         {
-            return _dbContext.Orders
+            return _context.Orders
                 .Include(o => o.OrderItems)
                 .Include("OrderItems.ItemOrdered")
                 .FirstOrDefault();
@@ -25,7 +25,7 @@ namespace RolleiShop.Data.Repositories
 
         public Task<Order> GetByIdWithItemsAsync(int id)
         {
-            return _dbContext.Orders
+            return _context.Orders
                 .Include(o => o.OrderItems)
                 .Include("OrderItems.ItemOrdered")
                 .FirstOrDefaultAsync();

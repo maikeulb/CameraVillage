@@ -1,9 +1,9 @@
-using Rolleishop.Services.Interfaces;
-using Rolleishop.Models.Entities;
+using RolleiShop.Services.Interfaces;
+using RolleiShop.Models.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace RolleiShop.Models.Entities.Buyer
+namespace RolleiShop.Models.Entities.Order
 {
     public class Order : Entity
     {

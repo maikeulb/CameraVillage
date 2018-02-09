@@ -1,5 +1,5 @@
-using Rolleishop.Services.Interfaces;
-using Rolleishop.Models.Entities;
+using RolleiShop.Services.Interfaces;
+using RolleiShop.Models.Entities;
 using System;
 using System.Collections.Generic;
 

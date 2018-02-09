@@ -13,7 +13,7 @@ using RolleiShop.Data.Context;
 using RolleiShop.Infra.App;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
-using RolleiShop.Models.Order;
+using RolleiShop.Models.Entities.Order;
 using RolleiShop.Specifications;
 using RolleiShop.Infra.App.Interfaces;
 using System.Linq;

@@ -1,5 +1,6 @@
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Models.Entities;
+using RolleiShop.Models.Entities.Order;
 using RolleiShop.Models.Interfaces;
 using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
