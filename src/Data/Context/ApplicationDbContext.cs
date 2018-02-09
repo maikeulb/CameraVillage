@@ -13,6 +13,8 @@ namespace RolleiShop.Data.Context
         public DbSet<CatalogItem> CatalogItems { get; set; }
         public DbSet<CatalogBrand> CatalogBrands { get; set; }
         public DbSet<CatalogType> CatalogTypes { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -20,6 +22,8 @@ namespace RolleiShop.Data.Context
             builder.ApplyConfiguration(new CatalogBrandConfiguration());
             builder.ApplyConfiguration(new CatalogTypeConfiguration());
             builder.ApplyConfiguration(new CatalogItemConfiguration());
+            builder.ApplyConfiguration(new OrderTypeConfiguration());
+            builder.ApplyConfiguration(new OrderItemConfiguration());
         }
     }
 }
