@@ -3,7 +3,7 @@ using Rolleishop.Models.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace RolleiShop.Models.Entities.Order
+namespace RolleiShop.Models.Entities.Buyer
 {
     public class Order : Entity
     {
