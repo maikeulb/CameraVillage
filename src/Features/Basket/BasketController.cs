@@ -24,16 +24,19 @@ namespace RolleiShop.Features.Basket
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IBasketService _basketService;
         private readonly IBasketViewModelService _basketViewModelService;
+        private readonly IOrderService _orderService;
 
         public BasketController(
             SignInManager<ApplicationUser> signInManager,
             ILogger<BasketController> logger,
             IBasketService basketService,
+            IOrderService orderService,
             IBasketViewModelService basketViewModelService)
         {
             _logger = logger;
             _signInManager = signInManager;
             _basketService = basketService;
+            _orderService = orderService;
             _basketViewModelService = basketViewModelService;
         }
 
@@ -57,10 +60,6 @@ namespace RolleiShop.Features.Basket
         [HttpPost]
         public async Task<IActionResult> AddToBasket(CatalogItemViewModel productDetails)
         {
-            _logger.LogInformation("************prodct.Id{prd}********************",productDetails.Id);
-            _logger.LogInformation("************prodct.Price{prd}********************",productDetails.Price);
-            _logger.LogInformation("************prodct.Name{prd}********************",productDetails.Name);
-            _logger.LogInformation("************prodct.ImageUrl{prd}********************",productDetails.ImageUrl);
             if (productDetails?.Id == null)
             {
                 return RedirectToAction("Index", "Catalog");
@@ -75,14 +74,19 @@ namespace RolleiShop.Features.Basket
         [HttpPost]
         public async Task<IActionResult> Checkout(Dictionary<string, int> items)
         {
-            throw new NotImplementedException();
+            var basketViewModel = await GetBasketViewModelAsync();
+            await _basketService.SetQuantities(basketViewModel.Id, items);
+            await _orderService.CreateOrderAsync(basketViewModel.Id, new Address("123 Main St.", "Kent", "OH", "United States", "44240"));
+
+            await _basketService.DeleteBasketAsync(basketViewModel.Id);
+
+            return View("Checkout");
         }
 
         private async Task<BasketViewModel> GetBasketViewModelAsync()
         {
             if (_signInManager.IsSignedIn(User))
             {
-                _logger.LogInformation("********************************");
                 return await _basketViewModelService.GetOrCreateBasketForUser(User.Identity.Name);
             }
             string anonymousId = GetOrSetBasketCookie();
