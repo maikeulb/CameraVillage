@@ -48,6 +48,8 @@ namespace RolleiShop
             services.AddScoped<ICatalogService, CatalogService>();
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IBasketViewModelService, BasketViewModelService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             services.AddTransient<IEmailSender, EmailSender>();
 
