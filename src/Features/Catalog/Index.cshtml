@@ -4,6 +4,10 @@
 }
 
 <div class="ui container center aligned" style="padding:40px;">
+  <div class = "ui huge header"> Cameras </div>
+</div>
+
+<div class="ui container center aligned">
   <div class="ui center text container segment">
   <section class="catalog-filters">
     <div class = "ui equal width form">
@@ -11,15 +15,17 @@
         <div class = "fields">
           <div class = "field">
             <label data-title="brand">
+              <h3 class = "ui sub header left aligned"> Brand </h3>
               <select class = "ui search dropdown" asp-for="@Model.BrandFilterApplied" asp-items="@Model.Brands"></select>
             </label>
           </div>
           <div class = "field">
             <label data-title="type">
+              <h3 class = "ui sub header left aligned"> Format </h3>
               <select class = "ui search dropdown" asp-for="@Model.TypesFilterApplied" asp-items="@Model.Types"></select>
             </label>
           </div>
-          <button class="ui button" type="submit">Submit</button>
+          <button class="ui basic button" type="submit">Filter</button>
         </div>
       </form>
     </div>
