@@ -67,7 +67,6 @@ namespace RolleiShop.Infra.App
             };
 
             foreach (var vmimg in vm.CatalogItems) {
-            _logger.LogInformation("***ImageUrl{vm}****", vmimg.ImageUrl);
             }
             vm.PaginationInfo.Next = (vm.PaginationInfo.ActualPage == vm.PaginationInfo.TotalPages - 1) ? "is-disabled" : "";
             vm.PaginationInfo.Previous = (vm.PaginationInfo.ActualPage == 0) ? "is-disabled" : "";

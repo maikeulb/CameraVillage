@@ -36,7 +36,9 @@ namespace RolleiShop.Services
 
         public async Task DeleteBasketAsync(int basketId)
         {
-            throw new NotImplementedException();
+            var basket = await _basketRepository.GetByIdAsync(basketId);
+
+            await _basketRepository.DeleteAsync(basket);
         }
 
         public async Task<int> GetBasketItemCountAsync(string userName)

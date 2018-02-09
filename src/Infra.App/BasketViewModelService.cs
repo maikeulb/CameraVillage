@@ -31,8 +31,6 @@ namespace RolleiShop.Infra.App
             var basketSpec = new BasketWithItemsSpecification(userName);
             var basket = (await _basketRepository.ListAsync(basketSpec)).FirstOrDefault();
 
-            _logger.LogInformation("**basket.Spec{basket}******************************",basketSpec);
-
             if(basket == null)
             {
                 return await CreateBasketForUser(userName);
@@ -43,10 +41,6 @@ namespace RolleiShop.Infra.App
         private BasketViewModel CreateViewModelFromBasket(Basket basket)
         {
             var viewModel = new BasketViewModel();
-
-            _logger.LogInformation("**basket.Id{basket}******************************",basket.Id);
-            _logger.LogInformation("**basket.BuyerId{basket}******************************",basket.BuyerId);
-            _logger.LogInformation("**basket.Items{basket}******************************",basket.Items);
 
             viewModel.Id = basket.Id;
             viewModel.BuyerId = basket.BuyerId;
@@ -59,11 +53,6 @@ namespace RolleiShop.Infra.App
                     Quantity = i.Quantity,
                     CatalogItemId = i.CatalogItemId
                 };
-
-                _logger.LogInformation("**itemModel.Id{basket}******************************",itemModel.Id);
-                _logger.LogInformation("**itemModel.UnitPrice{basket}******************************",itemModel.UnitPrice);
-                _logger.LogInformation("**itemModel.Quantity{basket}******************************",itemModel.Quantity);
-                _logger.LogInformation("**itemModel.CatalogItemId{basket}******************************",itemModel.CatalogItemId);
 
                 var item = _itemRepository.GetById(i.CatalogItemId);
 
