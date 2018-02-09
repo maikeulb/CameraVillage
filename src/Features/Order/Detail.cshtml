@@ -4,82 +4,50 @@
     ViewData["Title"] = "Order Detail";
 }
 
-<div class="esh-orders_detail">
-    <div class="container">
-        <section class="esh-orders_detail-section">
-            <article class="esh-orders_detail-titles row">
-                <section class="esh-orders_detail-title col-xs-3">Order number</section>
-                <section class="esh-orders_detail-title col-xs-3">Date</section>
-                <section class="esh-orders_detail-title col-xs-3">Total</section>
-                <section class="esh-orders_detail-title col-xs-3">Status</section>
-            </article>
+<div class="ui container center aligned" style="padding:40px;">
+  <div class = "ui huge header"> Order Detail </div>
+</div>
 
-            <article class="esh-orders_detail-items row">
-                <section class="esh-orders_detail-item col-xs-3">@Model.OrderNumber</section>
-                <section class="esh-orders_detail-item col-xs-3">@Model.OrderDate</section>
-                <section class="esh-orders_detail-item col-xs-3">$@Model.Total</section>
-                <section class="esh-orders_detail-title col-xs-3">@Model.Status</section>
-            </article>
-        </section>
+<div class="ui text container">
 
-        @*<section class="esh-orders_detail-section">
-            <article class="esh-orders_detail-titles row">
-                <section class="esh-orders_detail-title col-xs-12">Description</section>
-            </article>
-
-            <article class="esh-orders_detail-items row">
-                <section class="esh-orders_detail-item col-xs-12">@Model.Description</section>
-            </article>
-        </section>*@
-
-        <section class="esh-orders_detail-section">
-            <article class="esh-orders_detail-titles row">
-                <section class="esh-orders_detail-title col-xs-12">Shipping Address</section>
-            </article>
-
-            <article class="esh-orders_detail-items row">
-                <section class="esh-orders_detail-item col-xs-12">@Model.ShippingAddress.Street</section>
-            </article>
-
-            <article class="esh-orders_detail-items row">
-                <section class="esh-orders_detail-item col-xs-12">@Model.ShippingAddress.City</section>
-            </article>
-
-            <article class="esh-orders_detail-items row">
-                <section class="esh-orders_detail-item col-xs-12">@Model.ShippingAddress.Country</section>
-            </article>
-        </section>
-
-        <section class="esh-orders_detail-section">
-            <article class="esh-orders_detail-titles row">
-                <section class="esh-orders_detail-title col-xs-12">ORDER DETAILS</section>
-            </article>
-
-            @for (int i = 0; i < Model.OrderItems.Count; i++)
-            {
-                var item = Model.OrderItems[i];
-                <article class="esh-orders_detail-items esh-orders_detail-items--border row">
-                    <section class="esh-orders_detail-item col-md-4 hidden-md-down">
-                        <img class="esh-orders_detail-image" src="@item.ImageUrl">
-                    </section>
-                    <section class="esh-orders_detail-item esh-orders_detail-item--middle col-xs-4">@item.ProductName</section>
-                    <section class="esh-orders_detail-item esh-orders_detail-item--middle col-xs-1">$ @item.UnitPrice.ToString("N2")</section>
-                    <section class="esh-orders_detail-item esh-orders_detail-item--middle col-xs-1">@item.Units</section>
-                    <section class="esh-orders_detail-item esh-orders_detail-item--middle col-xs-2">$ @Math.Round(item.Units * item.UnitPrice, 2).ToString("N2")</section>
-                </article>
-            }
-        </section>
-
-        <section class="esh-orders_detail-section esh-orders_detail-section--right">
-            <article class="esh-orders_detail-titles esh-basket-titles--clean row">
-                <section class="esh-orders_detail-title col-xs-9"></section>
-                <section class="esh-orders_detail-title col-xs-2">TOTAL</section>
-            </article>
-
-            <article class="esh-orders_detail-items row">
-                <section class="esh-orders_detail-item col-xs-9"></section>
-                <section class="esh-orders_detail-item esh-orders_detail-item--mark col-xs-2">$ @Model.Total</section>
-            </article>
-        </section>
+    <div class="ui centered grid">
+      <div class="row">
+        <div class="four wide mobile three wide computer column">Order number</div>
+        <div class="four wide mobile three wide computer column">Date</div>
+        <div class="four wide mobile three wide computer column">Total</div>
+        <div class="four wide mobile three wide computer column">Status</div>
+      </div>
+      <div class="row">
+        <div class="four wide mobile three wide computer column">@Model.OrderNumber</div>
+        <div class="four wide mobile three wide computer column">@Model.OrderDate.ToString("dd/MM/yyyy")</div>
+        <div class="four wide mobile three wide computer column">$@Model.Total.ToString("N2")</div>
+        <div class="four wide mobile three wide computer column">@Model.Status</div>
+      </div>
+      <h4 class="ui horizontal divider header">DETAILS</h4>
+      @for (int i = 0; i < Model.OrderItems.Count; i++)
+      {
+          var item = Model.OrderItems[i];
+          <div class="row">
+              <div class="three wide columnn">
+                  <img class="esh-orders_detail-image" src="@item.ImageUrl">
+              </div>
+              <div class="four wide mobile three wide computer column">@item.ProductName</div>
+              <div class="four wide mobile three wide computer column">$@item.UnitPrice.ToString("N2")</div>
+              <div class="four wide mobile three wide computer column">@item.Units</div>
+              <div class="four wide mobile three wide computer column">
+                $@Math.Round(item.Units * item.UnitPrice, 2).ToString("N2")
+              </div>
+          </div>
+      }
+    <br>
+    <br>
+      <div class="row">
+        <div class="four wide mobile three wide computer column"></div>
+        <div class="four wide mobile three wide computer column"></div>
+        <div class="four wide mobile three wide computer column"></div>
+        <div class="four wide mobile three wide computer column">
+          <div class="ui basic segment"><span><b>TOTAL: $@Model.Total</b></span></div>
+        </div>
+      </div>
     </div>
 </div>
