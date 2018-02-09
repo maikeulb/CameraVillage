@@ -70,8 +70,17 @@
     </div>
 
     <div class="ui vertical masthead center aligned segment">
-      <div class="ui fluid image full parallax" style="display: none;" data-imgsrc="/images/rollei.jpg"></div>
-      <div class="ui fluid image mobile parallax" style="display: block;" data-imgsrc="/images/rollei.jpg"></div>
+      <img class="rellax" data-rellax-speed="2" style="
+        filter:brightness(70%);
+        background-attachment: fixed;
+        background-position: top;
+        height:36em; 
+        width:100%; 
+        position:relative;
+        max-width:100%; 
+        background-repeat: no-repeat; 
+        background-size: cover; 
+        background-image:url(/images/rollei.jpg);"/>
     </div>
 
   <div class="ui container">
@@ -82,16 +91,8 @@ Ut porta blandit eros. Pellentesque habitant morbi tristique senectus et netus e
 Ut mattis semper sapien nec finibus. Suspendisse quis ultricies turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent mattis libero eros, quis malesuada magna facilisis ac. Morbi efficitur massa turpis, et finibus velit hendrerit in. Duis pellentesque dapibus urna eu posuere. In et nisi euismod, vehicula mi sit amet, convallis massa. Maecenas id nunc nec odio convallis egestas. Cras gravida, purus vitae egestas sodales, augue est lobortis neque, vel hendrerit ex nunc eget est. Donec fringilla arcu in arcu viverra interdum.
   </div>
 
- <script>
-    // semantic's module function
-    $.fn.uiParallax = function(){
-      
-      $(this).each(function(){
-        var imageUrl = $(this).data('imgsrc');
-        $(this).css('background-image', 'url(' + imageUrl + ')');
-      });
-      
-    };
-    
-    $('.ui.parallax').uiParallax();
-  </script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.5.0/rellax.min.js"></script>
+
+<script>
+  var rellax = new Rellax('.rellax');
+</script>

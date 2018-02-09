@@ -30,7 +30,7 @@
           <div class="two wide column">$ @Html.DisplayFor(modelItem => item.Total)</div>
           <div class="three wide column">@Html.DisplayFor(modelItem => item.Status)</div>
           <div class="three wide column">
-            <a class="esh-orders-link" asp-controller="Order" asp-action="Detail" asp-route-orderId="@item.OrderNumber">Detail</a>
+            <a asp-controller="Order" asp-action="Detail" asp-route-orderId="@item.OrderNumber">Detail</a>
           </div>
         </div>
       }
@@ -38,8 +38,6 @@
   }
   else
   {
-    <div class="esh-catalog-items row">
-      No orders.
-    </div>
+  <p>No orders.</p>
   }
 </div>

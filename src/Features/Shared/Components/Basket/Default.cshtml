@@ -3,14 +3,14 @@
     ViewData["Title"] = "My Basket";
 }
 
-<a class="esh-basketstatus "
+<a class="basketstatus"
   asp-area=""
   asp-controller="Basket"
   asp-action="Index">
-    <div class="esh-basketstatus-image">
+  <div>
       <i class="black big cart icon"></i>
     </div>
-    <div class="esh-basketstatus-badge">
+    <div class="basketstatus-badge">
       @Model.ItemsCount
     </div>
 </a>
