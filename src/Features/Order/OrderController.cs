@@ -39,7 +39,7 @@ namespace RolleiShop.Features.Order
                     OrderItems = o.OrderItems?.Select(oi => new OrderItemViewModel()
                     {
                         Discount = 0,
-                        PictureUrl = oi.ItemOrdered.PictureUri,
+                        ImageUrl = oi.ItemOrdered.ImageUrl,
                         ProductId = oi.ItemOrdered.CatalogItemId,
                         ProductName = oi.ItemOrdered.ProductName,
                         UnitPrice = oi.UnitPrice,
@@ -63,7 +63,7 @@ namespace RolleiShop.Features.Order
                 OrderItems = order.OrderItems.Select(oi => new OrderItemViewModel()
                 {
                     Discount = 0,
-                    PictureUrl = oi.ItemOrdered.PictureUri,
+                    ImageUrl = oi.ItemOrdered.ImageUrl,
                     ProductId = oi.ItemOrdered.CatalogItemId,
                     ProductName = oi.ItemOrdered.ProductName,
                     UnitPrice = oi.UnitPrice,
