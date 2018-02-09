@@ -1,38 +1,29 @@
 ﻿@model PaginationInfoViewModel
 
-<div class="esh-pager">
-  <div class="ui container">
-    <article>
-			<nav>
-        <div class="ui container center aligned segment">
-
-              <span class="esh-pager-item">
-                Showing @Model.ItemsPerPage of @Model.TotalItems products - Page @(Model.ActualPage + 1) - @Model.TotalPages
-              </span>
-
-		          <div> 
-              <a class="@Model.Previous"
-                 id="Previous"
-                 asp-controller="Catalog"
-                 asp-action="Index"
-                 asp-route-page="@(Model.ActualPage - 1)"
-                 aria-label="Previous">
-                Previous
-              </a>
-			        |	
-              <a class=" @Model.Next"
-                 id="Next"
-                 asp-controller="Catalog"
-                 asp-action="Index"
-                 asp-route-page="@(Model.ActualPage + 1)"
-                 aria-label="Next">
-                Next
-              </a>
-		          </div> 
-
-				  </div>
-
-			</nav>
-		</article>
-	</div>
+<div class="ui container">
+    <nav>
+      <div class="ui container center aligned segment">
+        <span class="pager-item">
+          Showing @Model.ItemsPerPage of @Model.TotalItems products - Page @(Model.ActualPage + 1) - @Model.TotalPages
+        </span>
+        <div> 
+          <a class="@Model.Previous"
+             id="Previous"
+             asp-controller="Catalog"
+             asp-action="Index"
+             asp-route-page="@(Model.ActualPage - 1)"
+             aria-label="Previous">
+            Previous
+          </a>|	
+          <a class=" @Model.Next"
+             id="Next"
+             asp-controller="Catalog"
+             asp-action="Index"
+             asp-route-page="@(Model.ActualPage + 1)"
+             aria-label="Next">
+            Next
+          </a>
+        </div> 
+      </div>
+    </nav>
 </div>

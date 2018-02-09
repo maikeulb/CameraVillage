@@ -4,46 +4,34 @@
 }
 
 <div class="ui container center aligned" style="padding:40px;">
-
   <div class="ui center text container segment">
-
   <section class="catalog-filters">
-
     <div class = "ui equal width form">
-
       <form asp-action="Index" asp-controller="Catalog" method="post">
-
         <div class = "fields">
-
           <div class = "field">
             <label data-title="brand">
               <select class = "ui search dropdown" asp-for="@Model.BrandFilterApplied" asp-items="@Model.Brands"></select>
             </label>
           </div>
-
           <div class = "field">
             <label data-title="type">
               <select class = "ui search dropdown" asp-for="@Model.TypesFilterApplied" asp-items="@Model.Types"></select>
             </label>
           </div>
-
           <button class="ui button" type="submit">Submit</button>
-
         </div>
-
       </form>
-
     </div>
-
   </section>
-    </div>
+  </div>
 
   @if (Model.CatalogItems.Any())
   {
-    <div class="ui grid">
+    <div class="ui grid" style="padding-top:20px">
       @foreach (var catalogItem in Model.CatalogItems)
       {
-        <div class="four wide column">
+        <div class="sixteen wide mobile eight wide tablet four wide computer column">
           @Html.Partial("_product", catalogItem)
         </div>
       }
@@ -56,5 +44,4 @@
       Sorry cameras found.
     </div>
   }
-
 </div>

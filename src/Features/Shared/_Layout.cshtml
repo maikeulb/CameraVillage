@@ -81,7 +81,6 @@
     .ready(function() {
       $('.ui.sidebar')
         .sidebar('attach events', '.toc.item');
-
       $('.ui.form')
         .form({
           fields: {
@@ -120,62 +119,42 @@
   </head>
   <body>
     <div class="ui vertical thin sidebar menu">
-      <a href='#' class="active header item">Home</a>
-      <a href='#' class="item">Cameras</a>
-      <a href='#' class="item">Cart</a>
+      <a asp-controller="Home" asp-action="Index" class="active header item">Home</a>
+      <a asp-controller="Catalog" asp-action="Index" class="item">Cameras</a>
+      <a asp-controller="Basket" asp-action="Index" class="item">Cart</a>
       @await Html.PartialAsync("_LoginPartial")
     </div>
 
     <div class="pusher">
       <div class ="ui container">
         <div class="ui large secondary menu">
+
           <a class="toc item">
             <i class="sidebar icon"></i>
           </a>
 
-          <a asp-area="" asp-controller="Home" asp-action="Index"
-          class="header item">
+          <a asp-area="" asp-controller="Home" asp-action="Index" class="header item">
             <span style=" padding-right: 15px;">
               <img class="ui avatar image" src="~/images/logo.png" height="25">
             </span>
             Rollei Shop
           </a>
 
-          <a href='#' class="item">
-            Cameras
-          </a>
-
-          <a href='#' class="item">
-            Cart
-          </a>
-
-          <div class="right menu" style="width: 100%;">
-            <div class="item" style="width: 100%;">
-              <div class="ui fluid icon input">
-                 <input type="text" placeholder="Search...">
-                 <i class="search link icon"></i>
-              </div>
-            </div>
-          </div>
+         <a asp-controller="Catalog" asp-action="Index" class="item">Cameras</a>
 
           <div class="right item">
             @await Html.PartialAsync("_LoginPartial")
+            @await Component.InvokeAsync("Basket",  User.Identity.Name)
           </div>
 
-          <a asp-area="" asp-controller="Home" asp-action="Index"
-          class="logo header item">
+          <a asp-area="" asp-controller="Home" asp-action="Index" class="logo header item">
             <span style=" padding-right: 15px;">
               <img class="ui avatar image" src="~/images/logo.png" height="25">
             </span>
             Rollei Shop
           </a>
-
         </div>
       </div>
-
-        <section class="col-lg-1 col-xs-12">
-            @await Component.InvokeAsync("Basket",  User.Identity.Name)
-        </section>
 
       @RenderBody()
 
