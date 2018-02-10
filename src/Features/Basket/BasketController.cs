@@ -25,6 +25,7 @@ namespace RolleiShop.Features.Basket
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IBasketService _basketService;
         private readonly IBasketViewModelService _basketViewModelService;
+        private readonly IRepository<CatalogItem> _itemRepository;
         private readonly IOrderService _orderService;
 
         public BasketController(
@@ -32,12 +33,14 @@ namespace RolleiShop.Features.Basket
             ILogger<BasketController> logger,
             IBasketService basketService,
             IOrderService orderService,
+            IRepository<CatalogItem> itemRepository,
             IBasketViewModelService basketViewModelService)
         {
             _logger = logger;
             _signInManager = signInManager;
             _basketService = basketService;
             _orderService = orderService;
+            _itemRepository = itemRepository;
             _basketViewModelService = basketViewModelService;
         }
 
@@ -65,9 +68,12 @@ namespace RolleiShop.Features.Basket
             {
                 return RedirectToAction("Index", "Catalog");
             }
+
+            var catalogItem = _itemRepository.GetById (productDetails.Id);
+
             var basketViewModel = await GetBasketViewModelAsync();
 
-            await _basketService.AddItemToBasket(basketViewModel.Id, productDetails.Id, productDetails.Price, 1);
+            await _basketService.AddItemToBasket(basketViewModel.Id, catalogItem.Id, catalogItem.Price, 1);
 
             return RedirectToAction("Index");
         }
@@ -133,5 +139,11 @@ namespace RolleiShop.Features.Basket
     public class BasketComponentViewModel
     {
         public int ItemsCount { get; set; }
+    }
+
+    public class ProductDetailsViewModel
+    {
+        public int Id { get; set; }
+        public decimal Price { get; set; }
     }
 }

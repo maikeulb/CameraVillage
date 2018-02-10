@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,7 @@ namespace RolleiShop.Apis.Basket
 {
     [Authorize]
     [Route ("api/[Controller]")]
-    public class BasketController : Controller
+    public class BasketApiController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IBasketService _basketService;
@@ -27,7 +26,7 @@ namespace RolleiShop.Apis.Basket
         private readonly IOrderService _orderService;
 
 
-        public BasketController (
+        public BasketApiController (
             UserManager<ApplicationUser> userManager,
             IBasketService basketService,
             IOrderService orderService,
@@ -46,9 +45,10 @@ namespace RolleiShop.Apis.Basket
             {
                 return RedirectToAction("Index", "Catalog");
             }
-            var basketViewModel = await GetBasketViewModelAsync();
+            /* var basketViewModel = await GetBasketViewModelAsync(); */
 
-            await _basketService.AddItemToBasket(basketViewModel.Id, productDetails.Id, productDetails.Price, 1);
+            /* await _basketService.AddItemToBasket(basketViewModel.Id, productDetails.Id, productDetails.Price, 1); */
+            return RedirectToAction("Index", "Catalog");
         }
     }
 }
