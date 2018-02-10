@@ -2,14 +2,14 @@ using RolleiShop.Models.Entities;
 
 namespace RolleiShop.Specifications
 {
-    public class BasketWithItemsSpecification : BaseSpecification<Basket>
+    public class CartWithItemsSpecification : BaseSpecification<Cart>
     {
-        public BasketWithItemsSpecification(int basketId)
-            :base(b => b.Id == basketId)
+        public CartWithItemsSpecification(int cartId)
+            :base(b => b.Id == cartId)
         {
             AddInclude(b => b.Items);
         }
-        public BasketWithItemsSpecification(string buyerId)
+        public CartWithItemsSpecification(string buyerId)
             :base(b => b.BuyerId == buyerId)
         {
             AddInclude(b => b.Items);

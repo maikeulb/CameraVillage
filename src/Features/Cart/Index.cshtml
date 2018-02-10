@@ -1,6 +1,6 @@
-@model RolleiShop.Features.Basket.BasketViewModel
+@model RolleiShop.Features.Cart.CartViewModel
 @{
-    ViewData["Title"] = "Basket";
+    ViewData["Title"] = "Cart";
 }
 
 <div class="ui container center aligned" style="padding:40px;">
@@ -40,7 +40,7 @@
             </article>
           </div>
 
-          <a asp-controller="Basket" asp-action="RemoveFromBasket" asp-route-productId="@item.Id">Remove</a>
+          <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-productId="@item.Id">Remove</a>
         }
 
       <div class="ui grid">
@@ -63,7 +63,7 @@
   }
   else
   {
-  <p>Basket is empty.</p>
+  <p>Cart is empty.</p>
   }
 
 </div>

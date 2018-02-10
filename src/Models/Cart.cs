@@ -3,18 +3,18 @@ using System.Linq;
 
 namespace RolleiShop.Models.Entities
 {
-    public class Basket : Entity
+    public class Cart : Entity
     {
-        private readonly List<BasketItem> _items = new List<BasketItem>();
+        private readonly List<CartItem> _items = new List<CartItem>();
 
         public string BuyerId { get; set; }
-        public IReadOnlyCollection<BasketItem> Items => _items.AsReadOnly();
+        public IReadOnlyCollection<CartItem> Items => _items.AsReadOnly();
 
         public void AddItem(int catalogItemId, decimal unitPrice, int quantity = 1)
         {
             if (!Items.Any(i => i.CatalogItemId == catalogItemId))
             {
-                _items.Add(new BasketItem()
+                _items.Add(new CartItem()
                 {
                     CatalogItemId = catalogItemId,
                     Quantity = quantity,

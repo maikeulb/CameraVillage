@@ -121,7 +121,7 @@
     <div class="ui vertical thin sidebar menu">
       <a asp-controller="Home" asp-action="Index" class="active header item">Home</a>
       <a asp-controller="Catalog" asp-action="Index" class="item">Cameras</a>
-      <a asp-controller="Basket" asp-action="Index" class="item">Cart</a>
+      <a asp-controller="Cart" asp-action="Index" class="item">Cart</a>
       @await Html.PartialAsync("_LoginPartial")
     </div>
 
@@ -144,7 +144,7 @@
 
           <div class="right item">
             @await Html.PartialAsync("_LoginPartial")
-            @await Component.InvokeAsync("Basket",  User.Identity.Name)
+            @await Component.InvokeAsync("Cart",  User.Identity.Name)
           </div>
 
           <a asp-area="" asp-controller="Home" asp-action="Index" class="logo header item">

@@ -14,40 +14,40 @@ using RolleiShop.Services.Interfaces;
 using RolleiShop.Features.Catalog;
 using RolleiShop.Infra.App.Interfaces;
 
-namespace RolleiShop.Apis.Basket
+namespace RolleiShop.Apis.Cart
 {
     [Authorize]
     [Route ("api/[Controller]")]
-    public class BasketApiController : Controller
+    public class CartApiController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IBasketService _basketService;
-        private readonly IBasketViewModelService _basketViewModelService;
+        private readonly ICartService _cartService;
+        private readonly ICartViewModelService _cartViewModelService;
         private readonly IOrderService _orderService;
 
 
-        public BasketApiController (
+        public CartApiController (
             UserManager<ApplicationUser> userManager,
-            IBasketService basketService,
+            ICartService cartService,
             IOrderService orderService,
-            IBasketViewModelService basketViewModelService)
+            ICartViewModelService cartViewModelService)
         {
             _userManager = userManager;
-            _basketService = basketService;
+            _cartService = cartService;
             _orderService = orderService;
-            _basketViewModelService = basketViewModelService;
+            _cartViewModelService = cartViewModelService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToBasket(CatalogItemViewModel productDetails)
+        public async Task<IActionResult> AddToCart(CatalogItemViewModel productDetails)
         {
             if (productDetails?.Id == null)
             {
                 return RedirectToAction("Index", "Catalog");
             }
-            /* var basketViewModel = await GetBasketViewModelAsync(); */
+            /* var cartViewModel = await GetCartViewModelAsync(); */
 
-            /* await _basketService.AddItemToBasket(basketViewModel.Id, productDetails.Id, productDetails.Price, 1); */
+            /* await _cartService.AddItemToCart(cartViewModel.Id, productDetails.Id, productDetails.Price, 1); */
             return RedirectToAction("Index", "Catalog");
         }
     }

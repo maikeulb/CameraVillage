@@ -4,12 +4,12 @@ using RolleiShop.Models.Entities;
 
 namespace RolleiShop.Data.Configurations
 {
-    class BasketConfiguration
-        : IEntityTypeConfiguration<Basket>
+    class CartConfiguration
+        : IEntityTypeConfiguration<Cart>
     {
-        public void Configure(EntityTypeBuilder<Basket> builder)
+        public void Configure(EntityTypeBuilder<Cart> builder)
         {
-            var navigation = builder.Metadata.FindNavigation(nameof(Basket.Items));
+            var navigation = builder.Metadata.FindNavigation(nameof(Cart.Items));
 
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }

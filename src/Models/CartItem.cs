@@ -1,6 +1,6 @@
 namespace RolleiShop.Models.Entities
 {
-    public class BasketItem : Entity
+    public class CartItem : Entity
     {
         public decimal UnitPrice { get; set; }
         public int Quantity { get; set; }

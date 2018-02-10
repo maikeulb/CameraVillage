@@ -1,0 +1,16 @@
+@model CartComponentViewModel
+@{
+    ViewData["Title"] = "My Cart";
+}
+
+<a class="cartstatus"
+  asp-area=""
+  asp-controller="Cart"
+  asp-action="Index">
+  <div>
+      <i class="black big cart icon"></i>
+    </div>
+    <div class="cartstatus-badge">
+      @Model.ItemsCount
+    </div>
+</a>

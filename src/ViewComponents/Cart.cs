@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RolleiShop.Features.Basket;
+using RolleiShop.Features.Cart;
 using RolleiShop.Infra.Identity;
 using RolleiShop.Infra.App.Interfaces;
 using RolleiShop.Services.Interfaces;
@@ -10,37 +10,37 @@ using System.Threading.Tasks;
 
 namespace RolleiShop.ViewComponents
 {
-    public class Basket : ViewComponent
+    public class Cart : ViewComponent
     {
-        private readonly IBasketViewModelService _basketService;
+        private readonly ICartViewModelService _cartService;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public Basket(IBasketViewModelService basketService,
+        public Cart(ICartViewModelService cartService,
                         SignInManager<ApplicationUser> signInManager)
         {
-            _basketService = basketService;
+            _cartService = cartService;
             _signInManager = signInManager;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string userName)
         {
-            var vm = new BasketComponentViewModel();
-            vm.ItemsCount = (await GetBasketViewModelAsync()).Items.Sum(i => i.Quantity);
+            var vm = new CartComponentViewModel();
+            vm.ItemsCount = (await GetCartViewModelAsync()).Items.Sum(i => i.Quantity);
             return View(vm);
         }
 
-        private async Task<BasketViewModel> GetBasketViewModelAsync()
+        private async Task<CartViewModel> GetCartViewModelAsync()
         {
             if (_signInManager.IsSignedIn(HttpContext.User))
             {
-                return await _basketService.GetOrCreateBasketForUser(User.Identity.Name);
+                return await _cartService.GetOrCreateCartForUser(User.Identity.Name);
             }
-            string anonymousId = GetBasketIdFromCookie();
-            if (anonymousId == null) return new BasketViewModel();
-            return await _basketService.GetOrCreateBasketForUser(anonymousId);
+            string anonymousId = GetCartIdFromCookie();
+            if (anonymousId == null) return new CartViewModel();
+            return await _cartService.GetOrCreateCartForUser(anonymousId);
         }
 
-        private string GetBasketIdFromCookie()
+        private string GetCartIdFromCookie()
         {
             if (Request.Cookies.ContainsKey("RolleiShop"))
             {

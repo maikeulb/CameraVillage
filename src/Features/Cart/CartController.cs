@@ -17,52 +17,52 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 
-namespace RolleiShop.Features.Basket
+namespace RolleiShop.Features.Cart
 {
-    public class BasketController : Controller
+    public class CartController : Controller
     {
         private readonly ILogger _logger;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IBasketService _basketService;
-        private readonly IBasketViewModelService _basketViewModelService;
+        private readonly ICartService _cartService;
+        private readonly ICartViewModelService _cartViewModelService;
         private readonly IRepository<CatalogItem> _itemRepository;
         private readonly IOrderService _orderService;
 
-        public BasketController(
+        public CartController(
             SignInManager<ApplicationUser> signInManager,
-            ILogger<BasketController> logger,
-            IBasketService basketService,
+            ILogger<CartController> logger,
+            ICartService cartService,
             IOrderService orderService,
             IRepository<CatalogItem> itemRepository,
-            IBasketViewModelService basketViewModelService)
+            ICartViewModelService cartViewModelService)
         {
             _logger = logger;
             _signInManager = signInManager;
-            _basketService = basketService;
+            _cartService = cartService;
             _orderService = orderService;
             _itemRepository = itemRepository;
-            _basketViewModelService = basketViewModelService;
+            _cartViewModelService = cartViewModelService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var basketModel = await GetBasketViewModelAsync();
+            var cartModel = await GetCartViewModelAsync();
 
-            return View(basketModel);
+            return View(cartModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(Dictionary<string, int> items)
         {
-            var basketViewModel = await GetBasketViewModelAsync();
-            await _basketService.SetQuantities(basketViewModel.Id, items);
+            var cartViewModel = await GetCartViewModelAsync();
+            await _cartService.SetQuantities(cartViewModel.Id, items);
 
-            return View(await GetBasketViewModelAsync());
+            return View(await GetCartViewModelAsync());
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToBasket(CatalogItemViewModel productDetails)
+        public async Task<IActionResult> AddToCart(CatalogItemViewModel productDetails)
         {
             if (productDetails?.Id == null)
             {
@@ -71,23 +71,23 @@ namespace RolleiShop.Features.Basket
 
             var catalogItem = _itemRepository.GetById (productDetails.Id);
 
-            var basketViewModel = await GetBasketViewModelAsync();
+            var cartViewModel = await GetCartViewModelAsync();
 
-            await _basketService.AddItemToBasket(basketViewModel.Id, catalogItem.Id, catalogItem.Price, 1);
+            await _cartService.AddItemToCart(cartViewModel.Id, catalogItem.Id, catalogItem.Price, 1);
 
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> RemoveFromBasket(int productId)
+        public async Task<IActionResult> RemoveFromCart(int productId)
         {
             if (productId == null)
             {
                 return RedirectToAction("Index", "Catalog");
             }
 
-            var basketViewModel = await GetBasketViewModelAsync();
+            var cartViewModel = await GetCartViewModelAsync();
 
-            await _basketService.RemoveItemFromBasket(basketViewModel.Id, productId);
+            await _cartService.RemoveItemFromCart(cartViewModel.Id, productId);
 
             return RedirectToAction("Index");
         }
@@ -95,26 +95,26 @@ namespace RolleiShop.Features.Basket
         [HttpPost]
         public async Task<IActionResult> Checkout(Dictionary<string, int> items)
         {
-            var basketViewModel = await GetBasketViewModelAsync();
-            await _basketService.SetQuantities(basketViewModel.Id, items);
-            await _orderService.CreateOrderAsync(basketViewModel.Id, new Address("123 Main St.", "Kent", "OH", "United States", "44240"));
+            var cartViewModel = await GetCartViewModelAsync();
+            await _cartService.SetQuantities(cartViewModel.Id, items);
+            await _orderService.CreateOrderAsync(cartViewModel.Id, new Address("123 Main St.", "Kent", "OH", "United States", "44240"));
 
-            await _basketService.DeleteBasketAsync(basketViewModel.Id);
+            await _cartService.DeleteCartAsync(cartViewModel.Id);
 
             return View();
         }
 
-        private async Task<BasketViewModel> GetBasketViewModelAsync()
+        private async Task<CartViewModel> GetCartViewModelAsync()
         {
             if (_signInManager.IsSignedIn(User))
             {
-                return await _basketViewModelService.GetOrCreateBasketForUser(User.Identity.Name);
+                return await _cartViewModelService.GetOrCreateCartForUser(User.Identity.Name);
             }
-            string anonymousId = GetOrSetBasketCookie();
-            return await _basketViewModelService.GetOrCreateBasketForUser(anonymousId);
+            string anonymousId = GetOrSetCartCookie();
+            return await _cartViewModelService.GetOrCreateCartForUser(anonymousId);
         }
 
-        private string GetOrSetBasketCookie()
+        private string GetOrSetCartCookie()
         {
             if (Request.Cookies.ContainsKey("RolleiShop"))
             {
@@ -128,10 +128,10 @@ namespace RolleiShop.Features.Basket
         }
     }
 
-    public class BasketViewModel
+    public class CartViewModel
     {
         public int Id { get; set; }
-        public List<BasketItemViewModel> Items { get; set; } = new List<BasketItemViewModel>();
+        public List<CartItemViewModel> Items { get; set; } = new List<CartItemViewModel>();
         public string BuyerId { get; set; }
         public decimal Total()
         {
@@ -139,7 +139,7 @@ namespace RolleiShop.Features.Basket
         }
     }
 
-    public class BasketItemViewModel
+    public class CartItemViewModel
     {
         public int Id { get; set; }
         public int CatalogItemId { get; set; }
@@ -150,7 +150,7 @@ namespace RolleiShop.Features.Basket
         public string ImageUrl { get; set; }
     }
 
-    public class BasketComponentViewModel
+    public class CartComponentViewModel
     {
         public int ItemsCount { get; set; }
     }

@@ -46,8 +46,8 @@ namespace RolleiShop
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
             services.AddScoped<ICatalogService, CatalogService>();
-            services.AddScoped<IBasketService, BasketService>();
-            services.AddScoped<IBasketViewModelService, BasketViewModelService>();
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICartViewModelService, CartViewModelService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
 
