@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+
 using RolleiShop.Features.Account.AccountViewModels;
 using RolleiShop.Features.Home;
 using RolleiShop.Infra.App;
 using RolleiShop.Infra.Identity;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

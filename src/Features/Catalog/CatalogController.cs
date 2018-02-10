@@ -7,8 +7,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using RolleiShop.Data.Context;
 using RolleiShop.Infra.App;
+using RolleiShop.Infra.Identity;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
 using RolleiShop.Infra.App.Interfaces;
@@ -21,14 +24,17 @@ namespace RolleiShop.Features.Catalog
         private readonly IHostingEnvironment _environment;
         private readonly IRepository<CatalogItem> _itemRepository;
         private readonly ApplicationDbContext _context;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public CatalogController (
             ICatalogService catalogService,
+            SignInManager<ApplicationUser> signInManager,
             IRepository<CatalogItem> itemRepository,
             IHostingEnvironment environment,
             ApplicationDbContext context)
         {
             _catalogService = catalogService;
+            _signInManager = signInManager;
             _itemRepository = itemRepository;
             _environment = environment;
             _context = context;

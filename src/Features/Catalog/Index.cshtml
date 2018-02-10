@@ -34,15 +34,17 @@
 
   @if (Model.CatalogItems.Any())
   {
-    <div class="ui grid" style="padding-top:20px">
-      @foreach (var catalogItem in Model.CatalogItems)
-      {
-        <div class="sixteen wide mobile eight wide tablet four wide computer column">
-          @Html.Partial("_product", catalogItem)
-        </div>
-      }
+    <div id="products">
+      <div class="ui grid" style="padding-top:20px">
+        @foreach (var catalogItem in Model.CatalogItems)
+        {
+          <div class="sixteen wide mobile eight wide tablet four wide computer column">
+            @Html.Partial("_product", catalogItem)
+          </div>
+        }
+      </div>
+      @Html.Partial("_pagination", Model.PaginationInfo)
     </div>
-    @Html.Partial("_pagination", Model.PaginationInfo)
   }
   else
   {
@@ -50,8 +52,3 @@
   }
 </div>
 
-@section scripts
-{
-  <script>
-  </script>
-}

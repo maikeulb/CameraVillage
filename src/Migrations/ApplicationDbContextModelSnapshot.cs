@@ -20,7 +20,7 @@ namespace RolleiShop.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.Basket", b =>
+            modelBuilder.Entity("RolleiShop.Models.Entities.Cart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -29,15 +29,15 @@ namespace RolleiShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Baskets");
+                    b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.BasketItem", b =>
+            modelBuilder.Entity("RolleiShop.Models.Entities.CartItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("BasketId");
+                    b.Property<int?>("CartId");
 
                     b.Property<int>("CatalogItemId");
 
@@ -47,9 +47,9 @@ namespace RolleiShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BasketId");
+                    b.HasIndex("CartId");
 
-                    b.ToTable("BasketItem");
+                    b.ToTable("CartItem");
                 });
 
             modelBuilder.Entity("RolleiShop.Models.Entities.CatalogBrand", b =>
@@ -144,11 +144,11 @@ namespace RolleiShop.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.BasketItem", b =>
+            modelBuilder.Entity("RolleiShop.Models.Entities.CartItem", b =>
                 {
-                    b.HasOne("RolleiShop.Models.Entities.Basket")
+                    b.HasOne("RolleiShop.Models.Entities.Cart")
                         .WithMany("Items")
-                        .HasForeignKey("BasketId");
+                        .HasForeignKey("CartId");
                 });
 
             modelBuilder.Entity("RolleiShop.Models.Entities.CatalogItem", b =>

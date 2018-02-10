@@ -11,8 +11,8 @@ using System;
 namespace RolleiShop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180208193752_AddBasket")]
-    partial class AddBasket
+    [Migration("20180210041227_InititMigrations")]
+    partial class InititMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace RolleiShop.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.Basket", b =>
+            modelBuilder.Entity("RolleiShop.Models.Entities.Cart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -30,15 +30,15 @@ namespace RolleiShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Baskets");
+                    b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.BasketItem", b =>
+            modelBuilder.Entity("RolleiShop.Models.Entities.CartItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("BasketId");
+                    b.Property<int?>("CartId");
 
                     b.Property<int>("CatalogItemId");
 
@@ -48,9 +48,9 @@ namespace RolleiShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BasketId");
+                    b.HasIndex("CartId");
 
-                    b.ToTable("BasketItem");
+                    b.ToTable("CartItem");
                 });
 
             modelBuilder.Entity("RolleiShop.Models.Entities.CatalogBrand", b =>
@@ -113,11 +113,43 @@ namespace RolleiShop.Migrations
                     b.ToTable("CatalogType");
                 });
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.BasketItem", b =>
+            modelBuilder.Entity("RolleiShop.Models.Entities.Order.Order", b =>
                 {
-                    b.HasOne("RolleiShop.Models.Entities.Basket")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("BuyerId");
+
+                    b.Property<DateTimeOffset>("OrderDate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("RolleiShop.Models.Entities.Order.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("OrderId");
+
+                    b.Property<decimal>("UnitPrice");
+
+                    b.Property<int>("Units");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("RolleiShop.Models.Entities.CartItem", b =>
+                {
+                    b.HasOne("RolleiShop.Models.Entities.Cart")
                         .WithMany("Items")
-                        .HasForeignKey("BasketId");
+                        .HasForeignKey("CartId");
                 });
 
             modelBuilder.Entity("RolleiShop.Models.Entities.CatalogItem", b =>
@@ -131,6 +163,56 @@ namespace RolleiShop.Migrations
                         .WithMany()
                         .HasForeignKey("CatalogTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("RolleiShop.Models.Entities.Order.Order", b =>
+                {
+                    b.OwnsOne("RolleiShop.Models.Entities.Order.Address", "ShipToAddress", b1 =>
+                        {
+                            b1.Property<int>("OrderId");
+
+                            b1.Property<string>("City");
+
+                            b1.Property<string>("Country");
+
+                            b1.Property<string>("State");
+
+                            b1.Property<string>("Street");
+
+                            b1.Property<string>("ZipCode");
+
+                            b1.ToTable("Orders");
+
+                            b1.HasOne("RolleiShop.Models.Entities.Order.Order")
+                                .WithOne("ShipToAddress")
+                                .HasForeignKey("RolleiShop.Models.Entities.Order.Address", "OrderId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+                });
+
+            modelBuilder.Entity("RolleiShop.Models.Entities.Order.OrderItem", b =>
+                {
+                    b.HasOne("RolleiShop.Models.Entities.Order.Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId");
+
+                    b.OwnsOne("RolleiShop.Models.Entities.Order.CatalogItemOrdered", "ItemOrdered", b1 =>
+                        {
+                            b1.Property<int>("OrderItemId");
+
+                            b1.Property<int>("CatalogItemId");
+
+                            b1.Property<string>("ImageUrl");
+
+                            b1.Property<string>("ProductName");
+
+                            b1.ToTable("OrderItems");
+
+                            b1.HasOne("RolleiShop.Models.Entities.Order.OrderItem")
+                                .WithOne("ItemOrdered")
+                                .HasForeignKey("RolleiShop.Models.Entities.Order.CatalogItemOrdered", "OrderItemId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
                 });
 #pragma warning restore 612, 618
         }
