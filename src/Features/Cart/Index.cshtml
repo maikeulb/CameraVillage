@@ -37,10 +37,10 @@
                   </div>
               </section>
               <section class="two wide column">$ @Math.Round(item.Quantity * item.UnitPrice, 2).ToString("N2")</section>
+              <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-productId="@item.Id">Remove</a>
             </article>
           </div>
 
-          <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-productId="@item.Id">Remove</a>
         }
 
       <div class="ui grid">
