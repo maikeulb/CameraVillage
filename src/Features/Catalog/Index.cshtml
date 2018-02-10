@@ -93,6 +93,9 @@
            contentType: contentTypeAttribute,
            success: function (data) {
             alert('cartComponentCalled');
+            new Noty({
+                text: 'Item Added To Cart'
+            }).setTimeout(2000).show();
             $('.cartstatus-badge').html(data.itemsCount);
            },
            error: function(xhr, ajaxOptions, thrownError){
