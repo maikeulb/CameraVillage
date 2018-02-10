@@ -34,6 +34,15 @@ namespace RolleiShop.Services
             await _basketRepository.UpdateAsync(basket);
         }
 
+        public async Task RemoveItemFromBasket(int basketId, int catalogItemId)
+        {
+            var basket = await _basketRepository.GetByIdAsync(basketId);
+
+            basket.RemoveItem(catalogItemId);
+
+            await _basketRepository.UpdateAsync(basket);
+        }
+
         public async Task DeleteBasketAsync(int basketId)
         {
             var basket = await _basketRepository.GetByIdAsync(basketId);

@@ -7,6 +7,7 @@ namespace RolleiShop.Services.Interfaces
     {
         Task<int> GetBasketItemCountAsync(string userName);
         Task AddItemToBasket(int basketId, int catalogItemId, decimal price, int quantity);
+        Task RemoveItemFromBasket(int basketId, int catalogItemId);
         Task SetQuantities(int basketId, Dictionary<string, int> quantities);
         Task DeleteBasketAsync(int basketId);
     }
