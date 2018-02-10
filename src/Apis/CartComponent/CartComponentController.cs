@@ -18,10 +18,10 @@ using RolleiShop.Features.Catalog;
 using RolleiShop.Features.Cart;
 using RolleiShop.Infra.App.Interfaces;
 
-namespace RolleiShop.Apis.Cart
+namespace RolleiShop.Apis.CartComponent
 {
     [Route ("api/[Controller]")]
-    public class CartController : Controller
+    public class CartComponentController : Controller
     {
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -31,7 +31,7 @@ namespace RolleiShop.Apis.Cart
         private readonly IRepository<CatalogItem> _itemRepository;
         private readonly IOrderService _orderService;
 
-        public CartController (
+        public CartComponentController (
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             ILogger<CartController> logger,
@@ -50,13 +50,11 @@ namespace RolleiShop.Apis.Cart
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToCart([FromBody] ProductViewModel  product)
+        public async Task<IActionResult> UpdateCart()
         {
-            var catalogItem = _itemRepository.GetById (product.ProductId);
-            var cartViewModel = await GetCartViewModelAsync();
-            await _cartService.AddItemToCart(cartViewModel.Id, catalogItem.Id, catalogItem.Price, 1);
-
-            return Ok();
+            var vm = new CartComponentViewModel();
+            vm.ItemsCount = (await GetCartViewModelAsync()).Items.Sum(i => i.Quantity);
+            return Ok(vm);
         }
 
         private async Task<CartViewModel> GetCartViewModelAsync()
@@ -84,8 +82,9 @@ namespace RolleiShop.Apis.Cart
 
     }
 
-    public class ProductViewModel
+    public class UpdateCartViewModel
     {
-        public int ProductId { get; set; }
+        public string UserName{ get; set; }
     }
+
 }

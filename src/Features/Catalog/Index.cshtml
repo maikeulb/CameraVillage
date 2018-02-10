@@ -61,10 +61,10 @@
       function addToCart (e) {
         button = $(e.target);
         var productId = button.attr("data-product-id");
-        addMessage(productId);
+        addToCartCall(productId);
       };
 
-      function addMessage(productId) {
+      function addToCartCall(productId) {
       var contentTypeAttribute = 'application/json';
       var dataAttribute = JSON.stringify({
         productId: productId
@@ -75,7 +75,25 @@
            contentType: contentTypeAttribute,
            data: dataAttribute,
            success: function (data) {
-            alert('item added')  
+            alert('item added');
+            updateCartCall();
+           },
+           error: function(xhr, ajaxOptions, thrownError){
+            alert('something went wrong')  
+           },
+        });
+      }
+
+      function updateCartCall(productId) {
+      var contentTypeAttribute = 'application/json';
+      var dataAttribute = JSON.stringify({});
+        $.ajax({
+           url: "/api/cartComponent/",
+           method: "POST",
+           contentType: contentTypeAttribute,
+           success: function (data) {
+            alert('cartComponentCalled');
+            $('.cartstatus-badge').html(data.itemsCount);
            },
            error: function(xhr, ajaxOptions, thrownError){
             alert('something went wrong')  
