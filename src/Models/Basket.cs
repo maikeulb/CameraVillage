@@ -31,7 +31,9 @@ namespace RolleiShop.Models.Entities
             if (!Items.Any(i => i.CatalogItemId == catalogItemId))
             {
                 /* _items = _items.Where(item => item.Id != id).ToList(); */
-                _items.Remove(_items.Where(item => item.Id == catalogItemId).First());
+                var item = _items.SingleOrDefault(x=>x.Id == catalogItemId);
+                if (item != null)
+                  _items.Remove(item);
                 return;
             }
         }

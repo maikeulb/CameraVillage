@@ -78,6 +78,20 @@ namespace RolleiShop.Features.Basket
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> RemoveFromBasket(int productId)
+        {
+            if (productId == null)
+            {
+                return RedirectToAction("Index", "Catalog");
+            }
+
+            var basketViewModel = await GetBasketViewModelAsync();
+
+            await _basketService.RemoveItemFromBasket(basketViewModel.Id, productId);
+
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Checkout(Dictionary<string, int> items)
         {

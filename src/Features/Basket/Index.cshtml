@@ -12,7 +12,7 @@
   {
     <form method="post">
 
-      <div class="ui  centered grid">
+      <div class="ui centered grid">
           <section class="four wide column"></section>
           <section class="three wide column">Product</section>
           <section class="two wide column">Price</section>
@@ -39,6 +39,8 @@
               <section class="two wide column">$ @Math.Round(item.Quantity * item.UnitPrice, 2).ToString("N2")</section>
             </article>
           </div>
+
+          <a asp-controller="Basket" asp-action="RemoveFromBasket" asp-route-productId="@item.Id">Remove</a>
         }
 
       <div class="ui grid">
@@ -48,12 +50,9 @@
             <article class="column">
             <br />
 
-            <button class="ui basic button" name="updatebutton" value="" type="submit"
-                    asp-action="">UPDATE</button>
+            <button class="ui basic button" name="updatebutton" value="" type="submit" asp-action="">UPDATE</button>
 
-            <input type="submit" asp-action="Checkout"
-                   class="ui basic primary button"
-                   value="CHECKOUT" name="action" />
+            <input type="submit" asp-action="Checkout" class="ui basic primary button" value="CHECKOUT" name="action" />
 
             </article>
           </div>
