@@ -14,41 +14,7 @@
       <span>$@Model.Price.ToString("N2")</span>
     </div>
  
-    <button id="@Model.Id" data-product-id="@Model.Id" class="add-to-cart">AddToCart</button>
+    <button id="product-item" data-product-id="@Model.Id" class="add-to-cart">AddToCart</button>
 
   </div>
-
-  <script>
-    $(document).ready(function () {
-      var button;
-
-      $("#@Model.Id").on("click", addToCart);
-
-      function addToCart (e) {
-          button = $(e.target);
-        var productId = button.attr("data-product-id");
-        addMessage(productId);
-      };
-
-      function addMessage(productId) {
-      var contentTypeAttribute = 'application/json';
-      var dataAttribute = JSON.stringify({
-        productId: productId
-      });
-        $.ajax({
-           url: "/api/cart/",
-           method: "POST",
-           contentType: contentTypeAttribute,
-           data: dataAttribute,
-           success: function (data) {
-            alert('it worked')  
-           },
-           error: function(xhr, ajaxOptions, thrownError){
-            alert('not_cool')  
-           },
-        });
-      }
-
-  });
-  </script>
 
