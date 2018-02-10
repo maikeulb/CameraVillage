@@ -52,15 +52,19 @@ namespace RolleiShop.Apis.Cart
         [HttpPost]
         public async Task<IActionResult> AddToCart([FromBody] ProductViewModel  product)
         {
-            _logger.LogInformation("*********************inside AddToCart");
-            _logger.LogInformation("productId {productId}", product.ProductId);
             var catalogItem = _itemRepository.GetById (product.ProductId);
-
             var cartViewModel = await GetCartViewModelAsync();
-
             await _cartService.AddItemToCart(cartViewModel.Id, catalogItem.Id, catalogItem.Price, 1);
 
             return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCart([FromBody] UpdateCartViewModel userName)
+        {
+            var vm = new CartComponentViewModel();
+            vm.ItemsCount = (await GetCartViewModelAsync()).Items.Sum(i => i.Quantity);
+            return Ok(vm);
         }
 
         private async Task<CartViewModel> GetCartViewModelAsync()
@@ -92,4 +96,10 @@ namespace RolleiShop.Apis.Cart
     {
         public int ProductId { get; set; }
     }
+
+    public class UpdateCartViewModel
+    {
+        public string UserName{ get; set; }
+    }
+
 }
