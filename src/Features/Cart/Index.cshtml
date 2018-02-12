@@ -18,6 +18,7 @@
           <section class="two wide column">Price</section>
           <section class="three wide column">Quantity</section>
           <section class="two wide column">Cost</section>
+          <section class="one wide column"></section>
       </div>
       <h4 class="ui divider"></h4>
 
@@ -37,7 +38,9 @@
                   </div>
               </section>
               <section class="two wide column">$ @Math.Round(item.Quantity * item.UnitPrice, 2).ToString("N2")</section>
-              <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-productId="@item.Id">Remove</a>
+              <section class="one wide column">
+                <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-productId="@item.Id">Remove</a>
+              </section>
             </article>
           </div>
 

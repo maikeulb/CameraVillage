@@ -4,36 +4,50 @@
 }
 
 
- <div class="ui main container">
-  <h2>@ViewData["Title"]</h2>
-    <div class="ui middle aligned stackable grid">
-        <div class="six wide column">
-            <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post"
-              class="ui form">
-                <h4>Create a new account.</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="field">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email">
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="field">
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password">
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="field">
-                    <label asp-for="ConfirmPassword"></label>
-                    <input asp-for="ConfirmPassword">
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div>
-                <button type="submit" class="ui button outlined">Register</button>
-            </form>
+<div class="ui main container">
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <h2 class="ui image header">
+        <div class="content">
+          Register an account
         </div>
+      </h2>
+      <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="ui large form">
+        <div class="ui stacked segment">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input asp-for="Email" type="text" name="email" placeholder="E-mail address">
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input asp-for="Password" type="password" name="password" placeholder="Password">
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input asp-for="ConfirmPassword" type="password" name="confirmpassword" placeholder="Password">
+            </div>
+          </div>
+
+          <div class="ui fluid large submit button">Register</div>
+        </div>
+        <div class="ui error message">
+          <span asp-validation-for="Email" class="text-danger"></span>
+          <span asp-validation-for="Password" class="text-danger"></span>
+          <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+          <span asp-validation-summary="All" class="text-danger"></span>
+        </div>
+      </form>
+      <div class="ui message">
+      <a asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]">Log-in
+        to your account</a>
+      </div>
     </div>
   </div>
-
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-}
+</div>
