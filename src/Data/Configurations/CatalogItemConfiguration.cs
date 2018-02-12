@@ -14,6 +14,9 @@ namespace RolleiShop.Data.Configurations
             builder.Property(ci => ci.Id)
                 .IsRequired();
 
+            builder.Property(ci => ci.CreatedDate)
+                .HasDefaultValueSql("now()");
+
             builder.Property(ci => ci.Name)
                 .IsRequired(true)
                 .HasMaxLength(50);
