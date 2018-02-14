@@ -4,15 +4,11 @@ using System.Text;
 using RolleiShop.Models.Entities;
 using RolleiShop.Services.Interfaces;
 
-namespace RolleiShop.Models.Entities.Buyer
+namespace RolleiShop.Models.Entities
 {
     public class Buyer : Entity
     {
         public string IdentityGuid { get; private set; }
-
-        private List<PaymentMethod> _paymentMethods = new List<PaymentMethod> ();
-
-        public IEnumerable<PaymentMethod> PaymentMethods => _paymentMethods.AsReadOnly ();
 
         protected Buyer () { }
 

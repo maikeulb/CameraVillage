@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using RolleiShop.Data.Context;
-using RolleiShop.Infra.App;
+using RolleiShop.Services;
+using RolleiShop.Services.Interfaces;
 using RolleiShop.Infra.Identity;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
@@ -22,20 +22,17 @@ namespace RolleiShop.Features.Catalog
     {
         private readonly ICatalogService _catalogService;
         private readonly IHostingEnvironment _environment;
-        private readonly IRepository<CatalogItem> _itemRepository;
         private readonly ApplicationDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public CatalogController (
             ICatalogService catalogService,
             SignInManager<ApplicationUser> signInManager,
-            IRepository<CatalogItem> itemRepository,
             IHostingEnvironment environment,
             ApplicationDbContext context)
         {
             _catalogService = catalogService;
             _signInManager = signInManager;
-            _itemRepository = itemRepository;
             _environment = environment;
             _context = context;
         }
@@ -52,9 +49,7 @@ namespace RolleiShop.Features.Catalog
         public IActionResult Details (int id)
         {
             if (id <= 0)
-            {
                 return BadRequest ();
-            }
 
             var catalogModel = _catalogService.GetCatalogDetailItem (id);
             if (catalogModel == null)
@@ -71,7 +66,7 @@ namespace RolleiShop.Features.Catalog
         [HttpPost]
         public async Task<IActionResult> Create (CatalogItemFormViewModel product)
         {
-            var uploadPath = Path.Combine (_environment.WebRootPath, "images/products"); //Magic String
+            var uploadPath = Path.Combine (_environment.WebRootPath, "images/products"); 
 
             var ImageName = ContentDispositionHeaderValue.Parse (product.ImageUpload.ContentDisposition).FileName.Trim ('"');
 
@@ -101,11 +96,9 @@ namespace RolleiShop.Features.Catalog
         public IActionResult Edit (int? id)
         {
             if (id == null)
-            {
                 return NotFound ();
-            }
 
-            var catalogItem = _itemRepository.GetById (id.Value); // add
+            var catalogItem = _context.Set<CatalogItem>().Find(id.Value);
 
             var vm = new CatalogItemEditFormViewModel
             {
@@ -116,9 +109,7 @@ namespace RolleiShop.Features.Catalog
             };
 
             if (vm == null)
-            {
                 return NotFound ();
-            }
 
             return View (vm);
         }
@@ -126,12 +117,10 @@ namespace RolleiShop.Features.Catalog
         [HttpPost]
         public async Task<IActionResult> Edit (CatalogItemEditFormViewModel product)
         {
-            var catalogItem = _itemRepository.GetById (product.Id);
+            var catalogItem = _context.Set<CatalogItem>().Find(product.Id);
 
             if (catalogItem == null)
-            {
                 return NotFound (new { Message = $"Item with id {product.Id} not found." });
-            }
 
             catalogItem.UpdateDetails (product);
             _context.CatalogItems.Update (catalogItem);

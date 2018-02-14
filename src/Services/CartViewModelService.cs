@@ -1,35 +1,33 @@
+using Microsoft.EntityFrameworkCore;
 using RolleiShop.Specifications;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
 using RolleiShop.Features.Cart;
-using RolleiShop.Infra.App.Interfaces;
+using RolleiShop.Services.Interfaces;
+using RolleiShop.Data.Context;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RolleiShop.Infra.App
+namespace RolleiShop.Services
 {
     public class CartViewModelService : ICartViewModelService
     {
         private readonly ILogger _logger;
-        private readonly IAsyncRepository<Cart> _cartRepository;
-        private readonly IRepository<CatalogItem> _itemRepository;
+        private readonly ApplicationDbContext _context;
 
-        public CartViewModelService(
-            ILogger<CartViewModelService> logger,
-            IAsyncRepository<Cart> cartRepository,
-            IRepository<CatalogItem> itemRepository)
+        public CartViewModelService(ApplicationDbContext context,
+            ILogger<CartViewModelService> logger)
         {
+            _context = context;
             _logger = logger;
-            _cartRepository = cartRepository;
-            _itemRepository = itemRepository;
         }
 
         public async Task<CartViewModel> GetOrCreateCartForUser(string userName)
         {
             var cartSpec = new CartWithItemsSpecification(userName);
-            var cart = (await _cartRepository.ListAsync(cartSpec)).FirstOrDefault();
+            var cart = (await ListAsync(cartSpec)).FirstOrDefault();
 
             if(cart == null)
             {
@@ -54,7 +52,7 @@ namespace RolleiShop.Infra.App
                     CatalogItemId = i.CatalogItemId
                 };
 
-                var item = _itemRepository.GetById(i.CatalogItemId);
+                var item = _context.Set<CatalogItem>().Find(i.CatalogItemId);
 
                 itemModel.ImageUrl = item.ImageUrl;
                 itemModel.ProductName = item.Name;
@@ -67,7 +65,9 @@ namespace RolleiShop.Infra.App
         private async Task<CartViewModel> CreateCartForUser(string userId)
         {
             var cart = new Cart() { BuyerId = userId };
-            await _cartRepository.AddAsync(cart);
+
+            _context.Set<Cart>().Add(cart);
+            await _context.SaveChangesAsync();
 
             return new CartViewModel()
             {
@@ -75,6 +75,19 @@ namespace RolleiShop.Infra.App
                 Id = cart.Id,
                 Items = new List<CartItemViewModel>()
             };
+        }
+
+        private async Task<List<Cart>> ListAsync(ISpecification<Cart> spec)
+        {
+            var queryableResultWithIncludes = spec.Includes
+                .Aggregate(_context.Set<Cart>().AsQueryable(),
+                    (current, include) => current.Include(include));
+            var secondaryResult = spec.IncludeStrings
+                .Aggregate(queryableResultWithIncludes,
+                    (current, include) => current.Include(include));
+            return await secondaryResult
+                            .Where(spec.Criteria)
+                            .ToListAsync();
         }
     }
 }

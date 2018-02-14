@@ -1,6 +1,5 @@
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Models.Entities;
-using RolleiShop.Models.Entities.Order;
 using RolleiShop.Models.Interfaces;
 using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
@@ -16,33 +15,29 @@ namespace RolleiShop.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IAsyncRepository<Order> _orderRepository;
-        private readonly IAsyncRepository<Cart> _cartRepository;
-        private readonly IAsyncRepository<CatalogItem> _itemRepository;
+        private readonly ApplicationDbContext _context;
 
-        public OrderService(IAsyncRepository<Cart> cartRepository,
-            IAsyncRepository<CatalogItem> itemRepository,
-            IAsyncRepository<Order> orderRepository)
+        public OrderService(ApplicationDbContext context)
         {
-            _orderRepository = orderRepository;
-            _cartRepository = cartRepository;
-            _itemRepository = itemRepository;
+            _context = context;
         }
 
         public async Task CreateOrderAsync(int cartId, Address shippingAddress)
         {
-            var cart = await _cartRepository.GetByIdAsync(cartId);
+            var cart = await _context.Set<Cart>().FindAsync(cartId);
+
             var items = new List<OrderItem>();
             foreach (var item in cart.Items)
             {
-                var catalogItem = await _itemRepository.GetByIdAsync(item.CatalogItemId);
+                var catalogItem = await _context.Set<CatalogItem>().FindAsync(item.CatalogItemId);
                 var itemOrdered = new CatalogItemOrdered(catalogItem.Id, catalogItem.Name, catalogItem.ImageUrl);
                 var orderItem = new OrderItem(itemOrdered, item.UnitPrice, item.Quantity);
                 items.Add(orderItem);
             }
             var order = new Order(cart.BuyerId, shippingAddress, items);
 
-            await _orderRepository.AddAsync(order);
+            _context.Set<Order>().Add(order);
+            await _context.SaveChangesAsync();
         }
     }
 }

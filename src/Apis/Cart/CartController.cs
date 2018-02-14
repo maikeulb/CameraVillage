@@ -10,14 +10,11 @@ using Microsoft.Extensions.Logging;
 using RolleiShop.Data.Context;
 using RolleiShop.Features.Cart;
 using RolleiShop.Features.Catalog;
-using RolleiShop.Infra.App;
-using RolleiShop.Infra.App.Interfaces;
+using RolleiShop.Services;
+using RolleiShop.Services.Interfaces;
 using RolleiShop.Infra.Identity;
 using RolleiShop.Models.Entities;
-using RolleiShop.Models.Entities;
-using RolleiShop.Models.Entities.Order;
 using RolleiShop.Models.Interfaces;
-using RolleiShop.Services.Interfaces;
 
 namespace RolleiShop.Apis.Cart
 {
@@ -29,16 +26,16 @@ namespace RolleiShop.Apis.Cart
         private readonly ICartService _cartService;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ICartViewModelService _cartViewModelService;
-        private readonly IRepository<CatalogItem> _itemRepository;
         private readonly IOrderService _orderService;
+        private readonly ApplicationDbContext _context;
 
         public CartController (
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
+            ApplicationDbContext context,
             ILogger<CartController> logger,
             ICartService cartService,
             IOrderService orderService,
-            IRepository<CatalogItem> itemRepository,
             ICartViewModelService cartViewModelService)
         {
             _userManager = userManager;
@@ -47,13 +44,13 @@ namespace RolleiShop.Apis.Cart
             _cartService = cartService;
             _orderService = orderService;
             _cartViewModelService = cartViewModelService;
-            _itemRepository = itemRepository;
+            _context = context;
         }
 
         [HttpPost]
         public async Task<IActionResult> AddToCart ([FromBody] ProductViewModel product)
         {
-            var catalogItem = _itemRepository.GetById (product.ProductId);
+            var catalogItem =  await _context.Set<CatalogItem>().FindAsync(product.ProductId);
             var cartViewModel = await GetCartViewModelAsync ();
             await _cartService.AddItemToCart (cartViewModel.Id, catalogItem.Id, catalogItem.Price, 1);
 

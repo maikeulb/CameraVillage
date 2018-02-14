@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
@@ -15,45 +16,46 @@ namespace RolleiShop.Services
 {
     public class CartService : ICartService
     {
-        private readonly IAsyncRepository<Cart> _cartRepository;
-        private readonly IRepository<CatalogItem> _itemRepository;
+        private readonly ApplicationDbContext _context;
 
-        public CartService(IAsyncRepository<Cart> cartRepository,
-            IRepository<CatalogItem> itemRepository)
+        public CartService(ApplicationDbContext context)
         {
-            _cartRepository = cartRepository;
-            _itemRepository = itemRepository;
+            _context = context;
         }
 
         public async Task AddItemToCart(int cartId, int catalogItemId, decimal price, int quantity)
         {
-            var cart = await _cartRepository.GetByIdAsync(cartId);
+            var cart = await _context.Set<Cart>().FindAsync(cartId);
 
             cart.AddItem(catalogItemId, price, quantity);
 
-            await _cartRepository.UpdateAsync(cart);
+            _context.Entry(cart).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
         }
 
         public async Task RemoveItemFromCart(int cartId, int catalogItemId)
         {
-            var cart = await _cartRepository.GetByIdAsync(cartId);
+            var cart = await _context.Set<Cart>().FindAsync(cartId);
 
             cart.RemoveItem(catalogItemId);
 
-            await _cartRepository.UpdateAsync(cart);
+            _context.Entry(cart).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteCartAsync(int cartId)
         {
-            var cart = await _cartRepository.GetByIdAsync(cartId);
+            var cart = await _context.Set<Cart>().FindAsync(cartId);
 
-            await _cartRepository.DeleteAsync(cart);
+            _context.Set<Cart>().Remove(cart);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<int> GetCartItemCountAsync(string userName)
         {
             var cartSpec = new CartWithItemsSpecification(userName);
-            var cart = (await _cartRepository.ListAsync(cartSpec)).FirstOrDefault();
+            var cart = (await ListAsync(cartSpec)).FirstOrDefault();
             if (cart == null)
                 return 0;
             int count = cart.Items.Sum(i => i.Quantity);
@@ -62,7 +64,7 @@ namespace RolleiShop.Services
 
         public async Task SetQuantities(int cartId, Dictionary<string, int> quantities)
         {
-            var cart = await _cartRepository.GetByIdAsync(cartId);
+            var cart = await _context.Set<Cart>().FindAsync(cartId);
             foreach (var item in cart.Items)
             {
                 if (quantities.TryGetValue(item.Id.ToString(), out var quantity))
@@ -70,7 +72,23 @@ namespace RolleiShop.Services
                     item.Quantity = quantity;
                 }
             }
-            await _cartRepository.UpdateAsync(cart);
+
+            _context.Entry(cart).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
+
+        private async Task<List<Cart>> ListAsync(ISpecification<Cart> spec)
+        {
+            var queryableResultWithIncludes = spec.Includes
+                .Aggregate(_context.Set<Cart>().AsQueryable(),
+                    (current, include) => current.Include(include));
+            var secondaryResult = spec.IncludeStrings
+                .Aggregate(queryableResultWithIncludes,
+                    (current, include) => current.Include(include));
+            return await secondaryResult
+                            .Where(spec.Criteria)
+                            .ToListAsync();
+        }
+
     }
 }

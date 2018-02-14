@@ -8,15 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using RolleiShop.Models.Entities;
-using RolleiShop.Models.Entities.Order;
 using RolleiShop.Models.Interfaces;
-using RolleiShop.Infra.App;
 using RolleiShop.Infra.Identity;
 using RolleiShop.Data.Context;
+using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Features.Catalog;
 using RolleiShop.Features.Cart;
-using RolleiShop.Infra.App.Interfaces;
 
 namespace RolleiShop.Apis.CartComponent
 {
@@ -28,7 +26,6 @@ namespace RolleiShop.Apis.CartComponent
         private readonly ICartService _cartService;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ICartViewModelService _cartViewModelService;
-        private readonly IRepository<CatalogItem> _itemRepository;
         private readonly IOrderService _orderService;
 
         public CartComponentController (
@@ -37,7 +34,6 @@ namespace RolleiShop.Apis.CartComponent
             ILogger<CartController> logger,
             ICartService cartService,
             IOrderService orderService,
-            IRepository<CatalogItem> itemRepository,
             ICartViewModelService cartViewModelService)
         {
             _userManager = userManager;
@@ -46,7 +42,6 @@ namespace RolleiShop.Apis.CartComponent
             _cartService = cartService;
             _orderService = orderService;
             _cartViewModelService = cartViewModelService;
-            _itemRepository = itemRepository;
         }
 
         [HttpPost]

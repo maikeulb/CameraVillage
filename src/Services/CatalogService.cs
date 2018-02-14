@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,37 +8,32 @@ using Microsoft.Extensions.Logging;
 using RolleiShop.Features.Catalog;
 using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
+using RolleiShop.Data.Context;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Specifications;
 
-namespace RolleiShop.Infra.App
+namespace RolleiShop.Services
 {
     public class CatalogService : ICatalogService
     {
         private readonly ILogger _logger;
-        private readonly IRepository<CatalogItem> _itemRepository;
-        private readonly IAsyncRepository<CatalogBrand> _brandRepository;
-        private readonly IAsyncRepository<CatalogType> _typeRepository;
+        private readonly ApplicationDbContext _context;
 
         public CatalogService (
             ILogger<CatalogService> logger,
-            IRepository<CatalogItem> itemRepository,
-            IAsyncRepository<CatalogBrand> brandRepository,
-            IAsyncRepository<CatalogType> typeRepository
+            ApplicationDbContext context
         )
         {
+            _context = context;
             _logger = logger;
-            _itemRepository = itemRepository;
-            _brandRepository = brandRepository;
-            _typeRepository = typeRepository;
         }
 
         public async Task<CatalogIndexViewModel> GetCatalogItems (int pageIndex, int itemsPage, int? brandId, int? typeId)
         {
             var filterSpecification = new CatalogFilterSpecification (brandId, typeId);
-            var root = _itemRepository.List (filterSpecification);
+            IEnumerable<CatalogItem> root = await ListAsync (filterSpecification);
             var totalItems = root.Count ();
             var itemsOnPage = root
                 .Skip (itemsPage * pageIndex)
@@ -77,7 +73,8 @@ namespace RolleiShop.Infra.App
         public CatalogDetailViewModel GetCatalogDetailItem (int catalogItemId)
         {
             _logger.LogInformation ("GetCatalogItem called.");
-            var catalogItem = _itemRepository.GetById (catalogItemId);
+
+            var catalogItem = _context.Set<CatalogItem>().Find(catalogItemId);
 
             var vm = new CatalogDetailViewModel
             {
@@ -94,7 +91,7 @@ namespace RolleiShop.Infra.App
         public async Task<IEnumerable<SelectListItem>> GetBrands ()
         {
             _logger.LogInformation ("GetBrands called.");
-            var brands = await _brandRepository.ListAllAsync ();
+            IEnumerable<CatalogBrand> brands = await _context.Set<CatalogBrand>().ToListAsync();
             var items = new List<SelectListItem>
             {
                 new SelectListItem () { Value = null, Text = "All", Selected = true }
@@ -110,7 +107,7 @@ namespace RolleiShop.Infra.App
         public async Task<IEnumerable<SelectListItem>> GetTypes ()
         {
             _logger.LogInformation ("GetTypes called.");
-            var types = await _typeRepository.ListAllAsync ();
+            IEnumerable<CatalogType> types  = await _context.Set<CatalogType>().ToListAsync();
             var items = new List<SelectListItem>
             {
                 new SelectListItem () { Value = null, Text = "All", Selected = true }
@@ -121,6 +118,19 @@ namespace RolleiShop.Infra.App
             }
 
             return items;
+        }
+
+        private async Task<List<CatalogItem>> ListAsync(ISpecification<CatalogItem> spec)
+        {
+            var queryableResultWithIncludes = spec.Includes
+                .Aggregate(_context.Set<CatalogItem>().AsQueryable(),
+                    (current, include) => current.Include(include));
+            var secondaryResult = spec.IncludeStrings
+                .Aggregate(queryableResultWithIncludes,
+                    (current, include) => current.Include(include));
+            return await secondaryResult
+                            .Where(spec.Criteria)
+                            .ToListAsync();
         }
     }
 }

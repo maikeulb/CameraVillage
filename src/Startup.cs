@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using FluentValidation.AspNetCore;
-using MediatR;
+﻿using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RolleiShop.Infra.Identity;
 using RolleiShop.Models.Interfaces;
-using RolleiShop.Data.Repositories;
 using RolleiShop.Data.Context;
 using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
@@ -31,7 +28,6 @@ namespace RolleiShop
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddDbContext<ApplicationDbContext> (options =>
                 options.UseNpgsql (Configuration.GetConnectionString ("RolleiShop")));
 
@@ -42,14 +38,10 @@ namespace RolleiShop
                 .AddEntityFrameworkStores<IdentityDbContext> ()
                 .AddDefaultTokenProviders ();
 
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
-
             services.AddScoped<ICatalogService, CatalogService>();
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<ICartViewModelService, CartViewModelService>();
             services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
 
             services.AddTransient<IEmailSender, EmailSender>();
 
@@ -70,8 +62,6 @@ namespace RolleiShop
                 .AddFeatureFolders ()
                 .AddFluentValidation (cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup> (); });
 
-            services.AddMediatR ();
-            services.AddAutoMapper ();
             Mapper.AssertConfigurationIsValid ();
         }
 

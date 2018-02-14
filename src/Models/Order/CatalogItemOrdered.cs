@@ -1,4 +1,4 @@
-namespace RolleiShop.Models.Entities.Order
+namespace RolleiShop.Models.Entities
 {
     public class CatalogItemOrdered 
     {

@@ -2,7 +2,7 @@ using RolleiShop.Features.Cart;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace RolleiShop.Infra.App.Interfaces
+namespace RolleiShop.Services.Interfaces
 {
     public interface ICartViewModelService
     {
