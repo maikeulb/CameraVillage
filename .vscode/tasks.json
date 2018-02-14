@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/CameraVillage.csproj"
+                "${workspaceFolder}/src/RolleiShop.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

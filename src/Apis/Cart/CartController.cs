@@ -1,22 +1,23 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http;
+using RolleiShop.Data.Context;
+using RolleiShop.Features.Cart;
+using RolleiShop.Features.Catalog;
+using RolleiShop.Infra.App;
+using RolleiShop.Infra.App.Interfaces;
+using RolleiShop.Infra.Identity;
+using RolleiShop.Models.Entities;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Entities.Order;
 using RolleiShop.Models.Interfaces;
-using RolleiShop.Infra.App;
-using RolleiShop.Infra.Identity;
-using RolleiShop.Data.Context;
 using RolleiShop.Services.Interfaces;
-using RolleiShop.Features.Catalog;
-using RolleiShop.Features.Cart;
-using RolleiShop.Infra.App.Interfaces;
 
 namespace RolleiShop.Apis.Cart
 {
@@ -50,35 +51,35 @@ namespace RolleiShop.Apis.Cart
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToCart([FromBody] ProductViewModel  product)
+        public async Task<IActionResult> AddToCart ([FromBody] ProductViewModel product)
         {
             var catalogItem = _itemRepository.GetById (product.ProductId);
-            var cartViewModel = await GetCartViewModelAsync();
-            await _cartService.AddItemToCart(cartViewModel.Id, catalogItem.Id, catalogItem.Price, 1);
+            var cartViewModel = await GetCartViewModelAsync ();
+            await _cartService.AddItemToCart (cartViewModel.Id, catalogItem.Id, catalogItem.Price, 1);
 
-            return Ok();
+            return Ok ();
         }
 
-        private async Task<CartViewModel> GetCartViewModelAsync()
+        private async Task<CartViewModel> GetCartViewModelAsync ()
         {
-            if (_signInManager.IsSignedIn(User))
+            if (_signInManager.IsSignedIn (User))
             {
-                return await _cartViewModelService.GetOrCreateCartForUser(User.Identity.Name);
+                return await _cartViewModelService.GetOrCreateCartForUser (User.Identity.Name);
             }
-            string anonymousId = GetOrSetCartCookie();
-            return await _cartViewModelService.GetOrCreateCartForUser(anonymousId);
+            string anonymousId = GetOrSetCartCookie ();
+            return await _cartViewModelService.GetOrCreateCartForUser (anonymousId);
         }
 
-        private string GetOrSetCartCookie()
+        private string GetOrSetCartCookie ()
         {
-            if (Request.Cookies.ContainsKey("RolleiShop"))
+            if (Request.Cookies.ContainsKey ("RolleiShop"))
             {
                 return Request.Cookies["RolleiShop"];
             }
-            string anonymousId = Guid.NewGuid().ToString();
-            var cookieOptions = new CookieOptions();
-            cookieOptions.Expires = DateTime.Today.AddYears(10);
-            Response.Cookies.Append("RolleiShop", anonymousId, cookieOptions);
+            string anonymousId = Guid.NewGuid ().ToString ();
+            var cookieOptions = new CookieOptions ();
+            cookieOptions.Expires = DateTime.Today.AddYears (10);
+            Response.Cookies.Append ("RolleiShop", anonymousId, cookieOptions);
             return anonymousId;
         }
 
