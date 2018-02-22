@@ -139,14 +139,10 @@ namespace RolleiShop.Features.Cart
     /*     public string ImageUrl { get; set; } */
     /* } */
 
-    public class CartComponentViewModel
-    {
-        public int ItemsCount { get; set; }
-    }
+    /* public class ProductDetailsViewModel */
+    /* { */
+    /*     public int Id { get; set; } */
+    /*     public decimal Price { get; set; } */
+    /* } */
 
-    public class ProductDetailsViewModel
-    {
-        public int Id { get; set; }
-        public decimal Price { get; set; }
-    }
 }

@@ -48,4 +48,9 @@ namespace RolleiShop.ViewComponents
             return null;
         }
     }
+
+    public class CartComponentViewModel
+    {
+        public int ItemsCount { get; set; }
+    }
 }

@@ -15,6 +15,7 @@ using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Features.Catalog;
 using RolleiShop.Features.Cart;
+using RolleiShop.ViewComponents;
 
 namespace RolleiShop.Apis.CartComponent
 {
