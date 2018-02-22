@@ -57,7 +57,7 @@ namespace RolleiShop.Apis.Cart
             return Ok ();
         }
 
-        private async Task<CartViewModel> GetCartViewModelAsync ()
+        private async Task<GetCart.Result> GetCartViewModelAsync ()
         {
             if (_signInManager.IsSignedIn (User))
             {

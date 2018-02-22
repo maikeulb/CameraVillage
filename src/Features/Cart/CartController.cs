@@ -64,27 +64,27 @@ namespace RolleiShop.Features.Cart
             return View(await GetCartViewModelAsync());
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddToCart(Catalog.Index.Result.CatalogItem productDetails)
-        {
-            if (productDetails?.Id == null)
-                return RedirectToAction("Index", "Catalog");
+        /* [HttpPost] */
+        /* public async Task<IActionResult> AddToCart(Catalog.Index.Result.CatalogItem productDetails) */
+        /* { */
+        /*     if (productDetails?.Id == null) */
+        /*         return RedirectToAction("Index", "Catalog"); */
 
-            var catalogItem = _context.Set<CatalogItem>().Find(productDetails.Id);
-            var cartViewModel = await GetCartViewModelAsync();
-            await _cartService.AddItemToCart(cartViewModel.Id, catalogItem.Id, catalogItem.Price, 1);
-            return RedirectToAction("Index");
-        }
+        /*     var catalogItem = _context.Set<CatalogItem>().Find(productDetails.Id); */
+        /*     var cartViewModel = await GetCartViewModelAsync(); */
+        /*     await _cartService.AddItemToCart(cartViewModel.Id, catalogItem.Id, catalogItem.Price, 1); */
+        /*     return RedirectToAction("Index"); */
+        /* } */
 
-        public async Task<IActionResult> RemoveFromCart(int productId)
-        {
-            if (productId == null)
-                return RedirectToAction("Index", "Catalog");
+        /* public async Task<IActionResult> RemoveFromCart(int productId) */
+        /* { */
+        /*     if (productId == null) */
+        /*         return RedirectToAction("Index", "Catalog"); */
 
-            var cartViewModel = await GetCartViewModelAsync();
-            await _cartService.RemoveItemFromCart(cartViewModel.Id, productId);
-            return RedirectToAction("Index");
-        }
+            /* var cartViewModel = await GetCartViewModelAsync(); */
+            /* await _cartService.RemoveItemFromCart(cartViewModel.Id, productId); */
+            /* return RedirectToAction("Index"); */
+        /* } */
 
         [HttpPost]
         public async Task<IActionResult> Checkout(Checkout.Command command)
@@ -96,13 +96,12 @@ namespace RolleiShop.Features.Cart
             return View();
         }
 
-        private async Task<CartViewModel> GetCartViewModelAsync()
+        private async Task<GetCart.Result> GetCartViewModelAsync()
         {
             if (_signInManager.IsSignedIn(User))
-                return await _cartViewModelService.GetOrCreateCartForUser(User.Identity.Name);
+                return await _mediator.Send(new GetCart.Query() { Name = User.Identity.Name });
 
-            string anonymousId = GetOrSetCartCookie();
-            return await _cartViewModelService.GetOrCreateCartForUser(anonymousId);
+            return await _mediator.Send(new GetCart.Query() { Name = GetOrSetCartCookie()});
         }
 
         private string GetOrSetCartCookie()
@@ -118,27 +117,27 @@ namespace RolleiShop.Features.Cart
         }
     }
 
-    public class CartViewModel
-    {
-        public int Id { get; set; }
-        public List<CartItemViewModel> Items { get; set; } = new List<CartItemViewModel>();
-        public string BuyerId { get; set; }
-        public decimal Total()
-        {
-            return Math.Round(Items.Sum(x => x.UnitPrice * x.Quantity), 2);
-        }
-    }
+    /* public class CartViewModel */
+    /* { */
+    /*     public int Id { get; set; } */
+    /*     public List<CartItemViewModel> Items { get; set; } = new List<CartItemViewModel>(); */
+    /*     public string BuyerId { get; set; } */
+    /*     public decimal Total() */
+    /*     { */
+    /*         return Math.Round(Items.Sum(x => x.UnitPrice * x.Quantity), 2); */
+    /*     } */
+    /* } */
 
-    public class CartItemViewModel
-    {
-        public int Id { get; set; }
-        public int CatalogItemId { get; set; }
-        public string ProductName { get; set; }
-        public decimal UnitPrice { get; set; }
-        public decimal OldUnitPrice { get; set; }
-        public int Quantity { get; set; }
-        public string ImageUrl { get; set; }
-    }
+    /* public class CartItemViewModel */
+    /* { */
+    /*     public int Id { get; set; } */
+    /*     public int CatalogItemId { get; set; } */
+    /*     public string ProductName { get; set; } */
+    /*     public decimal UnitPrice { get; set; } */
+    /*     public decimal OldUnitPrice { get; set; } */
+    /*     public int Quantity { get; set; } */
+    /*     public string ImageUrl { get; set; } */
+    /* } */
 
     public class CartComponentViewModel
     {

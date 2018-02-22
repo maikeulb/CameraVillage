@@ -24,7 +24,7 @@ namespace RolleiShop.Services
             _logger = logger;
         }
 
-        public async Task<CartViewModel> GetOrCreateCartForUser(string userName)
+        public async Task<GetCart.Result> GetOrCreateCartForUser(string userName)
         {
             var cartSpec = new CartWithItemsSpecification(userName);
             var cart = (await ListAsync(cartSpec)).FirstOrDefault();
@@ -36,15 +36,15 @@ namespace RolleiShop.Services
             return CreateViewModelFromCart(cart);
         }
 
-        private CartViewModel CreateViewModelFromCart(Cart cart)
+        private GetCart.Result CreateViewModelFromCart(Cart cart)
         {
-            var viewModel = new CartViewModel();
+            var viewModel = new GetCart.Result();
 
             viewModel.Id = cart.Id;
             viewModel.BuyerId = cart.BuyerId;
             viewModel.Items = cart.Items.Select(i =>
             {
-                var itemModel = new CartItemViewModel()
+                var itemModel = new GetCart.Result.CartItem()
                 {
                     Id = i.Id,
                     UnitPrice = i.UnitPrice,
@@ -62,18 +62,18 @@ namespace RolleiShop.Services
             return viewModel;
         }
 
-        private async Task<CartViewModel> CreateCartForUser(string userId)
+        private async Task<GetCart.Result> CreateCartForUser(string userId)
         {
             var cart = new Cart() { BuyerId = userId };
 
             _context.Set<Cart>().Add(cart);
             await _context.SaveChangesAsync();
 
-            return new CartViewModel()
+            return new GetCart.Result()
             {
                 BuyerId = cart.BuyerId,
                 Id = cart.Id,
-                Items = new List<CartItemViewModel>()
+                Items = new List<GetCart.Result.CartItem>()
             };
         }
 

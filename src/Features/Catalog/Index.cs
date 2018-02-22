@@ -95,7 +95,7 @@ namespace RolleiShop.Features.Catalog
                     Types = await GetTypes (),
                     BrandFilterApplied = brandId ?? 0,
                     TypesFilterApplied = typeId ?? 0,
-                    PaginationInfo = new PaginationInfoViewModel ()
+                    PaginationInfo = new Result.PaginationInfoViewModel ()
                     {
                         ActualPage = pageIndex,
                         ItemsPerPage = itemsOnPage.Count,

@@ -6,6 +6,6 @@ namespace RolleiShop.Services.Interfaces
 {
     public interface ICartViewModelService
     {
-        Task<CartViewModel> GetOrCreateCartForUser(string userName);
+        Task<GetCart.Result> GetOrCreateCartForUser(string userName);
     }
 }

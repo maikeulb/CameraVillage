@@ -28,14 +28,14 @@ namespace RolleiShop.ViewComponents
             return View(vm);
         }
 
-        private async Task<CartViewModel> GetCartViewModelAsync()
+        private async Task<GetCart.Result> GetCartViewModelAsync()
         {
             if (_signInManager.IsSignedIn(HttpContext.User))
             {
                 return await _cartService.GetOrCreateCartForUser(User.Identity.Name);
             }
             string anonymousId = GetCartIdFromCookie();
-            if (anonymousId == null) return new CartViewModel();
+            if (anonymousId == null) return new GetCart.Result();
             return await _cartService.GetOrCreateCartForUser(anonymousId);
         }
 
