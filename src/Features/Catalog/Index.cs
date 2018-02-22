@@ -16,7 +16,6 @@ using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
 using RolleiShop.Specifications;
 
-
 namespace RolleiShop.Features.Catalog
 {
     public class Index
@@ -137,7 +136,6 @@ namespace RolleiShop.Features.Catalog
                                 .Where(spec.Criteria)
                                 .ToListAsync();
             }
-
         }
     }
 }

@@ -5,6 +5,7 @@ using RolleiShop.Infra.Identity;
 using RolleiShop.Data.Context;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Features.Catalog;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
@@ -25,9 +26,11 @@ namespace RolleiShop.Features.Cart
         private readonly ApplicationDbContext _context;
         private readonly ICartViewModelService _cartViewModelService;
         private readonly IOrderService _orderService;
+        private readonly IMediator _mediator;
 
         public CartController(
             SignInManager<ApplicationUser> signInManager,
+            IMediator mediator,
             ILogger<CartController> logger,
             ICartService cartService,
             IOrderService orderService,
@@ -38,6 +41,7 @@ namespace RolleiShop.Features.Cart
             _signInManager = signInManager;
             _cartService = cartService;
             _orderService = orderService;
+            _mediator = mediator;
             _context = context;
             _cartViewModelService = cartViewModelService;
         }
@@ -46,14 +50,17 @@ namespace RolleiShop.Features.Cart
         public async Task<IActionResult> Index()
         {
             var cartModel = await GetCartViewModelAsync();
+
             return View(cartModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(Dictionary<string, int> items)
+        public async Task<IActionResult> Index(Index.Command command)
         {
             var cartViewModel = await GetCartViewModelAsync();
-            await _cartService.SetQuantities(cartViewModel.Id, items);
+            command.CartId = cartViewModel.Id;
+            await _mediator.Send(command);
+
             return View(await GetCartViewModelAsync());
         }
 
@@ -80,12 +87,12 @@ namespace RolleiShop.Features.Cart
         }
 
         [HttpPost]
-        public async Task<IActionResult> Checkout(Dictionary<string, int> items)
+        public async Task<IActionResult> Checkout(Checkout.Command command)
         {
             var cartViewModel = await GetCartViewModelAsync();
-            await _cartService.SetQuantities(cartViewModel.Id, items);
-            await _orderService.CreateOrderAsync(cartViewModel.Id, new Address("123 Main St.", "Kent", "OH", "United States", "44240"));
-            await _cartService.DeleteCartAsync(cartViewModel.Id);
+            command.CartId = cartViewModel.Id;
+            await _mediator.Send(command);
+
             return View();
         }
 
