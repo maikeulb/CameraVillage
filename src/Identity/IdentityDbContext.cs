@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace RolleiShop.Infra.Identity
+namespace RolleiShop.Identity
 {
     public class IdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentityDbContext
     {

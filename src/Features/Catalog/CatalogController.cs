@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using RolleiShop.Data.Context;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
-using RolleiShop.Infra.Identity;
+using RolleiShop.Identity;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
 using RolleiShop.Infra.App.Interfaces;

@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
-using RolleiShop.Infra.Identity;
+using RolleiShop.Identity;
 using RolleiShop.Data.Context;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;

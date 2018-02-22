@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RolleiShop.Features.Cart;
-using RolleiShop.Infra.Identity;
+using RolleiShop.Identity;
 using RolleiShop.Services.Interfaces;
 using System.Linq;
 using System.Threading.Tasks;

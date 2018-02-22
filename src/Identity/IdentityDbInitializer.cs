@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
-namespace RolleiShop.Infra.Identity
+namespace RolleiShop.Identity
 {
     public class IdentityDbInitializer
     {

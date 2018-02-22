@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using RolleiShop.Features.Account.AccountViewModels;
 using RolleiShop.Features.Home;
 using RolleiShop.Infra.App;
-using RolleiShop.Infra.Identity;
+using RolleiShop.Identity;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;

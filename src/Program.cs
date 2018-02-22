@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RolleiShop.Models.Entities;
 using RolleiShop.Data.Seed;
 using RolleiShop.Data.Context;
-using RolleiShop.Infra.Identity;
+using RolleiShop.Identity;
 
 namespace RolleiShop
 {

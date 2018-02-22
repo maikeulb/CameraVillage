@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace RolleiShop.Infra.Identity
+namespace RolleiShop.Identity
 {
     public interface IIdentityDbContext
     {

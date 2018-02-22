@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using RolleiShop.Infra.Identity;
+using RolleiShop.Identity;
 
 namespace RolleiShop.Features.Home
 {

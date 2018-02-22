@@ -12,7 +12,7 @@ using RolleiShop.Features.Cart;
 using RolleiShop.Features.Catalog;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
-using RolleiShop.Infra.Identity;
+using RolleiShop.Identity;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
 

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using RolleiShop.Infra.Identity;
+using RolleiShop.Identity;
 using RolleiShop.Infra.App;
 using RolleiShop.Features.Manage.ManageViewModels;
 
