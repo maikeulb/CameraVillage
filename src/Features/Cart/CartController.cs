@@ -65,7 +65,7 @@ namespace RolleiShop.Features.Cart
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToCart(CatalogItemViewModel productDetails)
+        public async Task<IActionResult> AddToCart(Catalog.Index.Result.CatalogItem productDetails)
         {
             if (productDetails?.Id == null)
                 return RedirectToAction("Index", "Catalog");
@@ -116,7 +116,6 @@ namespace RolleiShop.Features.Cart
             Response.Cookies.Append("RolleiShop", anonymousId, cookieOptions);
             return anonymousId;
         }
-
     }
 
     public class CartViewModel

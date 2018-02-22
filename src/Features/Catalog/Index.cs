@@ -29,12 +29,20 @@ namespace RolleiShop.Features.Catalog
 
         public class Result
         {
-            public IEnumerable<CatalogItemViewModel> CatalogItems { get; set; }
+            public IEnumerable<CatalogItem> CatalogItems { get; set; }
             public IEnumerable<SelectListItem> Brands { get; set; }
             public IEnumerable<SelectListItem> Types { get; set; }
             public int? BrandFilterApplied { get; set; }
             public int? TypesFilterApplied { get; set; }
             public PaginationInfoViewModel PaginationInfo { get; set; }
+
+                public class CatalogItem
+                {
+                    public int Id { get; set; }
+                    public string Name { get; set; }
+                    public string ImageUrl { get; set; }
+                    public decimal Price { get; set; }
+                }
         }
 
         public class Handler : AsyncRequestHandler<Query, Result>
@@ -66,7 +74,7 @@ namespace RolleiShop.Features.Catalog
 
                 var result = new Result ()
                 {
-                    CatalogItems = itemsOnPage.Select (i => new CatalogItemViewModel ()
+                    CatalogItems = itemsOnPage.Select (i => new Result.CatalogItem ()
                     {
                         Id = i.Id,
                         Name = i.Name,

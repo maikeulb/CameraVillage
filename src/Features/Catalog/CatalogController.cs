@@ -135,13 +135,13 @@ namespace RolleiShop.Features.Catalog
         }
     }
 
-    public class CatalogItemViewModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string ImageUrl { get; set; }
-        public decimal Price { get; set; }
-    }
+    /* public class CatalogItemViewModel */
+    /* { */
+    /*     public int Id { get; set; } */
+    /*     public string Name { get; set; } */
+    /*     public string ImageUrl { get; set; } */
+    /*     public decimal Price { get; set; } */
+    /* } */
 
     public class PaginationInfoViewModel
     {

@@ -15,13 +15,11 @@ namespace RolleiShop.Models.Entities
             _orderItems = items;
             BuyerId = buyerId;
         }
-        public string BuyerId { get; private set; }
 
+        public string BuyerId { get; private set; }
         public DateTimeOffset OrderDate { get; private set; } = DateTimeOffset.Now;
         public Address ShipToAddress { get; private set; }
-
         private readonly List<OrderItem> _orderItems = new List<OrderItem>();
-
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
 
         public decimal Total()

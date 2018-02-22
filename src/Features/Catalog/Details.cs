@@ -16,12 +16,12 @@ namespace RolleiShop.Features.Catalog
 {
     public class Details
     {
-        public class Query : IRequest<Model>
+        public class Query : IRequest<Result>
         {
             public int Id { get; set; }
         }
 
-        public class Model
+        public class Result
         {
             public int Id { get; set; }
             public string Name { get; set; }
@@ -30,7 +30,7 @@ namespace RolleiShop.Features.Catalog
             public decimal Price { get; set; }
         }
 
-        public class Handler : AsyncRequestHandler<Query, Model>
+        public class Handler : AsyncRequestHandler<Query, Result>
         {
             private readonly ICatalogService _catalogService;
 
@@ -39,7 +39,7 @@ namespace RolleiShop.Features.Catalog
                 _catalogService = catalogService;
             }
 
-            protected override async Task<Model> HandleCore(Query message)
+            protected override async Task<Result> HandleCore(Query message)
             {
 
                 /* if (id <= 0) */
