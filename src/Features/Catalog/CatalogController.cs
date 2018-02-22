@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MediatR;
 using System.IO;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -24,38 +25,56 @@ namespace RolleiShop.Features.Catalog
         private readonly IHostingEnvironment _environment;
         private readonly ApplicationDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IMediator _mediator;
 
         public CatalogController (
             ICatalogService catalogService,
             SignInManager<ApplicationUser> signInManager,
             IHostingEnvironment environment,
+            IMediator mediator,
             ApplicationDbContext context)
         {
             _catalogService = catalogService;
             _signInManager = signInManager;
             _environment = environment;
             _context = context;
+            _mediator = mediator;
         }
+
+        /* public async Task<IActionResult> Index (int? brandFilterApplied, int? typesFilterApplied, int? page) */
+        /* { */
+        /*     var itemsPage = 10; */
+        /*     var catalogModel = await _catalogService.GetCatalogItems (page ?? , itemsPage, brandFilterApplied, typesFilterApplied); */
+        /*     return View (catalogModel); */
+        /* } */
 
         [HttpGet]
         [HttpPost]
-        public async Task<IActionResult> Index (int? brandFilterApplied, int? typesFilterApplied, int? page)
+        public async Task<IActionResult> Index(Index.Query query)
         {
-            var itemsPage = 10;
-            var catalogModel = await _catalogService.GetCatalogItems (page ?? 0, itemsPage, brandFilterApplied, typesFilterApplied);
-            return View (catalogModel);
+            var model = await _mediator.Send(query);
+            return View(model);
         }
 
-        public IActionResult Details (int id)
+        /* public IActionResult Details (int id) */
+        /* { */
+
+        /*     if (id <= 0) */
+        /*         return BadRequest (); */
+
+        /*     var catalogModel = _catalogService.GetCatalogDetailItem (id); */
+        /*     if (catalogModel == null) */
+        /*         return NotFound (); */
+
+        /*     return View (catalogModel); */
+
+        /* } */
+
+        public async Task<IActionResult> Details (Details.Query query)
         {
-            if (id <= 0)
-                return BadRequest ();
+            var model = await _mediator.Send(query);
 
-            var catalogModel = _catalogService.GetCatalogDetailItem (id);
-            if (catalogModel == null)
-                return NotFound ();
-
-            return View (catalogModel);
+            return View(model);
         }
 
         public IActionResult Create ()

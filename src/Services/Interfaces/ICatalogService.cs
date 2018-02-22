@@ -7,8 +7,8 @@ namespace RolleiShop.Infra.App.Interfaces
 {
     public interface ICatalogService
     {
-        Task<CatalogIndexViewModel> GetCatalogItems(int pageIndex, int itemsPage, int? brandId, int? typeId);
-        CatalogDetailViewModel GetCatalogDetailItem(int catalogItemId);
+        Task<Index.Result> GetCatalogItems(int pageIndex, int itemsPage, int? brandId, int? typeId);
+        Task<Details.Model> GetCatalogDetailItem(int catalogItemId);
         Task<IEnumerable<SelectListItem>> GetBrands();
         Task<IEnumerable<SelectListItem>> GetTypes();
     }

@@ -30,7 +30,7 @@ namespace RolleiShop.Services
             _logger = logger;
         }
 
-        public async Task<CatalogIndexViewModel> GetCatalogItems (int pageIndex, int itemsPage, int? brandId, int? typeId)
+        public async Task<Index.Result> GetCatalogItems (int pageIndex, int itemsPage, int? brandId, int? typeId)
         {
             var filterSpecification = new CatalogFilterSpecification (brandId, typeId);
             IEnumerable<CatalogItem> root = await ListAsync (filterSpecification);
@@ -40,7 +40,7 @@ namespace RolleiShop.Services
                 .Take (itemsPage)
                 .ToList ();
 
-            var vm = new CatalogIndexViewModel ()
+            var vm = new Index.Result ()
             {
                 CatalogItems = itemsOnPage.Select (i => new CatalogItemViewModel ()
                 {
@@ -70,13 +70,11 @@ namespace RolleiShop.Services
             return vm;
         }
 
-        public CatalogDetailViewModel GetCatalogDetailItem (int catalogItemId)
+        public async Task<Details.Model> GetCatalogDetailItem (int catalogItemId)
         {
-            _logger.LogInformation ("GetCatalogItem called.");
+            var catalogItem = await _context.Set<CatalogItem>().FindAsync(catalogItemId);
 
-            var catalogItem = _context.Set<CatalogItem>().Find(catalogItemId);
-
-            var vm = new CatalogDetailViewModel
+            var vm = new Details.Model
             {
                 Id = catalogItem.Id,
                 Name = catalogItem.Name,

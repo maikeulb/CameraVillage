@@ -35,7 +35,6 @@ namespace RolleiShop
                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                    var identityDbInitializerLogger = services.GetRequiredService<ILogger<IdentityDbInitializer>>();
                    IdentityDbInitializer.Initialize(userManager).Wait();
-
                }
                catch (Exception ex)
                {

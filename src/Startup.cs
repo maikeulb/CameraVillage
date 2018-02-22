@@ -1,4 +1,5 @@
 ﻿using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -62,7 +63,7 @@ namespace RolleiShop
                 .AddFeatureFolders ()
                 .AddFluentValidation (cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup> (); });
 
-            Mapper.AssertConfigurationIsValid ();
+            services.AddMediatR(typeof(Startup));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
