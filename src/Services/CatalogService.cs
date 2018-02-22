@@ -30,45 +30,46 @@ namespace RolleiShop.Services
             _logger = logger;
         }
 
-        public async Task<Index.Result> GetCatalogItems (int pageIndex, int itemsPage, int? brandId, int? typeId)
-        {
-            var filterSpecification = new CatalogFilterSpecification (brandId, typeId);
-            IEnumerable<CatalogItem> root = await ListAsync (filterSpecification);
-            var totalItems = root.Count ();
-            var itemsOnPage = root
-                .Skip (itemsPage * pageIndex)
-                .Take (itemsPage)
-                .ToList ();
+        /* public async Task<Index.Result> GetCatalogItems (int pageIndex, int itemsPage, int? brandId, int? typeId) */
+        /* { */
 
-            var vm = new Index.Result ()
-            {
-                CatalogItems = itemsOnPage.Select (i => new CatalogItemViewModel ()
-                {
-                Id = i.Id,
-                Name = i.Name,
-                ImageUrl = i.ImageUrl,
-                Price = i.Price
-                }),
-                Brands = await GetBrands (),
-                Types = await GetTypes (),
-                BrandFilterApplied = brandId ?? 0,
-                TypesFilterApplied = typeId ?? 0,
-                PaginationInfo = new PaginationInfoViewModel ()
-                {
-                ActualPage = pageIndex,
-                ItemsPerPage = itemsOnPage.Count,
-                TotalItems = totalItems,
-                TotalPages = int.Parse (Math.Ceiling (((decimal) totalItems / itemsPage)).ToString ())
-                }
-            };
+        /*     var filterSpecification = new CatalogFilterSpecification (brandId, typeId); */
+        /*     IEnumerable<CatalogItem> root = await ListAsync (filterSpecification); */
+        /*     var totalItems = root.Count (); */
+        /*     var itemsOnPage = root */
+        /*         .Skip (itemsPage * pageIndex) */
+        /*         .Take (itemsPage) */
+        /*         .ToList (); */
 
-            foreach (var vmimg in vm.CatalogItems)
-            { }
-            vm.PaginationInfo.Next = (vm.PaginationInfo.ActualPage == vm.PaginationInfo.TotalPages - 1) ? "is-disabled" : "";
-            vm.PaginationInfo.Previous = (vm.PaginationInfo.ActualPage == 0) ? "is-disabled" : "";
+        /*     var vm = new Index.Result () */
+        /*     { */
+        /*         CatalogItems = itemsOnPage.Select (i => new CatalogItemViewModel () */
+        /*         { */
+        /*             Id = i.Id, */
+        /*             Name = i.Name, */
+        /*             ImageUrl = i.ImageUrl, */
+        /*             Price = i.Price */
+        /*         }), */
+        /*         Brands = await GetBrands (), */
+        /*         Types = await GetTypes (), */
+        /*         BrandFilterApplied = brandId ?? 0, */
+        /*         TypesFilterApplied = typeId ?? 0, */
+        /*         PaginationInfo = new PaginationInfoViewModel () */
+        /*         { */
+        /*             ActualPage = pageIndex, */
+        /*             ItemsPerPage = itemsOnPage.Count, */
+        /*             TotalItems = totalItems, */
+        /*             TotalPages = int.Parse (Math.Ceiling (((decimal) totalItems / itemsPage)).ToString ()) */
+        /*         } */
+        /*     }; */
 
-            return vm;
-        }
+        /*     foreach (var vmimg in vm.CatalogItems) */
+        /*     { } */
+        /*     vm.PaginationInfo.Next = (vm.PaginationInfo.ActualPage == vm.PaginationInfo.TotalPages - 1) ? "is-disabled" : ""; */
+        /*     vm.PaginationInfo.Previous = (vm.PaginationInfo.ActualPage == 0) ? "is-disabled" : ""; */
+
+        /*     return vm; */
+        /* } */
 
         public async Task<Details.Model> GetCatalogDetailItem (int catalogItemId)
         {
@@ -130,5 +131,6 @@ namespace RolleiShop.Services
                             .Where(spec.Criteria)
                             .ToListAsync();
         }
+
     }
 }

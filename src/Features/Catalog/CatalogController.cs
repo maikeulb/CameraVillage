@@ -41,13 +41,6 @@ namespace RolleiShop.Features.Catalog
             _mediator = mediator;
         }
 
-        /* public async Task<IActionResult> Index (int? brandFilterApplied, int? typesFilterApplied, int? page) */
-        /* { */
-        /*     var itemsPage = 10; */
-        /*     var catalogModel = await _catalogService.GetCatalogItems (page ?? , itemsPage, brandFilterApplied, typesFilterApplied); */
-        /*     return View (catalogModel); */
-        /* } */
-
         [HttpGet]
         [HttpPost]
         public async Task<IActionResult> Index(Index.Query query)
@@ -55,20 +48,6 @@ namespace RolleiShop.Features.Catalog
             var model = await _mediator.Send(query);
             return View(model);
         }
-
-        /* public IActionResult Details (int id) */
-        /* { */
-
-        /*     if (id <= 0) */
-        /*         return BadRequest (); */
-
-        /*     var catalogModel = _catalogService.GetCatalogDetailItem (id); */
-        /*     if (catalogModel == null) */
-        /*         return NotFound (); */
-
-        /*     return View (catalogModel); */
-
-        /* } */
 
         public async Task<IActionResult> Details (Details.Query query)
         {
@@ -153,25 +132,6 @@ namespace RolleiShop.Features.Catalog
         {
             return View ();
         }
-    }
-
-    public class CatalogIndexViewModel
-    {
-        public IEnumerable<CatalogItemViewModel> CatalogItems { get; set; }
-        public IEnumerable<SelectListItem> Brands { get; set; }
-        public IEnumerable<SelectListItem> Types { get; set; }
-        public int? BrandFilterApplied { get; set; }
-        public int? TypesFilterApplied { get; set; }
-        public PaginationInfoViewModel PaginationInfo { get; set; }
-    }
-
-    public class CatalogDetailViewModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string ImageUrl { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
     }
 
     public class CatalogItemViewModel
