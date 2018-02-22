@@ -13,8 +13,7 @@ using RolleiShop.Identity;
 using RolleiShop.Data.Context;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
-using RolleiShop.Features.Catalog;
-using RolleiShop.Features.Cart;
+using RolleiShop.ViewModels;
 using RolleiShop.ViewComponents;
 
 namespace RolleiShop.Apis.CartComponent
@@ -32,7 +31,7 @@ namespace RolleiShop.Apis.CartComponent
         public CartComponentController (
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
-            ILogger<CartController> logger,
+            ILogger<CartComponentController> logger,
             ICartService cartService,
             IOrderService orderService,
             ICartViewModelService cartViewModelService)
@@ -53,7 +52,7 @@ namespace RolleiShop.Apis.CartComponent
             return Ok(vm);
         }
 
-        private async Task<GetCart.Result> GetCartViewModelAsync()
+        private async Task<CartViewModel> GetCartViewModelAsync()
         {
             if (_signInManager.IsSignedIn(User))
             {

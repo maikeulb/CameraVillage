@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RolleiShop.Specifications;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
-using RolleiShop.Features.Cart;
+using RolleiShop.ViewModels;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Data.Context;
 using Microsoft.Extensions.Logging;
@@ -24,7 +24,7 @@ namespace RolleiShop.Services
             _logger = logger;
         }
 
-        public async Task<GetCart.Result> GetOrCreateCartForUser(string userName)
+        public async Task<CartViewModel> GetOrCreateCartForUser(string userName)
         {
             var cartSpec = new CartWithItemsSpecification(userName);
             var cart = (await ListAsync(cartSpec)).FirstOrDefault();
@@ -36,15 +36,15 @@ namespace RolleiShop.Services
             return CreateViewModelFromCart(cart);
         }
 
-        private GetCart.Result CreateViewModelFromCart(Cart cart)
+        private CartViewModel CreateViewModelFromCart(Cart cart)
         {
-            var viewModel = new GetCart.Result();
+            var viewModel = new CartViewModel();
 
             viewModel.Id = cart.Id;
             viewModel.BuyerId = cart.BuyerId;
             viewModel.Items = cart.Items.Select(i =>
             {
-                var itemModel = new GetCart.Result.CartItem()
+                var itemModel = new CartViewModel.CartItem()
                 {
                     Id = i.Id,
                     UnitPrice = i.UnitPrice,
@@ -62,18 +62,18 @@ namespace RolleiShop.Services
             return viewModel;
         }
 
-        private async Task<GetCart.Result> CreateCartForUser(string userId)
+        private async Task<CartViewModel> CreateCartForUser(string userId)
         {
             var cart = new Cart() { BuyerId = userId };
 
             _context.Set<Cart>().Add(cart);
             await _context.SaveChangesAsync();
 
-            return new GetCart.Result()
+            return new CartViewModel()
             {
                 BuyerId = cart.BuyerId,
                 Id = cart.Id,
-                Items = new List<GetCart.Result.CartItem>()
+                Items = new List<CartViewModel.CartItem>()
             };
         }
 

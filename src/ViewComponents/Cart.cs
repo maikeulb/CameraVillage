@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RolleiShop.Features.Cart;
+using RolleiShop.ViewModels;
 using RolleiShop.Identity;
 using RolleiShop.Services.Interfaces;
 using System.Linq;
@@ -28,14 +28,14 @@ namespace RolleiShop.ViewComponents
             return View(vm);
         }
 
-        private async Task<GetCart.Result> GetCartViewModelAsync()
+        private async Task<CartViewModel> GetCartViewModelAsync()
         {
             if (_signInManager.IsSignedIn(HttpContext.User))
             {
                 return await _cartService.GetOrCreateCartForUser(User.Identity.Name);
             }
             string anonymousId = GetCartIdFromCookie();
-            if (anonymousId == null) return new GetCart.Result();
+            if (anonymousId == null) return new CartViewModel();
             return await _cartService.GetOrCreateCartForUser(anonymousId);
         }
 

@@ -4,7 +4,7 @@ using RolleiShop.Infra.App;
 using RolleiShop.Identity;
 using RolleiShop.Data.Context;
 using RolleiShop.Services.Interfaces;
-using RolleiShop.Features.Catalog;
+using RolleiShop.ViewModels;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
@@ -96,13 +96,23 @@ namespace RolleiShop.Features.Cart
             return View();
         }
 
-        private async Task<GetCart.Result> GetCartViewModelAsync()
+        private async Task<CartViewModel> GetCartViewModelAsync ()
         {
-            if (_signInManager.IsSignedIn(User))
-                return await _mediator.Send(new GetCart.Query() { Name = User.Identity.Name });
+            if (_signInManager.IsSignedIn (User))
+                return await _cartViewModelService.GetOrCreateCartForUser (User.Identity.Name);
 
-            return await _mediator.Send(new GetCart.Query() { Name = GetOrSetCartCookie()});
+            string anonymousId = GetOrSetCartCookie ();
+            return await _cartViewModelService.GetOrCreateCartForUser (anonymousId);
+
         }
+
+        /* private async Task<GetCart.Result> GetCartViewModelAsync() */
+        /* { */
+        /*     if (_signInManager.IsSignedIn(User)) */
+        /*         return await _mediator.Send(new GetCart.Query() { Name = User.Identity.Name }); */
+
+        /*     return await _mediator.Send(new GetCart.Query() { Name = GetOrSetCartCookie()}); */
+        /* } */
 
         private string GetOrSetCartCookie()
         {
