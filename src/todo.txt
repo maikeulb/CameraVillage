@@ -1,9 +1,10 @@
-**wire up upload stufff
-**fluent validation (upload)
-**user feedback for failed login not working"
+1. display images
+2. build datatable
+4. build datatable / conto
+5. fluent validation (upload)
+
+**error handling (fluent error)
 
 ***Add redis
 ***concurrency
 ***stored procs
-
-**error handling (fluent error)

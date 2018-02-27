@@ -11,8 +11,8 @@ using System;
 namespace RolleiShop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180227191637_RemoveAddress")]
-    partial class RemoveAddress
+    [Migration("20180227233616_InitDB")]
+    partial class InitDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace RolleiShop.Migrations
 {
-    public partial class RemoveAddress : Migration
+    public partial class InitDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
