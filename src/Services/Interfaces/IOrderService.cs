@@ -6,6 +6,6 @@ namespace RolleiShop.Services.Interfaces
 {
     public interface IOrderService
     {
-        Task CreateOrderAsync(int cartId, Address shippingAddress);
+        Task CreateOrderAsync(int cartId);
     }
 }

@@ -9,22 +9,20 @@ namespace RolleiShop.Models.Entities
     {
         public string BuyerId { get; private set; }
         public DateTimeOffset OrderDate { get; private set; } = DateTimeOffset.Now;
-        public Address ShipToAddress { get; private set; }
         private readonly List<OrderItem> _orderItems = new List<OrderItem>();
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
 
         private Order() {}
 
-        private Order(string buyerId, Address shipToAddress, List<OrderItem> items)
+        private Order(string buyerId, List<OrderItem> items)
         {
-            ShipToAddress = shipToAddress;
             _orderItems = items;
             BuyerId = buyerId;
         }
 
-        public static Order Create (string buyerId, Address shipToAddress, List<OrderItem> items)
+        public static Order Create (string buyerId, List<OrderItem> items)
         {
-            return new Order(buyerId, shipToAddress, items);
+            return new Order(buyerId, items);
         }
 
         public decimal Total()

@@ -22,7 +22,7 @@ namespace RolleiShop.Services
             _context = context;
         }
 
-        public async Task CreateOrderAsync(int cartId, Address shippingAddress)
+        public async Task CreateOrderAsync(int cartId)
         {
             var cart = await _context.Set<Cart>().FindAsync(cartId);
 
@@ -34,7 +34,7 @@ namespace RolleiShop.Services
                 var orderItem = new OrderItem(itemOrdered, item.UnitPrice, item.Quantity);
                 items.Add(orderItem);
             }
-            var order = Order.Create(cart.BuyerId, shippingAddress, items);
+            var order = Order.Create(cart.BuyerId, items);
 
             _context.Set<Order>().Add(order);
             await _context.SaveChangesAsync();

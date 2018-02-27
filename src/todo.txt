@@ -3,7 +3,7 @@
 
 ***fix cover page / google maps? nah
 ***Add redis
-***Localization
-***Useful APis
-++error handling (fluent error)
-++model state
+***concurrency
+***stored procs
+
+**error handling (fluent error)

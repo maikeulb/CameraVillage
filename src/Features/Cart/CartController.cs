@@ -67,6 +67,7 @@ namespace RolleiShop.Features.Cart
             return View();
         }
 
+        [Authorize]
         public IActionResult Charge(string  stripeEmail, string stripeToken)
         {
             var customers = new StripeCustomerService();

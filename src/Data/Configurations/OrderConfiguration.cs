@@ -12,8 +12,6 @@ namespace RolleiShop.Data.Configurations
             var navigation = builder.Metadata.FindNavigation(nameof(Order.OrderItems));
 
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            builder.OwnsOne(o => o.ShipToAddress);
         }
     }
 }

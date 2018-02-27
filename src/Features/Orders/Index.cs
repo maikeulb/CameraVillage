@@ -30,7 +30,6 @@ namespace RolleiShop.Features.Orders
             public DateTimeOffset OrderDate { get; set; }
             public decimal Total { get; set; }
             public string Status { get; set; }
-            public Address ShippingAddress { get; set; } 
             public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
             public class OrderItem
@@ -38,7 +37,6 @@ namespace RolleiShop.Features.Orders
                 public int ProductId { get; set; }
                 public string ProductName { get; set; }
                 public decimal UnitPrice { get; set; }
-                public decimal Discount { get; set; }
                 public int Units { get; set; }
                 public string ImageUrl { get; set; }
             }
@@ -63,7 +61,6 @@ namespace RolleiShop.Features.Orders
                         OrderDate = o.OrderDate,
                         OrderItems = o.OrderItems?.Select(oi => new Result.OrderItem()
                         {
-                            Discount = 0,
                             ImageUrl = oi.ItemOrdered.ImageUrl,
                             ProductId = oi.ItemOrdered.CatalogItemId,
                             ProductName = oi.ItemOrdered.ProductName,
@@ -71,7 +68,6 @@ namespace RolleiShop.Features.Orders
                             Units = oi.Units
                         }).ToList(),
                         OrderNumber = o.Id,
-                        ShippingAddress = o.ShipToAddress,
                         Status = "Pending",
                         Total = o.Total()
                     });
