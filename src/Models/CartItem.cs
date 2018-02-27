@@ -19,5 +19,10 @@ namespace RolleiShop.Models.Entities
         {
             return new CartItem (unitPrice, quantity, catalogItemId);
         }
+
+        public void UpdateQuantity (int quantity)
+        {
+            Quantity = quantity;
+        }
     }
 }

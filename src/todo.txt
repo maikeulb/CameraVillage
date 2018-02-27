@@ -1,8 +1,7 @@
-add authorization
-wire up upload stufff
-social login
-status pages
-fluent validation
-model state
-encapsulate domain
-error handling (fluent error)
+**wire up upload stufff
+**status pages
+**fluent validation
+private setters
+login bug
+++error handling (fluent error)
+++model state

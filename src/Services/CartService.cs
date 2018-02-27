@@ -69,7 +69,7 @@ namespace RolleiShop.Services
             {
                 if (quantities.TryGetValue(item.Id.ToString(), out var quantity))
                 {
-                    item.Quantity = quantity;
+                    item.UpdateQuantity(quantity);
                 }
             }
 
