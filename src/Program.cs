@@ -14,6 +14,7 @@ using RolleiShop.Models.Entities;
 using RolleiShop.Data.Seed;
 using RolleiShop.Data.Context;
 using RolleiShop.Identity;
+using NLog.Web;
 
 namespace RolleiShop
 {
@@ -48,6 +49,7 @@ namespace RolleiShop
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseNLog()
                 .Build();
     }
 }

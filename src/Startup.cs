@@ -16,6 +16,7 @@ using RolleiShop.Services.Interfaces;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using NLog.Web;
 
 namespace RolleiShop
 {
