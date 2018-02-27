@@ -65,6 +65,7 @@ namespace RolleiShop.Features.Cart
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Checkout(Checkout.Command command)
         {
             var cartViewModel = await GetCartViewModelAsync();

@@ -75,7 +75,6 @@
          contentType: contentTypeAttribute,
          data: dataAttribute,
          success: function (data) {
-          alert('item added');
           updateCartCall();
          },
          error: function(xhr, ajaxOptions, thrownError){
@@ -92,7 +91,6 @@
          method: "POST",
          contentType: contentTypeAttribute,
          success: function (data) {
-          alert('cartComponentCalled');
           new Noty({
               text: 'Item Added To Cart'
           }).setTimeout(2000).show();

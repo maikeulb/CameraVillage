@@ -51,8 +51,8 @@ namespace RolleiShop
             {
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromHours(1);
-                options.LoginPath = "/Account/Signin";
-                options.LogoutPath = "/Account/Signout";
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
             });
 
             services.AddMemoryCache();

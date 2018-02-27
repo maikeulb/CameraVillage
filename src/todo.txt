@@ -6,5 +6,7 @@ private setters
 login bug
 **strip and order form
 ***fix cover page / google maps? nah
+***Add redis
+***Useful APis
 ++error handling (fluent error)
 ++model state
