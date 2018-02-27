@@ -64,7 +64,7 @@ namespace RolleiShop.Models.Entities
                 );
         }
 
-        public void UpdateDetails (CatalogItemEditFormViewModel command)
+        public void UpdateDetails (Edit.Command command)
         {
             AvailableStock = command.AvailableStock;
             Price = command.Price;

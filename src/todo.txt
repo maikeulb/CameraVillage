@@ -4,3 +4,5 @@ social login
 status pages
 fluent validation
 model state
+encapsulate domain
+error handling (fluent error)
