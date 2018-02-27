@@ -2,8 +2,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RolleiShop.Identity;
@@ -15,6 +15,7 @@ using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RolleiShop
 {
@@ -44,8 +45,7 @@ namespace RolleiShop
             services.AddScoped<ICartViewModelService, CartViewModelService>();
             services.AddScoped<IOrderService, OrderService>();
 
-            services.AddTransient<IEmailSender, EmailSender>();
-
+            services.AddTransient<IEmailSender, EmailSender> ();
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
@@ -63,10 +63,15 @@ namespace RolleiShop
                 .AddFeatureFolders ()
                 .AddFluentValidation (cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup> (); });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
+            });
+
             services.AddMediatR(typeof(Startup));
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -88,6 +93,36 @@ namespace RolleiShop
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+             CreateRoles(serviceProvider).Wait();
+        }
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            string roleName =  "Admin";
+            IdentityResult roleResult;
+
+            var roleExist = await RoleManager.RoleExistsAsync(roleName);
+            if (!roleExist)
+                roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+
+            var adminUser = new ApplicationUser
+            {
+                UserName = Configuration.GetSection("AppSettings")["UserEmail"],
+                Email = Configuration.GetSection("AppSettings")["UserEmail"]
+            };
+
+            string userPassword = Configuration.GetSection("AppSettings")["UserPassword"];
+            var user = await UserManager.FindByEmailAsync(Configuration.GetSection("AppSettings")["UserEmail"]);
+
+            if(user == null)
+            {
+                var createAdminUser = await UserManager.CreateAsync(adminUser, userPassword);
+                if (createAdminUser.Succeeded)
+                    await UserManager.AddToRoleAsync(adminUser, "Admin");
+            }
         }
     }
 }

@@ -57,6 +57,7 @@ namespace RolleiShop.Features.Catalog
             return View(model);
         }
 
+        [Authorize(Roles="Admin")]
         public IActionResult Create ()
         {
             return View ();
