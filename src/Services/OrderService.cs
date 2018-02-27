@@ -34,7 +34,7 @@ namespace RolleiShop.Services
                 var orderItem = new OrderItem(itemOrdered, item.UnitPrice, item.Quantity);
                 items.Add(orderItem);
             }
-            var order = new Order(cart.BuyerId, shippingAddress, items);
+            var order = Order.Create(cart.BuyerId, shippingAddress, items);
 
             _context.Set<Order>().Add(order);
             await _context.SaveChangesAsync();

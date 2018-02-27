@@ -41,7 +41,7 @@ namespace RolleiShop.Features.Cart
             protected override async Task HandleCore(Command message)
             {
                 await _cartService.SetQuantities(message.CartId, message.Items);
-                await _orderService.CreateOrderAsync(message.CartId, new Address("123 Main St.", "Kent", "OH", "United States", "44240"));
+                await _orderService.CreateOrderAsync(message.CartId, Address.Create("123 Main St.", "Kent", "OH", "United States", "44240"));
                 await _cartService.DeleteCartAsync(message.CartId);
             }
         }

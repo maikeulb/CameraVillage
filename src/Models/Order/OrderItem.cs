@@ -12,11 +12,17 @@ namespace RolleiShop.Models.Entities
         public int Units { get; private set; }
 
         protected OrderItem() {}
+
         public OrderItem(CatalogItemOrdered itemOrdered, decimal unitPrice, int units)
         {
             ItemOrdered = itemOrdered;
             UnitPrice = unitPrice;
             Units = units;
+        }
+
+        public static OrderItem Create (CatalogItemOrdered itemOrdered, decimal unitPrice, int units)
+        {
+            return new OrderItem(itemOrdered, unitPrice, units);
         }
     }
 }

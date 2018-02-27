@@ -64,7 +64,8 @@ namespace RolleiShop.Services
 
         private async Task<CartViewModel> CreateCartForUser(string userId)
         {
-            var cart = new Cart() { BuyerId = userId };
+            var cart = Cart.Create(userId);
+            /* { BuyerId = userId }; */
 
             _context.Set<Cart>().Add(cart);
             await _context.SaveChangesAsync();

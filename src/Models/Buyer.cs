@@ -12,7 +12,7 @@ namespace RolleiShop.Models.Entities
 
         protected Buyer () { }
 
-        public Buyer (string identity) : this ()
+        private Buyer (string identity) : this ()
         {
             IdentityGuid = !string.IsNullOrWhiteSpace (identity) ? identity : throw new ArgumentNullException (nameof (identity));
         }

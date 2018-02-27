@@ -10,16 +10,27 @@ namespace RolleiShop.Models.Entities
         public string BuyerId { get; set; }
         public IReadOnlyCollection<CartItem> Items => _items.AsReadOnly();
 
+        private Cart () {}
+
+        private Cart (string buyerId)
+        {
+            BuyerId = buyerId;
+        }
+
+        public static Cart Create (string buyerId) 
+        {
+            return new Cart (buyerId);
+        }
+
         public void AddItem(int catalogItemId, decimal unitPrice, int quantity = 1)
         {
             if (!Items.Any(i => i.CatalogItemId == catalogItemId))
             {
-                _items.Add(new CartItem()
-                {
-                    CatalogItemId = catalogItemId,
-                    Quantity = quantity,
-                    UnitPrice = unitPrice
-                });
+                _items.Add( CartItem.Create(
+                    unitPrice,
+                    quantity,
+                    catalogItemId
+                ));
                 return;
             }
             var existingItem = Items.FirstOrDefault(i => i.CatalogItemId == catalogItemId);
