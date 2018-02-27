@@ -1,3 +1,6 @@
+@using Microsoft.Extensions.Options
+@using RolleiShop.Infra.App
+@inject IOptions<StripeSettings> Stripe
 @model RolleiShop.ViewModels.CartViewModel
 @{
     ViewData["Title"] = "Cart";
@@ -52,10 +55,24 @@
             <span><b>TOTAL: $@Model.Total().ToString("N2")</b></span> 
             <article class="column">
             <br />
-
-            <button class="ui basic button" name="updatebutton" value="" type="submit" asp-action="">UPDATE</button>
-
-            <input type="submit" asp-action="Checkout" class="ui basic primary button" value="CHECKOUT" name="action" />
+            <div>
+              <button class="ui basic button" name="updatebutton" value="" type="submit" asp-action="">UPDATE</button>
+              <input type="submit" asp-action="Checkout" class="ui basic primary button" value="CHECKOUT" name="action" />
+            </div>
+            <br />
+            <div>
+            <form asp-controller="Cart" asp-action="Charge" method="POST">
+              <script src="//checkout.stripe.com/v2/checkout.js"
+                      class="stripe-button"
+                      data-key="@Stripe.Value.PublishableKey"
+                      data-locale="auto"
+                      data-description="Rollei Shop"
+                      data-amount="@Model.StripeTotal()">
+                      document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+              </script>
+              <button type="submit" class="ui primary button">PAY WITH CARD</button>
+            </form>
+            </div>
 
             </article>
           </div>
@@ -69,19 +86,3 @@
   <p>Cart is empty.</p>
   }
 </div>
-
-@using Microsoft.Extensions.Options
-@using RolleiShop.Infra.App
-@inject IOptions<StripeSettings> Stripe
-<form action="/Cart/Charge" method="POST">
-  <article>
-    <label>Amount: $5.00</label>
-  </article>
-  <script src="//checkout.stripe.com/v2/checkout.js"
-          class="stripe-button"
-          data-key="@Stripe.Value.PublishableKey"
-          data-locale="auto"
-          data-description="Sample Charge"
-          data-amount="500">
-  </script>
-</form>

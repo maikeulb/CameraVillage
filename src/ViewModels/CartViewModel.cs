@@ -13,6 +13,10 @@ namespace RolleiShop.ViewModels
         {
             return Math.Round(Items.Sum(x => x.UnitPrice * x.Quantity), 2);
         }
+        public decimal StripeTotal()
+        {
+            return Math.Round(Decimal.Multiply(Items.Sum(x => x.UnitPrice * x.Quantity), 100), 2);
+        }
 
         public class CartItem
         {
