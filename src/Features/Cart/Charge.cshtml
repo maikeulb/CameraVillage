@@ -1,0 +1,12 @@
+@model RolleiShop.ViewModels.CartViewModel
+@{
+    ViewData["Title"] = "Checkout Complete";
+}
+<div class="ui container center aligned" style="padding:40px;">
+  <div class = "ui huge header"> Checkout Complete </div>
+</div>
+
+<div class="ui text container">
+    <h4>Thanks for your Order!</h4>
+    <a asp-controller="Catalog" asp-action="Index">Continue Shopping...</a>
+</div>

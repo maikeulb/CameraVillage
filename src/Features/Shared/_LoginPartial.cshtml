@@ -7,21 +7,12 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-<div class="ui dropdown">
   <div class="text">
     @UserManager.GetUserName(User)
-  <i class="dropdown icon"></i>
   </div>
-  <div class="menu">
-      <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage" class="item">
-       Manage
-      </a>
-      <a asp-area="" asp-controller="Order" asp-action="Index" title="Manage" class="item">
+  <a asp-area="" asp-controller="Orders" asp-action="Index" title="Manage" class="item">
        My Orders
-      </a>
-  </div>
-</div>
-
+  </a>
   <form  asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" >
     <div class="fluid item">
       <button type="submit" class="ui button basic">Log out</button>

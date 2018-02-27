@@ -20,11 +20,11 @@ using RolleiShop.Specifications;
 
 namespace RolleiShop.Features.Orders
 {
-    public class OrderController : Controller
+    public class OrdersController : Controller
     {
         private readonly IMediator _mediator;
 
-        public OrderController(IMediator mediator)
+        public OrdersController(IMediator mediator)
         {
             _mediator = mediator;
         }
