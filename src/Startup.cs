@@ -46,6 +46,8 @@ namespace RolleiShop
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<ICartViewModelService, CartViewModelService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.Configure<CatalogSettings>(Configuration);
+            services.AddSingleton<IUrlComposer>(new UrlComposer(Configuration.Get<CatalogSettings>()));
 
             services.AddTransient<IEmailSender, EmailSender> ();
             services.ConfigureApplicationCookie(options =>

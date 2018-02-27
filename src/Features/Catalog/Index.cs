@@ -58,10 +58,13 @@ namespace RolleiShop.Features.Catalog
         public class Handler : AsyncRequestHandler<Query, Result>
         {
             private readonly ApplicationDbContext _context;
+            private readonly IUrlComposer _urlComposer;
 
-            public Handler(ApplicationDbContext context)
+            public Handler(ApplicationDbContext context,
+                IUrlComposer urlComposer)
             {
                 _context = context;
+                _urlComposer = urlComposer;
             }
 
             protected override async Task<Result> HandleCore(Query message)
@@ -81,6 +84,11 @@ namespace RolleiShop.Features.Catalog
                     .Skip (itemsPage * pageIndex)
                     .Take (itemsPage)
                     .ToList ();
+
+                itemsOnPage.ForEach(x =>
+                {
+                    x.ImageUrl = _urlComposer.ComposeImgUrl(x.ImageUrl);
+                });
 
                 var result = new Result ()
                 {

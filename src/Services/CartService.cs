@@ -17,10 +17,13 @@ namespace RolleiShop.Services
     public class CartService : ICartService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IUrlComposer _urlComposer;
 
-        public CartService(ApplicationDbContext context)
+        public CartService(ApplicationDbContext context,
+            IUrlComposer urlComposer)
         {
             _context = context;
+            _urlComposer = urlComposer;
         }
 
         public async Task AddItemToCart(int cartId, int catalogItemId, decimal price, int quantity)

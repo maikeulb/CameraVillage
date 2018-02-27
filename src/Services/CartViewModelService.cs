@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using RolleiShop.Infra.App;
 using RolleiShop.Specifications;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
@@ -15,13 +16,16 @@ namespace RolleiShop.Services
     public class CartViewModelService : ICartViewModelService
     {
         private readonly ILogger _logger;
+        private readonly IUrlComposer _urlComposer;
         private readonly ApplicationDbContext _context;
 
         public CartViewModelService(ApplicationDbContext context,
-            ILogger<CartViewModelService> logger)
+            ILogger<CartViewModelService> logger,
+            IUrlComposer urlComposer)
         {
             _context = context;
             _logger = logger;
+            _urlComposer = urlComposer;
         }
 
         public async Task<CartViewModel> GetOrCreateCartForUser(string userName)
@@ -54,7 +58,7 @@ namespace RolleiShop.Services
 
                 var item = _context.Set<CatalogItem>().Find(i.CatalogItemId);
 
-                itemModel.ImageUrl = item.ImageUrl;
+                itemModel.ImageUrl = _urlComposer.ComposeImgUrl(item.ImageUrl);
                 itemModel.ProductName = item.Name;
                 return itemModel;
             })

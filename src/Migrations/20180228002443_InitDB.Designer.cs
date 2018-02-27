@@ -11,7 +11,7 @@ using System;
 namespace RolleiShop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180227233616_InitDB")]
+    [Migration("20180228002443_InitDB")]
     partial class InitDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
