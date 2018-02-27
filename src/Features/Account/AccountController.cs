@@ -47,10 +47,15 @@ namespace RolleiShop.Features.Account
         [AllowAnonymous]
         public async Task<IActionResult> Login (string returnUrl = null)
         {
-            // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync (IdentityConstants.ExternalScheme);
 
             ViewData["ReturnUrl"] = returnUrl;
+            if (!String.IsNullOrEmpty(returnUrl) && 
+                returnUrl.IndexOf("checkout", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                ViewData["ReturnUrl"] = "/Cart/Index";
+            }
+
             return View ();
         }
 
@@ -62,13 +67,23 @@ namespace RolleiShop.Features.Account
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                ViewData["ReturnUrl"] = returnUrl;
+
                 var result = await _signInManager.PasswordSignInAsync (model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation ("User logged in.");
-                    return RedirectToLocal (returnUrl);
+                    string anonymousBasketId = Request.Cookies[Constants.BASKET_COOKIENAME];
+                    if (!String.IsNullOrEmpty(anonymousBasketId))
+                    {
+                        await _basketService.TransferBasketAsync(anonymousBasketId, model.Email);
+                        Response.Cookies.Delete(Constants.BASKET_COOKIENAME);
+                    }
+                    return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {

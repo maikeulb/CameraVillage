@@ -1,9 +1,6 @@
 **wire up upload stufff
-**status pages
 **fluent validation
-private setters
 
-login bug
 **strip and order form
 ***fix cover page / google maps? nah
 ***Add redis

@@ -22,27 +22,18 @@ namespace RolleiShop.Features.Cart
     {
         private readonly ILogger _logger;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ICartService _cartService;
-        private readonly ApplicationDbContext _context;
         private readonly ICartViewModelService _cartViewModelService;
-        private readonly IOrderService _orderService;
         private readonly IMediator _mediator;
 
         public CartController(
             SignInManager<ApplicationUser> signInManager,
             IMediator mediator,
             ILogger<CartController> logger,
-            ICartService cartService,
-            IOrderService orderService,
-            ApplicationDbContext context,
             ICartViewModelService cartViewModelService)
         {
             _logger = logger;
             _signInManager = signInManager;
-            _cartService = cartService;
-            _orderService = orderService;
             _mediator = mediator;
-            _context = context;
             _cartViewModelService = cartViewModelService;
         }
 
