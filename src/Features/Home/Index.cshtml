@@ -1,69 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-  <style type="text/css">
-    .masthead.segment {
-      padding: 1em 0em;
-      margin-right: 1em;
-      margin-left: 1em;
-    }
-    .masthead h1.ui.header {
-      margin-top: 1em;
-      margin-bottom: 0em;
-      font-size: 1.7em;
-      font-weight: normal;
-    }
-    .masthead .image.full{
-      display: block;
-    }
-    .masthead .image.mobile {
-      display: none;
-    }
-    .ui.fluid.image.full.parallax {
-      height: 32em;
-    }
-    .ui.fluid.image.full.parallax {
-      background-attachment: fixed;
-      background-position: center;
-    }
-    .ui.fluid.image.full.parallax{
-      width: 100%;  
-    }
-    .ui.fluid.image.mobile.parallax {
-      height: 32em;
-    }
-    .ui.fluid.image.mobile.parallax {
-      background-attachment: fixed;
-      background-position: center;
-    }
-    .ui.fluid.image.mobile.parallax{
-      width: 100%;  
-    }
-
-    @@media only screen and (max-width: 700px) {
-
-      .ui.secondary.menu .item ,
-      .ui.secondary.menu .right.item{
-        display: none;
-      }
-      .ui.secondary.menu .logo,
-      .ui.secondary.menu .toc.item {
-        display: block;
-      }
-      .masthead.segment {
-        min-height: 350px;
-      }
-      .masthead h1.ui.header {
-        font-size: 1em;
-        margin-top: 0.5em;
-      }
-      .masthead .image.full{
-        display: none;
-      }
-      .masthead .image.mobile{
-        display: block;
-      }
-  </style>
 
     <div class="ui container center aligned" style="padding:40px;">
       <div class = "ui huge header"> Welcome to RolleiShop </div>
@@ -81,18 +18,16 @@
         background-repeat: no-repeat; 
         background-size: cover; 
         background-image:url(/images/rollei.jpg);"/>
+
+      <div class="ui container">
+        <div id="dvMap" style="width: 750px; height: 500px">
+      </div>
     </div>
 
-  <div class="ui container">
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut massa vel nisl mattis vulputate nec in ante. Vivamus cursus enim nec bibendum tincidunt. Nulla pretium nisi quis orci maximus pulvinar. Nulla sed dolor congue, cursus felis id, condimentum metus. Quisque ac metus velit. Proin risus nibh, congue in tellus sed, mattis dictum augue. Aliquam et turpis lobortis, mollis enim sed, iaculis odio. Proin erat ligula, eleifend in felis sit amet, condimentum malesuada erat. Donec vehicula orci vel elit vulputate condimentum. Curabitur dui eros, porttitor vitae commodo vitae, lobortis a nisl.
-
-Ut porta blandit eros. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec laoreet dignissim dictum. Vivamus pellentesque, nunc at euismod sagittis, neque ipsum egestas leo, nec dignissim nulla tellus id mauris. Aliquam a erat lorem. Cras felis ipsum, sagittis a massa vitae, dapibus varius lacus. Praesent mattis imperdiet tempor.
-
-Ut mattis semper sapien nec finibus. Suspendisse quis ultricies turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent mattis libero eros, quis malesuada magna facilisis ac. Morbi efficitur massa turpis, et finibus velit hendrerit in. Duis pellentesque dapibus urna eu posuere. In et nisi euismod, vehicula mi sit amet, convallis massa. Maecenas id nunc nec odio convallis egestas. Cras gravida, purus vitae egestas sodales, augue est lobortis neque, vel hendrerit ex nunc eget est. Donec fringilla arcu in arcu viverra interdum.
-  </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.5.0/rellax.min.js"></script>
-
-<script>
-  var rellax = new Rellax('.rellax');
-</script>
+@section scripts
+{
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.5.0/rellax.min.js"></script>
+  <script>
+    var rellax = new Rellax('.rellax');
+  </script>
+}

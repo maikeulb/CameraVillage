@@ -12,7 +12,6 @@
     <title>@ViewData["Title"] - Web</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css" />
     <link rel="stylesheet" href="~/styles.css" />
-
     <style type="text/css">
       button.stripe-button-el {
        display: none; 
@@ -74,50 +73,117 @@
         }
       }
     </style>
+    <style type="text/css">
+      .masthead.segment {
+        padding: 1em 0em;
+        margin-right: 1em;
+        margin-left: 1em;
+      }
+      .masthead h1.ui.header {
+        margin-top: 1em;
+        margin-bottom: 0em;
+        font-size: 1.7em;
+        font-weight: normal;
+      }
+      .masthead .image.full{
+        display: block;
+      }
+      .masthead .image.mobile {
+        display: none;
+      }
+      .ui.fluid.image.full.parallax {
+        height: 32em;
+      }
+      .ui.fluid.image.full.parallax {
+        background-attachment: fixed;
+        background-position: center;
+      }
+      .ui.fluid.image.full.parallax{
+        width: 100%;  
+      }
+      .ui.fluid.image.mobile.parallax {
+        height: 32em;
+      }
+      .ui.fluid.image.mobile.parallax {
+        background-attachment: fixed;
+        background-position: center;
+      }
+      .ui.fluid.image.mobile.parallax{
+        width: 100%;  
+      }
 
-  <script type="text/javascript" src="~/node-static.js"></script>
-  <script type="text/javascript" src="~/main.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.js"></script>
-  <script>
-  $(document)
-    .ready(function() {
-      $('.ui.sidebar')
-        .sidebar('attach events', '.toc.item');
-      $('.ui.form')
-        .form({
-          fields: {
-            email: {
-              identifier  : 'email',
-              rules: [
-                {
-                  type   : 'empty',
-                  prompt : 'Please enter your e-mail'
-                },
-                {
-                  type   : 'email',
-                  prompt : 'Please enter a valid e-mail'
-                }
-              ]
-            },
-            password: {
-              identifier  : 'password',
-              rules: [
-                {
-                  type   : 'empty',
-                  prompt : 'Please enter your password'
-                },
-                {
-                  type   : 'length[6]',
-                  prompt : 'Your password must be at least 6 characters'
-                }
-              ]
+      @@media only screen and (max-width: 700px) {
+
+        .ui.secondary.menu .item ,
+        .ui.secondary.menu .right.item{
+          display: none;
+        }
+        .ui.secondary.menu .logo,
+        .ui.secondary.menu .toc.item {
+          display: block;
+        }
+        .masthead.segment {
+          min-height: 350px;
+        }
+        .masthead h1.ui.header {
+          font-size: 1em;
+          margin-top: 0.5em;
+        }
+        .masthead .image.full{
+          display: none;
+        }
+        .masthead .image.mobile{
+          display: block;
+        }
+    </style>
+    <script type="text/javascript" src="~/node-static.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+    $(document)
+      .ready(function() {
+        $('.ui.sidebar')
+          .sidebar('attach events', '.toc.item');
+        $('.ui.form')
+          .form({
+            fields: {
+              email: {
+                identifier  : 'email',
+                rules: [
+                  {
+                    type   : 'empty',
+                    prompt : 'Please enter your e-mail'
+                  },
+                  {
+                    type   : 'email',
+                    prompt : 'Please enter a valid e-mail'
+                  }
+                ]
+              },
+              password: {
+                identifier  : 'password',
+                rules: [
+                  {
+                    type   : 'empty',
+                    prompt : 'Please enter your password'
+                  },
+                  {
+                    type   : 'length[6]',
+                    prompt : 'Your password must be at least 6 characters'
+                  }
+                ]
+              }
             }
-          }
-        })
-      ;
-    })
-  ;
-  </script>
+          })
+        ;
+      })
+    ;
+    </script>
+    <script>
+    $('.ui.dropdown')
+      .dropdown()
+    ;
+    </script>
+
   </head>
   <body class="site">
     <div class="ui vertical thin sidebar menu">
@@ -163,6 +229,43 @@
       </main>
 
     </div>
+
+    <script type="text/javascript" src="~/main.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBCAN9EhXQ1kCSm1YrpMxVK0j6buc2MIlE"></script>
+    <script type="text/javascript">
+                var markers = [{
+                    "title": 'Bombay Hospital',
+                    "lat": '35.6896598',
+                    "lng": '139.6946764',
+                    "description": 'Map Camera',
+                    "type": 'Camera Store'
+                }]
+                window.onload = function () {
+                    var mapOptions = {
+                        center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+                        zoom: 12,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+                    var infoWindow = new google.maps.InfoWindow();
+                    var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+                    for (i = 0; i < markers.length; i++) {
+                        var data = markers[i]
+                        var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
+                            map: map,
+                            title: data.title
+                        });
+                        (function (marker, data) {
+                            google.maps.event.addListener(marker, "click", function (e) {
+                                infoWindow.setContent(data.description);
+                                infoWindow.open(map, marker);
+                            });
+                        })(marker, data);
+                    }
+                }
+              </script>
 
     @RenderSection("scripts", required: false)
 
