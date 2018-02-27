@@ -1,7 +1,7 @@
 **wire up upload stufff
 **fluent validation (upload)
+**user feedback for failed login not working"
 
-***fix cover page / google maps? nah
 ***Add redis
 ***concurrency
 ***stored procs

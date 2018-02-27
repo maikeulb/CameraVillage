@@ -8,13 +8,18 @@
 @if (SignInManager.IsSignedIn(User))
 {
 
-    <div class="text" class="item">
-        @UserManager.GetUserName(User)
-    </div>
+  <div class="text" class="item">
+      @UserManager.GetUserName(User)
+  </div>
 
   <a asp-area="" asp-controller="Orders" asp-action="Index" title="Manage" class="item">
        My Orders
   </a>
+
+  @if (User.IsInRole("Admin")) 
+  {
+    <a asp-controller="Catalog" asp-action="Create" class="item">Manage</a>
+  }
 
   <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" >
     <div class="fluid item">
