@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
 using RolleiShop.Features.Account.AccountViewModels;
 using RolleiShop.Features.Home;
 using RolleiShop.Infra.App;
+using RolleiShop.Services;
+using RolleiShop.Services.Interfaces;
 using RolleiShop.Identity;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -26,17 +26,20 @@ namespace RolleiShop.Features.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly ICartService _cartService;
         private readonly ILogger _logger;
 
         public AccountController (
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
+            ICartService cartService,
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _cartService = cartService;
             _logger = logger;
         }
 
@@ -77,11 +80,11 @@ namespace RolleiShop.Features.Account
 
                 if (result.Succeeded)
                 {
-                    string anonymousBasketId = Request.Cookies[Constants.BASKET_COOKIENAME];
-                    if (!String.IsNullOrEmpty(anonymousBasketId))
+                    string anonymousCartId = Request.Cookies["RolleiShop"];
+                    if (!String.IsNullOrEmpty(anonymousCartId))
                     {
-                        await _basketService.TransferBasketAsync(anonymousBasketId, model.Email);
-                        Response.Cookies.Delete(Constants.BASKET_COOKIENAME);
+                        await _cartService.TransferCartAsync(anonymousCartId, model.Email);
+                        Response.Cookies.Delete("RolleiShop");
                     }
                     return RedirectToLocal(returnUrl);
                 }

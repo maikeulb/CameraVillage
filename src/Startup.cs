@@ -13,6 +13,7 @@ using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
+using Stripe;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,6 +71,11 @@ namespace RolleiShop
             });
 
             services.AddMediatR(typeof(Startup));
+
+            /* StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe")["SecretKey"]); */
+            StripeConfiguration.SetApiKey(Environment.GetEnvironmentVariable("ASPNETCORE_SECRET_KEY"));
+
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)

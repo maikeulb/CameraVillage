@@ -10,5 +10,6 @@ namespace RolleiShop.Services.Interfaces
         Task RemoveItemFromCart(int cartId, int catalogItemId);
         Task SetQuantities(int cartId, Dictionary<string, int> quantities);
         Task DeleteCartAsync(int cartId);
+        Task TransferCartAsync(string anonymousId, string userName);
     }
 }

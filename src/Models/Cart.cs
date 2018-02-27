@@ -22,6 +22,11 @@ namespace RolleiShop.Models.Entities
             return new Cart (buyerId);
         }
 
+        public void TransferCart(string buyerId)
+        {
+            BuyerId = buyerId;
+        }
+
         public void AddItem(int catalogItemId, decimal unitPrice, int quantity = 1)
         {
             if (!Items.Any(i => i.CatalogItemId == catalogItemId))

@@ -69,3 +69,19 @@
   <p>Cart is empty.</p>
   }
 </div>
+
+@using Microsoft.Extensions.Options
+@using RolleiShop.Infra.App
+@inject IOptions<StripeSettings> Stripe
+<form action="/Cart/Charge" method="POST">
+  <article>
+    <label>Amount: $5.00</label>
+  </article>
+  <script src="//checkout.stripe.com/v2/checkout.js"
+          class="stripe-button"
+          data-key="@Stripe.Value.PublishableKey"
+          data-locale="auto"
+          data-description="Sample Charge"
+          data-amount="500">
+  </script>
+</form>

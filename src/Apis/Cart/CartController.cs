@@ -77,7 +77,6 @@ namespace RolleiShop.Apis.Cart
             Response.Cookies.Append ("RolleiShop", anonymousId, cookieOptions);
             return anonymousId;
         }
-
     }
 
     public class ProductViewModel

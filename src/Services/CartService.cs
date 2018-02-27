@@ -77,6 +77,18 @@ namespace RolleiShop.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task TransferCartAsync(string anonymousId, string userName)
+        {
+            /* Guard.Against.NullOrEmpty(anonymousId, nameof(anonymousId)); */
+            /* Guard.Against.NullOrEmpty(userName, nameof(userName)); */
+            var cartSpec = new CartWithItemsSpecification(anonymousId);
+            var cart = (await ListAsync(cartSpec)).FirstOrDefault();
+            if (cart == null) return;
+            /* cart.BuyerId = userName; */
+            cart.TransferCart(userName);
+            await UpdateAsync(cart);
+        }
+
         private async Task<List<Cart>> ListAsync(ISpecification<Cart> spec)
         {
             var queryableResultWithIncludes = spec.Includes
@@ -90,5 +102,10 @@ namespace RolleiShop.Services
                             .ToListAsync();
         }
 
+        public async Task UpdateAsync(Cart entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
     }
 }

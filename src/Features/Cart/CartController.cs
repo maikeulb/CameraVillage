@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -63,6 +64,23 @@ namespace RolleiShop.Features.Cart
             command.CartId = cartViewModel.Id;
             await _mediator.Send(command);
 
+            return View();
+        }
+
+        public IActionResult Charge(string  stripeEmail, string stripeToken)
+        {
+            var customers = new StripeCustomerService();
+            var charges = new StripeChargeService();
+            var customer = customers.Create(new StripeCustomerCreateOptions {
+              Email = stripeEmail,
+              SourceToken = stripeToken
+            });
+            var charge = charges.Create(new StripeChargeCreateOptions {
+              Amount = 500,
+              Description = "Sample Charge",
+              Currency = "usd",
+              CustomerId = customer.Id
+            });
             return View();
         }
 
