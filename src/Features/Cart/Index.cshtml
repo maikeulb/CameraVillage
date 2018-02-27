@@ -46,11 +46,10 @@
               </section>
             </article>
           </div>
-
         }
-
       <div class="ui grid">
-        <div class="right floated eight wide mobile four wide tablet four wide computer column">
+        <div class="right floated eight wide mobile four wide tablet four wide
+          computer column">
           <div class="ui right aligned basic segment">
             <span><b>TOTAL: $@Model.Total().ToString("N2")</b></span> 
             <article class="column">
@@ -59,18 +58,19 @@
               <button class="ui basic button" name="updatebutton" value="" type="submit" asp-action="">UPDATE</button>
               <input type="submit" asp-action="Checkout" class="ui basic primary button" value="CHECKOUT" name="action" />
             </div>
-            <br />
-            <div>
-
-            </div>
-
             </article>
           </div>
         </div>
       </div>
-
     </form>
-            <form asp-controller="Cart" asp-action="Charge" method="POST">
+      <div class="ui grid">
+        <div class="right floated eight wide mobile four wide tablet four wide computer column">
+          <div class="ui right aligned basic segment" 
+            
+            style="padding-top:0">
+            <form asp-controller="Cart" 
+              asp-action="Charge" 
+              method="POST">
               <script src="//checkout.stripe.com/v2/checkout.js"
                       class="stripe-button"
                       data-key="@Stripe.Value.PublishableKey"
@@ -79,8 +79,17 @@
                       data-amount="@Model.StripeTotal()">
                       document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
               </script>
-              <button type="submit" class="ui primary button">PAY WITH CARD</button>
+              <button type="submit" class="ui primary button"
+              data-tooltip="Feel free to test credit card payments, otherwise
+              just click checkout"
+              data-position="left center"
+                >
+                PAY WITH CARD
+              </button>
             </form>
+          </div>
+        </div>
+      </div>
 
   }
   else
