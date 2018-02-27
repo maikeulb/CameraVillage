@@ -2,9 +2,9 @@ namespace RolleiShop.Models.Entities
 {
     public class CartItem : Entity
     {
-        public decimal UnitPrice { get; set; }
-        public int Quantity { get; set; }
-        public int CatalogItemId { get; set; }
+        public decimal UnitPrice { get; private set; }
+        public int Quantity { get; private set; }
+        public int CatalogItemId { get; private set; }
 
         private CartItem () {}
 
@@ -23,6 +23,11 @@ namespace RolleiShop.Models.Entities
         public void UpdateQuantity (int quantity)
         {
             Quantity = quantity;
+        }
+
+        public void IncrementQuantity ()
+        {
+            Quantity += this.Quantity;
         }
     }
 }

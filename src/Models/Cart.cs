@@ -7,7 +7,7 @@ namespace RolleiShop.Models.Entities
     {
         private readonly List<CartItem> _items = new List<CartItem>();
 
-        public string BuyerId { get; set; }
+        public string BuyerId { get; private set; }
         public IReadOnlyCollection<CartItem> Items => _items.AsReadOnly();
 
         private Cart () {}
@@ -34,7 +34,7 @@ namespace RolleiShop.Models.Entities
                 return;
             }
             var existingItem = Items.FirstOrDefault(i => i.CatalogItemId == catalogItemId);
-            existingItem.Quantity += quantity;
+            existingItem.IncrementQuantity();
         }
 
         public void RemoveItem(int catalogItemId)

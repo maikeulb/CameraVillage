@@ -2,6 +2,9 @@
 **status pages
 **fluent validation
 private setters
+
 login bug
+**strip and order form
+***fix cover page / google maps? nah
 ++error handling (fluent error)
 ++model state
