@@ -31,23 +31,26 @@ namespace RolleiShop.Features.ManageCatalog
         public class QueryHandler : AsyncRequestHandler<Query, Command>
         {
             private readonly ApplicationDbContext _context;
+            private readonly IUrlComposer _urlComposer;
 
-            public QueryHandler(ApplicationDbContext context)
+            public QueryHandler(ApplicationDbContext context,
+                IUrlComposer urlComposer)
             {
                 _context = context;
+                _urlComposer = urlComposer;
             }
 
             protected override async Task<Command> HandleCore(Query message)
             {
                 var catalogItem = await _context.Set<CatalogItem>().FindAsync(message.Id);
-                var model = new Command
+                return new Command
                 {
                     Id = catalogItem.Id,
                     AvailableStock = catalogItem.AvailableStock,
                     Price = catalogItem.Price,
                     Description = catalogItem.Description,
+                    ImageUrl = _urlComposer.ComposeImgUrl(catalogItem.ImageUrl)
                 };
-                return model;
             }
         }
 
@@ -58,6 +61,7 @@ namespace RolleiShop.Features.ManageCatalog
             public string Description { get; set; }
             public int AvailableStock { get; set; }
             public decimal Price { get; set; }
+            public string ImageUrl { get; set; }
         }
 
         public class CommandHandler : AsyncRequestHandler<Command>

@@ -4,7 +4,7 @@
 5. fluent validation (upload)
 5. remove email
 5. check valid tokenn
-
+fix name in navbar
 5. auto select
 
 **error handling (fluent error)

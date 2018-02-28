@@ -3,13 +3,12 @@
   ViewData["Title"] = "Manage Catalog";
 }
 
+<main class="ui text container" style="padding:40px;">
+    <div class = "ui huge header"> Manage Cameras </div>
+    <a asp-action="Create" class=" ui button">Add New Camera</a>
 
-<div class="ui container center aligned" style="padding:40px;">
-  <div class = "ui huge header"> Manage Cameras </div>
-  <a asp-action="Create" class="btn is-link mb-2">Add New item</a>
-</div>
-
-<table class="table">
+  <table class="ui striped celled table">
+    <thead>
     <tr>
         <th>
             Name
@@ -21,13 +20,15 @@
             Type
         </th>
         <th>
-            AvailableStock
+            Stock
         </th>
         <th>
             Price
         </th>
         <th></th>
     </tr>
+    </thead>
+    <tbody>
     @foreach (var item in Model.CatalogItems)
     {
         <tr>
@@ -47,12 +48,13 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-              <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-link">Edit</a> |
-              <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-link">Details</a> |
-              <a asp-action="Delete" asp-route-id="@item.Id" class="btn
-                btn-link">Remove</a>
+              <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+              <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+              <a asp-action="Delete" asp-route-id="@item.Id">Remove</a>
             </td>
         </tr>
     }
-</table>
-@Html.Partial("_pagination", Model.PaginationInfo)
+    </tbody>
+  </table>
+  @Html.Partial("_pagination", Model.PaginationInfo)
+</main>

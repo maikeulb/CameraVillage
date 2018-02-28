@@ -10,6 +10,7 @@ using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
+using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
 
 namespace RolleiShop.Features.ManageCatalog
@@ -33,15 +34,20 @@ namespace RolleiShop.Features.ManageCatalog
         public class Handler : AsyncRequestHandler<Query, Result>
         {
             private readonly ICatalogService _catalogService;
+            private readonly IUrlComposer _urlComposer;
 
-            public Handler(ICatalogService catalogService)
+            public Handler(ICatalogService catalogService,
+                IUrlComposer urlComposer)
             {
                 _catalogService = catalogService;
+                _urlComposer = urlComposer;
             }
 
             protected override async Task<Result> HandleCore(Query message)
             {
-                return await _catalogService.GetCatalogDetailItem (message.Id);
+                Result result =  await _catalogService.GetCatalogDetailItem (message.Id);
+                result.ImageUrl  = _urlComposer.ComposeImgUrl(result.ImageUrl);
+                return result;
             }
         }
     }

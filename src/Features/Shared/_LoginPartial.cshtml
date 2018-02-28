@@ -8,10 +8,6 @@
 @if (SignInManager.IsSignedIn(User))
 {
 
-  <div class="text" class="item">
-      @UserManager.GetUserName(User)
-  </div>
-
   <a asp-controller="Orders" asp-action="Index" title="Manage" class="item">
        My Orders
   </a>
@@ -20,6 +16,10 @@
   {
     <a asp-controller="ManageCatalog" asp-action="Index" class="item">Manage</a>
   }
+
+  <div class="text item">
+      @UserManager.GetUserName(User)
+  </div>
 
   <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" >
     <div class="fluid item">

@@ -1,9 +1,20 @@
 @model RolleiShop.Features.ManageCatalog.Edit.Command
 
+<div class="thumbnail">
+  <img alt="@Model.Name" src="@Model.ImageUrl">
+  <div class="caption-full">
+    <h3 class="pull-right">@Model.Price</h3>
+    <h3>
+        <a href="#">@Model.Name</a>
+    </h3>
+    <p>@Model.Description</p>
+  </div>
+</div>
+
 <form asp-action="Edit">
   <div asp-validation-summary="All" class="text-danger"></div>
 
-  @Html.HiddenFor(m => m.Id)
+        <input type="hidden" asp-for="Id" />
 
   <div class="field">
     <label asp-for="Description" class="label"></label>
