@@ -1,37 +1,49 @@
 @model RolleiShop.Features.ManageCatalog.Edit.Command
 
-<div class="thumbnail">
+<main class="ui text container">
+  <div class = "ui huge header"> Add to Inventory </div>
+  <a asp-action="Index">Back to List</a> 
+  <hr />
+
   <img alt="@Model.Name" src="@Model.ImageUrl">
-  <div class="caption-full">
-    <h3 class="pull-right">@Model.Price</h3>
-    <h3>
-        <a href="#">@Model.Name</a>
-    </h3>
-    <p>@Model.Description</p>
-  </div>
-</div>
+  <div style="padding-top:20px"/>
 
-<form asp-action="Edit">
-  <div asp-validation-summary="All" class="text-danger"></div>
+  <form asp-action="Edit" class="ui form edit">
+    <div asp-validation-summary="All" class="text-danger"></div>
 
-        <input type="hidden" asp-for="Id" />
+    <div class="field">
+      <label asp-for="Description" class="label"></label>
+      <input asp-for="Description" type="text"></input>
+    </div>
 
-  <div class="field">
-    <label asp-for="Description" class="label"></label>
-    <input asp-for="Description" class="control input" type="text"></input>
-  </div>
+    <div class="field">
+      <label asp-for="Stock" class="label"></label>
+      <input asp-for="Stock" type="text"></input>
+    </div>
 
-  <div class="field">
-    <label asp-for="AvailableStock" class="label"></label>
-    <input asp-for="AvailableStock" class="control input" type="text"></input>
-  </div>
-
-  <div class="field">
-    <label asp-for="Price" class="label"></label>
-    <input asp-for="Price" class="control input" type="text"></input>
-  </div>
+    <div class="field">
+      <label asp-for="Price" class="label"></label>
+      <input for="Price" asp-for="Price" type="text"></input>
+    </div>
 
     <div class="form-group">
-      <button type="submit" class="btn btn-info">Submit</button>
-  </div>
-</form>
+      <button type="submit" class="ui primary button">Save</button>
+    </div>
+  </form>
+@section scripts
+{
+  <script>
+    $(document).ready(function(){
+      $('.ui.form.edit')
+        .form({
+          fields: {
+            Description : 'empty',
+            Stock       : 'integer',
+            Price       : 'empty'
+          }
+        })
+      ;
+    });
+  </script>
+
+}

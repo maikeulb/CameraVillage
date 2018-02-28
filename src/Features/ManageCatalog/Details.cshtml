@@ -1,12 +1,9 @@
 @model RolleiShop.Features.ManageCatalog.Details.Result
 
-<div class="thumbnail">
-  <img alt="@Model.Name" src="@Model.ImageUrl">
-  <div class="caption-full">
-    <h3 class="pull-right">@Model.Price</h3>
-    <h3>
-        <a href="#">@Model.Name</a>
-    </h3>
-    <p>@Model.Description</p>
-  </div>
-</div>
+<main class="ui text container">
+  <img class="ui bordered medium image" alt="@Model.Name" src="@Model.ImageUrl">
+  <div class = "ui huge header"> @Model.Name </div>
+  <p>@Model.Description</p>
+  <p>@Model.Price</p>
+  <a asp-action="Index">Back to List</a> 
+</main>

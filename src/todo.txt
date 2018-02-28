@@ -12,3 +12,4 @@ fix name in navbar
 ***Add redis
 ***concurrency
 ***stored procs
+***display, money

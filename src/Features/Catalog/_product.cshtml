@@ -1,22 +1,15 @@
 ﻿@model RolleiShop.Features.Catalog.Index.Result.CatalogItem
 
   <div class = "ui card" >
-
     <div class = "image">
-      <img class = "ui centered small rounded image" src="
-      @Model.ImageUrl
-      " />
+      <img class = "ui centered small rounded image" src="@Model.ImageUrl" />
     </div>
-
-      @Model.ImageUrl
     <div class="content">
       <h4 class="ui header">@Model.Name</h5>
       <h5 class="ui sub header">Price</h5>
       <span>$@Model.Price.ToString("N2")</span>
     </div>
- 
     <button id="product-item" data-product-id="@Model.Id" class="add-to-cart
       ui primary basic button">AddToCart</button>
-
   </div>
 

@@ -1,68 +1,92 @@
 @model RolleiShop.Features.ManageCatalog.Create.Command
-<h1>File Upload Asp Net Core</h1>
-<hr />
 
-<img id="target" src="http://placehold.it/256" alt="your image" />
 
-<form method="post" enctype="multipart/form-data"
-  asp-controller="ManageCatalog" asp-action="Create">
-  <div asp-validation-summary="All" class="text-danger"></div>
+<main class="ui text container">
+  <div class = "ui huge header"> Add to Inventory </div>
+  <a asp-action="Index">Back to List</a> 
+  <hr />
 
-  <div class="field">
-    <label asp-for="Name" class="label"></label>
-    <input asp-for="Name" class="control input" type="text"></input>
-  </div>
+  <img id="target" src="http://placehold.it/256" alt="your image" />
+  <div style="padding-top:20px"/>
 
-  <div class="field">
-    <label asp-for="Description" class="label"></label>
-    <input asp-for="Description" class="control input" type="text"></input>
-  </div>
+  <form method="post" enctype="multipart/form-data"
+    asp-controller="ManageCatalog" asp-action="Create" class="ui form create">
+    <div asp-validation-summary="All" class="text-danger"></div>
 
-  <div class="field">
-    <label asp-for="CatalogBrandId" class="label"></label>
-    <input asp-for="CatalogBrandId" class="control input" type="text"></input>
-  </div>
+    <label class="ui basic button">
+      Choose File 
+      <input name="ImageUpload" class="imgInp" type="file" style="display: none"/>
+    </label>
 
-  <div class="field">
-    <label asp-for="CatalogTypeId" class="label"></label>
-    <input asp-for="CatalogTypeId" class="control input" type="text"></input>
-  </div>
-
-  <div class="field">
-    <label asp-for="AvailableStock" class="label"></label>
-    <input asp-for="AvailableStock" class="control input" type="text"></input>
-  </div>
-
-  <div class="field">
-    <label asp-for="Price" class="label"></label>
-    <input asp-for="Price" class="control input" type="text"></input>
-  </div>
-
-  <div class="form-horizontal">
-    <div class="form-group">
-      <input type="file" name="ImageUpload" class="imgInp"/>
+    <div class="field">
+      <label asp-for="Name" class="label"></label>
+      <input asp-for="Name" type="text"></input>
     </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-info">Submit</button>
+
+    <div class="field">
+      <label asp-for="Description" class="label"></label>
+      <input asp-for="Description" type="text"></input>
     </div>
-  </div>
+
+    <div class="field">
+      <label asp-for="BrandId" class="label"></label>
+      <input asp-for="BrandId" type="text"></input>
+    </div>
+
+    <div class="field">
+      <label asp-for="TypeId" class="label"></label>
+      <input asp-for="TypeId" type="text"></input>
+    </div>
+
+    <div class="field">
+      <label asp-for="Stock" class="label"></label>
+      <input asp-for="Stock" type="number"></input>
+    </div>
+
+    <div class="field">
+      <label asp-for="Price" class="label"></label>
+      <input for="Price" asp-for="Price" type="number"></input>
+    </div>
+
+    <button type="submit" class="ui primary button">Submit</button>
   </form>
 
-      <script>
-        $(document).ready(function () {
-           function readURL(input) {
-             if (input.files && input.files[0]) {
-               var reader = new FileReader();
-               reader.onload = function (e) {
-                 $('#target')
-                   .attr('src', e.target.result);
-               };
-               reader.readAsDataURL(input.files[0]);
-             }
-           }
-          $(".imgInp").change(function(){
-            readURL(this);
-          });
-        });
-      </script>
+@section scripts
+{
+  <script>
+    $(document).ready(function () {
+       function readURL(input) {
+         if (input.files && input.files[0]) {
+           var reader = new FileReader();
+           reader.onload = function (e) {
+             $('#target')
+               .attr('src', e.target.result);
+           };
+           reader.readAsDataURL(input.files[0]);
+         }
+       }
+      $(".imgInp").change(function(){
+        readURL(this);
+      });
+    });
+  </script>
 
+  <script>
+    $(document).ready(function(){
+      $('.ui.form.create')
+        .form({
+          fields: {
+            ImageUpload : 'empty',
+            Name        : 'empty',
+            Description : 'empty',
+            BrandId     : 'empty',
+            TypeId      : 'empty',
+            Stock       : 'integer',
+            Price       : 'empty'
+          }
+        })
+      ;
+    });
+  </script>
+
+}

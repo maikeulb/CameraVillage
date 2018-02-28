@@ -32,9 +32,7 @@
           </div>
           <div class="ui fluid large submit button">Login</div>
         </div>
-        <div class="ui error message">
-        </div>
-
+        <div class="ui error message"></div>
         @if (ViewData.ModelState.Count > 0)
         {
             <div class="ui negative message" style="text-align:left">
@@ -47,7 +45,6 @@
                 }
             </div>
         }
-
       </form>
       <div class="ui message">
       <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user?</a>

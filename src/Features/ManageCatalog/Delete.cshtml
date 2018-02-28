@@ -3,35 +3,30 @@
     ViewBag.Title = "Delete";
 }
 
-<h3>Are you sure you want to remove this item from tthe catalog?</h3>
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Camera
-        </dt>
-        <dd>
-          @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-          @Html.DisplayNameFor(model => model.BrandId)
-        </dt>
-        <dd>
-          @Html.DisplayFor(model => model.BrandId)
-        </dd>
-        <dt>
-          @Html.DisplayNameFor(model => model.TypeId)
-        </dt>
-        <dd>
-          @Html.DisplayFor(model => model.TypeId)
-        </dd>
-    </dl>
-
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    </form>
+<main class="ui text container">
+  <h2 class="header">Are you sure you want to remove this item from the catalog?</h2>
+  <div class="ui divider"/>
+  </br>
+<div class="ui list">
+  <div class="item">
+    <div class="header">Camera</div>
+      @Html.DisplayFor(model => model.Name)
+  </div>
+  </br>
+  <div class="item">
+    <div class="header">Brand</div>
+      @Html.DisplayFor(model => model.BrandId)
+  </div>
+  </br>
+  <div class="item">
+    <div class="header">Format</div>
+      @Html.DisplayFor(model => model.TypeId)
+  </div>
 </div>
+  </br>
+  <form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" value="Delete" class="ui button" /> |
+    <a asp-action="Index">Back to List</a> 
+  </form>
+</main>

@@ -66,7 +66,7 @@ namespace RolleiShop.Models.Entities
 
         public void UpdateDetails (Edit.Command command)
         {
-            AvailableStock = command.AvailableStock;
+            AvailableStock = command.Stock;
             Price = command.Price;
             Description = command.Description;
         }

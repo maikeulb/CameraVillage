@@ -46,7 +46,7 @@ namespace RolleiShop.Features.ManageCatalog
                 return new Command
                 {
                     Id = catalogItem.Id,
-                    AvailableStock = catalogItem.AvailableStock,
+                    Stock = catalogItem.AvailableStock,
                     Price = catalogItem.Price,
                     Description = catalogItem.Description,
                     ImageUrl = _urlComposer.ComposeImgUrl(catalogItem.ImageUrl)
@@ -59,7 +59,7 @@ namespace RolleiShop.Features.ManageCatalog
             public int Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
-            public int AvailableStock { get; set; }
+            public int Stock { get; set; }
             public decimal Price { get; set; }
             public string ImageUrl { get; set; }
         }

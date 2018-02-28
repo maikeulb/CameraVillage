@@ -26,9 +26,9 @@ namespace RolleiShop.Features.ManageCatalog
         public class Command : IRequest
         {
             public int Id { get; set; }
-            public int CatalogTypeId { get; set; }
-            public int CatalogBrandId { get; set; }
-            public int AvailableStock { get; set; }
+            public int TypeId { get; set; }
+            public int BrandId { get; set; }
+            public int Stock { get; set; }
             public decimal Price { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
@@ -68,9 +68,9 @@ namespace RolleiShop.Features.ManageCatalog
                     message.ImageUrl = "http://catalogbaseurl/images/products/" + ImageName;
                 }
                 var item = CatalogItem.Create (
-                    message.CatalogTypeId,
-                    message.CatalogBrandId,
-                    message.AvailableStock,
+                    message.TypeId,
+                    message.BrandId,
+                    message.Stock,
                     message.Price,
                     message.Name,
                     message.Description,
