@@ -6,7 +6,8 @@
   <a asp-action="Index">Back to List</a> 
   <hr />
 
-  <img id="target" src="http://placehold.it/256" alt="your image" />
+  <img id="target" src="http://placehold.it/300" alt="your image" class="ui
+  medium image" />
   <div style="padding-top:20px"/>
 
   <form method="post" enctype="multipart/form-data"
@@ -29,13 +30,17 @@
     </div>
 
     <div class="field">
-      <label asp-for="BrandId" class="label"></label>
-      <input asp-for="BrandId" type="text"></input>
+      <label asp-for="BrandId"></label>
+        <select asp-for="BrandId" asp-items="ViewBag.BrandId">
+          <option value="">-- Select Brand --</option>
+        </select>
     </div>
 
     <div class="field">
-      <label asp-for="TypeId" class="label"></label>
-      <input asp-for="TypeId" type="text"></input>
+      <label asp-for="TypeId"></label>
+        <select asp-for="TypeId" asp-items="ViewBag.TypeId">
+          <option value="">-- Select Type --</option>
+        </select>
     </div>
 
     <div class="field">
