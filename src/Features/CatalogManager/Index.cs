@@ -105,7 +105,7 @@ namespace RolleiShop.Features.CatalogManager
                 return result;
             }
 
-            public async Task<List<CatalogItem>> ListAsync()
+            private async Task<List<CatalogItem>> ListAsync()
             {
                 return await _context.Set<CatalogItem>()
                     .Include(c => c.CatalogBrand)

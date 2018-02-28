@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +28,9 @@ namespace RolleiShop.Features.CatalogManager
         public class Command : IRequest
         {
             public int Id { get; set; }
+            [Display(Name = "Type")]
             public int TypeId { get; set; }
+            [Display(Name = "Brand")]
             public int BrandId { get; set; }
             public int Stock { get; set; }
             [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
@@ -37,6 +40,20 @@ namespace RolleiShop.Features.CatalogManager
             public IFormFile ImageUpload { get; set; }
             public string ImageName { get; set; }
             public string ImageUrl { get; set; }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator()
+            {
+                RuleFor(m => m.TypeId).NotNull();
+                RuleFor(m => m.BrandId).NotNull();
+                RuleFor(m => m.Stock).NotNull();
+                RuleFor(m => m.Price).NotNull();
+                RuleFor(m => m.Name).NotNull();
+                RuleFor(m => m.Description).NotNull();
+                RuleFor(m => m.ImageUpload).NotNull();
+            }
         }
 
         public class Handler : AsyncRequestHandler<Command>

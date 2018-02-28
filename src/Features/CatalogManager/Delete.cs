@@ -2,6 +2,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,14 @@ namespace RolleiShop.Features.CatalogManager
             public int Id { get; set; }
         }
 
+        public class QueryValidator : AbstractValidator<Query>
+        {
+            public QueryValidator()
+            {
+                RuleFor(m => m.Id).NotNull();
+            }
+        }
+
         public class QueryHandler : AsyncRequestHandler<Query, Command>
         {
             private readonly ApplicationDbContext _context;
@@ -32,16 +41,23 @@ namespace RolleiShop.Features.CatalogManager
 
             protected override async Task<Command> HandleCore(Query message)
             {
-                var catalogItem = await _context.Set<CatalogItem>().FindAsync(message.Id);
-                var model = new Command
+                var catalogItem = await SingleAsync(message.Id);
+                var command = new Command
                 {
                     Id = catalogItem.Id,
                     Name = catalogItem.Name,
-                    BrandId = catalogItem.CatalogBrandId,
-                    TypeId = catalogItem.CatalogTypeId,
+                    Brand = catalogItem.CatalogBrand.Brand,
+                    Type = catalogItem.CatalogType.Type,
                 };
-                //handle model not found
-                return model;
+                return command;
+            }
+
+            private async Task<CatalogItem> SingleAsync(int id)
+            {
+                return await _context.Set<CatalogItem>()
+                    .Include(c => c.CatalogBrand)
+                    .Include(c => c.CatalogType)
+                    .SingleOrDefaultAsync(c => c.Id == id);
             }
         }
 
@@ -49,8 +65,8 @@ namespace RolleiShop.Features.CatalogManager
         {
             public int Id { get; set; }
             public string Name { get; set; }
-            public int BrandId { get; set; }
-            public int TypeId { get; set; }
+            public string Brand { get; set; }
+            public string Type { get; set; }
         }
 
         public class CommandHandler : AsyncRequestHandler<Command>

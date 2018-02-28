@@ -5,5 +5,3 @@
 ***Add redis
 ***concurrency
 ***stored procs
-remove automapper
-remove email

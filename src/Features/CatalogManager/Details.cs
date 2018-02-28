@@ -47,7 +47,7 @@ namespace RolleiShop.Features.CatalogManager
             protected override async Task<Result> HandleCore(Query message)
             {
                 Result result =  await _catalogService.GetCatalogDetailItem (message.Id);
-                result.ImageUrl  = _urlComposer.ComposeImgUrl(result.ImageUrl);
+                result.ImageUrl = _urlComposer.ComposeImgUrl(result.ImageUrl);
                 return result;
             }
         }

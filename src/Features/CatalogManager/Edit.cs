@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,7 +25,15 @@ namespace RolleiShop.Features.CatalogManager
     {
         public class Query : IRequest<Command>
         {
-            public int? Id { get; set; }
+            public int Id { get; set; }
+        }
+
+        public class QueryValidator : AbstractValidator<Query>
+        {
+            public QueryValidator()
+            {
+                RuleFor(m => m.Id).NotNull();
+            }
         }
 
         public class QueryHandler : AsyncRequestHandler<Query, Command>
@@ -41,10 +50,7 @@ namespace RolleiShop.Features.CatalogManager
 
             protected override async Task<Command> HandleCore(Query message)
             {
-                var catalogItem = await _context.Set<CatalogItem>()
-                    .Include(c => c.CatalogBrand)
-                    .Include(c => c.CatalogType)
-                    .SingleOrDefaultAsync(c => c.Id == message.Id);
+                var catalogItem = await SingleAsync(message.Id);
 
                 return new Command
                 {
@@ -58,6 +64,14 @@ namespace RolleiShop.Features.CatalogManager
                     ImageUrl = _urlComposer.ComposeImgUrl(catalogItem.ImageUrl)
                 };
             }
+
+            private async Task<CatalogItem> SingleAsync(int id)
+            {
+                return await _context.Set<CatalogItem>()
+                    .Include(c => c.CatalogBrand)
+                    .Include(c => c.CatalogType)
+                    .SingleOrDefaultAsync(c => c.Id == id);
+            }
         }
 
         public class Command : IRequest
@@ -70,6 +84,17 @@ namespace RolleiShop.Features.CatalogManager
             public int Stock { get; set; }
             public decimal Price { get; set; }
             public string ImageUrl { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(m => m.Stock).NotNull();
+                RuleFor(m => m.Price).NotNull();
+                RuleFor(m => m.Name).NotNull();
+                RuleFor(m => m.Description).NotNull();
+            }
         }
 
         public class CommandHandler : AsyncRequestHandler<Command>

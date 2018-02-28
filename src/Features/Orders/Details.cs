@@ -35,6 +35,7 @@ namespace RolleiShop.Features.Orders
             {
                 public int ProductId { get; set; }
                 public string ProductName { get; set; }
+                [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
                 public decimal UnitPrice { get; set; }
                 public int Units { get; set; }
                 public string ImageUrl { get; set; }
