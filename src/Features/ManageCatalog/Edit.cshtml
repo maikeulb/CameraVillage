@@ -1,9 +1,6 @@
-@model RolleiShop.Features.Catalog.Edit.Result
-<h1>File Upload Asp Net Core</h1>
-<hr />
+@model RolleiShop.Features.ManageCatalog.Edit.Command
 
-@using (Html.BeginForm("Edit", "Catalog"))
-{
+<form asp-action="Edit">
   <div asp-validation-summary="All" class="text-danger"></div>
 
   @Html.HiddenFor(m => m.Id)
@@ -26,4 +23,4 @@
     <div class="form-group">
       <button type="submit" class="btn btn-info">Submit</button>
   </div>
-}
+</form>

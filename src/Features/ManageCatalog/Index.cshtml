@@ -1,0 +1,54 @@
+﻿@model RolleiShop.Features.ManageCatalog.Index.Result
+@{
+  ViewData["Title"] = "Manage Catalog";
+}
+
+<div class="ui container center aligned" style="padding:40px;">
+  <div class = "ui huge header"> Manage Cameras </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Brand
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            AvailableStock
+        </th>
+        <th>
+            Price
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.CatalogItems)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrandId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvailableStock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+              <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-link">Edit</a> |
+              <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-link">Details</a> |
+              <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-link">Delete</a>
+            </td>
+        </tr>
+    }
+</table>

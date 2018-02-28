@@ -3,6 +3,7 @@
 4. build datatable / conto
 5. fluent validation (upload)
 5. remove email
+5. check valid tokenn
 
 5. auto select
 

@@ -1,31 +1,25 @@
-using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using RolleiShop.Data.Context;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
-using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
-using RolleiShop.Specifications;
 
-namespace RolleiShop.Features.Catalog
+namespace RolleiShop.Features.ManageCatalog
 {
-    public class Edit
+    public class Delete
     {
         public class Query : IRequest<Command>
         {
-            public int? Id { get; set; }
+            public int Id { get; set; }
         }
 
         public class QueryHandler : AsyncRequestHandler<Query, Command>
@@ -43,9 +37,9 @@ namespace RolleiShop.Features.Catalog
                 var model = new Command
                 {
                     Id = catalogItem.Id,
-                    AvailableStock = catalogItem.AvailableStock,
-                    Price = catalogItem.Price,
-                    Description = catalogItem.Description,
+                    Name = catalogItem.Name,
+                    BrandId = catalogItem.CatalogBrandId,
+                    TypeId = catalogItem.CatalogTypeId,
                 };
                 //handle model not found
                 return model;
@@ -55,10 +49,9 @@ namespace RolleiShop.Features.Catalog
         public class Command : IRequest
         {
             public int Id { get; set; }
-            public int AvailableStock { get; set; }
-            public decimal Price { get; set; }
             public string Name { get; set; }
-            public string Description { get; set; }
+            public int BrandId { get; set; }
+            public int TypeId { get; set; }
         }
 
         public class CommandHandler : AsyncRequestHandler<Command>
@@ -72,10 +65,10 @@ namespace RolleiShop.Features.Catalog
 
             protected override async Task HandleCore(Command message)
             {
-                var catalogItem = _context.Set<CatalogItem>().Find(message.Id);
-                //handle item found
-                catalogItem.UpdateDetails (message);
-                _context.CatalogItems.Update (catalogItem);
+                var catalogItem = await _context.CatalogItems
+                    .AsNoTracking()
+                    .SingleOrDefaultAsync(m=>m.Id == message.Id);
+                _context.Remove(catalogItem);
                 await _context.SaveChangesAsync ();
             }
         }

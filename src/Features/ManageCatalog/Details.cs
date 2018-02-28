@@ -12,7 +12,7 @@ using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
 using RolleiShop.Infra.App.Interfaces;
 
-namespace RolleiShop.Features.Catalog
+namespace RolleiShop.Features.ManageCatalog
 {
     public class Details
     {
@@ -41,15 +41,7 @@ namespace RolleiShop.Features.Catalog
 
             protected override async Task<Result> HandleCore(Query message)
             {
-
-                /* if (id <= 0) */
-                /*     return BadRequest (); */
-
-                return await _catalogService
-                    .GetCatalogDetailItem (message.Id);
-
-                /* if (catalogModel == null) */
-                /*     return NotFound (); */
+                return await _catalogService.GetCatalogDetailItem (message.Id);
             }
         }
     }

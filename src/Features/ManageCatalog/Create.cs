@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +19,7 @@ using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
 using RolleiShop.Specifications;
 
-namespace RolleiShop.Features.Catalog
+namespace RolleiShop.Features.ManageCatalog
 {
     public class Create
     {
@@ -78,7 +77,6 @@ namespace RolleiShop.Features.Catalog
                     ImageName,
                     message.ImageUrl
                 );
-                _logger.LogInformation("************after************{}", item.ImageName);
                 _context.CatalogItems.Add (item);
                 await _context.SaveChangesAsync ();
             }

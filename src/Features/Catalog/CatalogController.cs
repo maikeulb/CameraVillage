@@ -41,46 +41,42 @@ namespace RolleiShop.Features.Catalog
             return View(model);
         }
 
-        public async Task<IActionResult> Details (Details.Query query)
-        {
-            var model = await _mediator.Send(query);
+        /* public async Task<IActionResult> Details (Details.Query query) */
+        /* { */
+        /*     var model = await _mediator.Send(query); */
+        /*     return View(model); */
+        /* } */
 
-            return View(model);
-        }
+        /* [Authorize(Roles="Admin")] */
+        /* public IActionResult Create () */
+        /* { */
+        /*     return View (); */
+        /* } */
 
-        [Authorize(Roles="Admin")]
-        public IActionResult Create ()
-        {
-            return View ();
-        }
+        /* [HttpPost] */
+        /* [Authorize(Roles="Admin")] */
+        /* public async Task<IActionResult> Create (Create.Command command) */
+        /* { */
+        /*     await _mediator.Send(command); */
+        /*     return RedirectToAction ("Create"); */
+        /* } */
 
-        [HttpPost]
-        [Authorize(Roles="Admin")]
-        public async Task<IActionResult> Create (Create.Command command)
-        {
-            await _mediator.Send(command);
+        /* [Authorize(Roles="Admin")] */
+        /* public async Task<IActionResult> Edit (Edit.Query query) */
+        /* { */
+        /*     if (query.Id == null) */
+        /*         return NotFound (); */
+        /*     var model = await _mediator.Send(query); */
+        /*     return View(model); */
+        /* } */
 
-            return RedirectToAction ("Create");
-        }
-
-        [Authorize(Roles="Admin")]
-        public async Task<IActionResult> Edit (Edit.Query query)
-        {
-            if (query.Id == null)
-                return NotFound ();
-
-            var model = await _mediator.Send(query);
-            return View(model);
-        }
-
-        [HttpPost]
-        [Authorize(Roles="Admin")]
-        public async Task<IActionResult> Edit (Edit.Command command)
-        {
-            await _mediator.Send(command);
-
-            return RedirectToAction ("Index");
-        }
+        /* [HttpPost] */
+        /* [Authorize(Roles="Admin")] */
+        /* public async Task<IActionResult> Edit (Edit.Command command) */
+        /* { */
+        /*     await _mediator.Send(command); */
+        /*     return RedirectToAction ("Index"); */
+        /* } */
 
         [HttpGet ("Error")]
         public IActionResult Error ()

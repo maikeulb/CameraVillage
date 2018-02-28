@@ -1,10 +1,9 @@
-@model RolleiShop.Features.Catalog.Create.Command
+@model RolleiShop.Features.ManageCatalog.Create.Command
 <h1>File Upload Asp Net Core</h1>
 <hr />
 
-@using (Html.BeginForm("Create", "Catalog", FormMethod.Post,
-new { enctype = "multipart/form-data" }))
-{
+<form method="post" enctype="multipart/form-data"
+  asp-controller="ManageCatalog" asp-action="Create">
   <div asp-validation-summary="All" class="text-danger"></div>
 
   <div class="field">
@@ -45,4 +44,4 @@ new { enctype = "multipart/form-data" }))
       <button type="submit" class="btn btn-info">Submit</button>
     </div>
   </div>
-}
+  </form>

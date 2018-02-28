@@ -12,13 +12,13 @@
       @UserManager.GetUserName(User)
   </div>
 
-  <a asp-area="" asp-controller="Orders" asp-action="Index" title="Manage" class="item">
+  <a asp-controller="Orders" asp-action="Index" title="Manage" class="item">
        My Orders
   </a>
 
   @if (User.IsInRole("Admin")) 
   {
-    <a asp-controller="Catalog" asp-action="Create" class="item">Manage</a>
+    <a asp-controller="ManageCatalog" asp-action="Index" class="item">Manage</a>
   }
 
   <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" >
