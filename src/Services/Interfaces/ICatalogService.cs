@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
-using RolleiShop.Features.ManageCatalog;
+using RolleiShop.Features.CatalogManager;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

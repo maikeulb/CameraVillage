@@ -20,7 +20,7 @@ using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
 using RolleiShop.Specifications;
 
-namespace RolleiShop.Features.ManageCatalog
+namespace RolleiShop.Features.CatalogManager
 {
     public class Create
     {

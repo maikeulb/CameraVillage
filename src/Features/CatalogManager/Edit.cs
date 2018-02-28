@@ -1,48 +1,58 @@
+using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using RolleiShop.Data.Context;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
+using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
+using RolleiShop.Specifications;
 
-namespace RolleiShop.Features.ManageCatalog
+namespace RolleiShop.Features.CatalogManager
 {
-    public class Delete
+    public class Edit
     {
         public class Query : IRequest<Command>
         {
-            public int Id { get; set; }
+            public int? Id { get; set; }
         }
 
         public class QueryHandler : AsyncRequestHandler<Query, Command>
         {
             private readonly ApplicationDbContext _context;
+            private readonly IUrlComposer _urlComposer;
 
-            public QueryHandler(ApplicationDbContext context)
+            public QueryHandler(ApplicationDbContext context,
+                IUrlComposer urlComposer)
             {
                 _context = context;
+                _urlComposer = urlComposer;
             }
 
             protected override async Task<Command> HandleCore(Query message)
             {
                 var catalogItem = await _context.Set<CatalogItem>().FindAsync(message.Id);
-                var model = new Command
+                return new Command
                 {
                     Id = catalogItem.Id,
                     Name = catalogItem.Name,
                     BrandId = catalogItem.CatalogBrandId,
                     TypeId = catalogItem.CatalogTypeId,
+                    Description = catalogItem.Description,
+                    Stock = catalogItem.AvailableStock,
+                    Price = catalogItem.Price,
+                    ImageUrl = _urlComposer.ComposeImgUrl(catalogItem.ImageUrl)
                 };
-                //handle model not found
-                return model;
             }
         }
 
@@ -52,6 +62,10 @@ namespace RolleiShop.Features.ManageCatalog
             public string Name { get; set; }
             public int BrandId { get; set; }
             public int TypeId { get; set; }
+            public string Description { get; set; }
+            public int Stock { get; set; }
+            public decimal Price { get; set; }
+            public string ImageUrl { get; set; }
         }
 
         public class CommandHandler : AsyncRequestHandler<Command>
@@ -65,10 +79,9 @@ namespace RolleiShop.Features.ManageCatalog
 
             protected override async Task HandleCore(Command message)
             {
-                var catalogItem = await _context.CatalogItems
-                    .AsNoTracking()
-                    .SingleOrDefaultAsync(m=>m.Id == message.Id);
-                _context.Remove(catalogItem);
+                var catalogItem = _context.Set<CatalogItem>().Find(message.Id);
+                catalogItem.UpdateDetails (message);
+                _context.CatalogItems.Update (catalogItem);
                 await _context.SaveChangesAsync ();
             }
         }

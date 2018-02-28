@@ -1,16 +1,10 @@
-1. display images
-2. build datatable
-4. build datatable / conto
-5. fluent validation (upload)
-5. remove email
+5. fluent validation and model state / always valid?
 5. check valid tokenn
-fix name in navbar
-5. auto select
 
 **error handling (fluent error)
 
 ***Add redis
 ***concurrency
 ***stored procs
-***display, money
 remove automapper
+remove email

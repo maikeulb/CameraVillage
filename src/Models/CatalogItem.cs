@@ -1,4 +1,4 @@
-using RolleiShop.Features.ManageCatalog;
+using RolleiShop.Features.CatalogManager;
 using System;
 
 namespace RolleiShop.Models.Entities

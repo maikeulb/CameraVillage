@@ -1,4 +1,4 @@
-@model RolleiShop.Features.ManageCatalog.Create.Command
+@model RolleiShop.Features.CatalogManager.Create.Command
 
 
 <main class="ui text container">
@@ -10,7 +10,7 @@
   <div style="padding-top:20px"/>
 
   <form method="post" enctype="multipart/form-data"
-    asp-controller="ManageCatalog" asp-action="Create" class="ui form create">
+    asp-controller="CatalogManager" asp-action="Create" class="ui form create">
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <label class="ui basic button">
@@ -25,7 +25,7 @@
 
     <div class="field">
       <label asp-for="Description" class="label"></label>
-      <input asp-for="Description" type="text"></input>
+      <textarea  asp-for="Description" type="text"></textarea>
     </div>
 
     <div class="field">

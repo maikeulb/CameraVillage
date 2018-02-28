@@ -13,7 +13,7 @@ using RolleiShop.Models.Interfaces;
 using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
 
-namespace RolleiShop.Features.ManageCatalog
+namespace RolleiShop.Features.CatalogManager
 {
     public class Details
     {

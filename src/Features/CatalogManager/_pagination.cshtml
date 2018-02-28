@@ -1,4 +1,4 @@
-﻿@model RolleiShop.Features.ManageCatalog.Index.Result.PaginationInfoViewModel
+﻿@model RolleiShop.Features.CatalogManager.Index.Result.PaginationInfoViewModel
 
 <div class="ui container center aligned basic segment">
   <div class="ui text container" style="padding-bottom:10px">
@@ -7,7 +7,7 @@
   <div class="ui pagination menu">
     <a class="item @Model.Previous"
        id="Previous"
-       asp-controller="ManageCatalog"
+       asp-controller="CatalogManager"
        asp-action="Index"
        asp-route-page="@(Model.ActualPage - 1)"
        aria-label="Previous">
@@ -15,7 +15,7 @@
     </a>	
     <a class="item @Model.Next"
        id="Next"
-       asp-controller="ManageCatalog"
+       asp-controller="CatalogManager"
        asp-action="Index"
        asp-route-page="@(Model.ActualPage + 1)"
        aria-label="Next">

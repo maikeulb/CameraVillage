@@ -15,7 +15,7 @@ using RolleiShop.Models.Interfaces;
 using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
 
-namespace RolleiShop.Features.ManageCatalog
+namespace RolleiShop.Features.CatalogManager
 {
     public class Index
     {
@@ -110,6 +110,5 @@ namespace RolleiShop.Features.ManageCatalog
                 return await _context.Set<CatalogItem>().ToListAsync();
             }
         }
-
     }
 }

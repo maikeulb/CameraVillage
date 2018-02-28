@@ -1,7 +1,7 @@
-@model RolleiShop.Features.ManageCatalog.Edit.Command
+@model RolleiShop.Features.CatalogManager.Edit.Command
 
 <main class="ui text container">
-  <div class = "ui huge header"> Add to Inventory </div>
+  <div class = "ui huge header"> Edit @Model.Name </div>
   <a asp-action="Index">Back to List</a> 
   <hr />
 
@@ -11,9 +11,24 @@
   <form asp-action="Edit" class="ui form edit">
     <div asp-validation-summary="All" class="text-danger"></div>
 
+    <div class="disabled field">
+      <label asp-for="Name" class="label"></label>
+      <input asp-for="Name" readonly="" type="text"></input>
+    </div>
+
+    <div class="disabled field">
+      <label asp-for="BrandId" class="label"></label>
+      <input asp-for="BrandId" readonly="" type="text"></input>
+    </div>
+
+    <div class="disabled field">
+      <label asp-for="TypeId" class="label"></label>
+      <input asp-for="TypeId" readonly="" type="text"></input>
+    </div>
+
     <div class="field">
       <label asp-for="Description" class="label"></label>
-      <input asp-for="Description" type="text"></input>
+      <textarea  asp-for="Description" type="text"></textarea>
     </div>
 
     <div class="field">

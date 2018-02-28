@@ -17,15 +17,15 @@ using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
 using RolleiShop.Infra.App.Interfaces;
 
-namespace RolleiShop.Features.ManageCatalog
+namespace RolleiShop.Features.CatalogManager
 {
     [Authorize(Roles="Admin")]
-    public class ManageCatalogController : Controller
+    public class CatalogManagerController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMediator _mediator;
 
-        public ManageCatalogController (
+        public CatalogManagerController (
             SignInManager<ApplicationUser> signInManager,
             IMediator mediator)
         {
