@@ -18,12 +18,12 @@ namespace RolleiShop.Features.Orders
 {
     public class Index
     {
-        public class Query : IRequest<IEnumerable<Result>>
+        public class Query : IRequest<IEnumerable<Model>>
         {
             public string Name { get; set; }
         }
 
-        public class Result
+        public class Model
         {
             public int OrderNumber { get; set; }
             public DateTimeOffset OrderDate { get; set; }
@@ -41,7 +41,7 @@ namespace RolleiShop.Features.Orders
             }
         }
 
-        public class Handler : AsyncRequestHandler<Query, IEnumerable<Result>>
+        public class Handler : AsyncRequestHandler<Query, IEnumerable<Model>>
         {
             private readonly ApplicationDbContext _context;
 
@@ -50,14 +50,14 @@ namespace RolleiShop.Features.Orders
                 _context = context;
             }
 
-            protected override async Task<IEnumerable<Result>> HandleCore(Query message)
+            protected override async Task<IEnumerable<Model>> HandleCore(Query message)
             {
                 var orders = await ListAsync(new CustomerOrdersWithItemsSpecification(message.Name));
                 return orders
-                    .Select(o => new Result
+                    .Select(o => new Model
                     {
                         OrderDate = o.OrderDate,
-                        OrderItems = o.OrderItems?.Select(oi => new Result.OrderItem()
+                        OrderItems = o.OrderItems?.Select(oi => new Model.OrderItem()
                         {
                             ImageUrl = oi.ItemOrdered.ImageUrl,
                             ProductId = oi.ItemOrdered.CatalogItemId,
@@ -71,15 +71,17 @@ namespace RolleiShop.Features.Orders
                     });
             }
 
-            private  async Task<List<Order>> ListAsync(ISpecification<Order> spec)
+            private async Task<List<Order>> ListAsync(ISpecification<Order> spec)
             {
-                var queryableResultWithIncludes = spec.Includes
-                    .Aggregate(_context.Set<Order>().AsQueryable(),
+                var queryableModelWithIncludes = spec.Includes
+                    .Aggregate(_context.Orders
+                            .AsNoTracking()
+                            .AsQueryable(),
                         (current, include) => current.Include(include));
-                var secondaryResult = spec.IncludeStrings
-                    .Aggregate(queryableResultWithIncludes,
+                var secondaryModel = spec.IncludeStrings
+                    .Aggregate(queryableModelWithIncludes,
                         (current, include) => current.Include(include));
-                return await secondaryResult
+                return await secondaryModel
                                 .Where(spec.Criteria)
                                 .ToListAsync();
             }

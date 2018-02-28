@@ -18,12 +18,12 @@ namespace RolleiShop.Features.Orders
 {
     public class Details
     {
-        public class Query : IRequest<Result>
+        public class Query : IRequest<Model>
         {
             public int Id { get; set; }
         }
 
-        public class Result
+        public class Model
         {
             public int OrderNumber { get; set; }
             public DateTimeOffset OrderDate { get; set; }
@@ -42,7 +42,7 @@ namespace RolleiShop.Features.Orders
             }
         }
 
-        public class Handler : AsyncRequestHandler<Query, Result>
+        public class Handler : AsyncRequestHandler<Query, Model>
         {
             private readonly ApplicationDbContext _context;
 
@@ -51,13 +51,13 @@ namespace RolleiShop.Features.Orders
                 _context = context;
             }
 
-            protected override async Task<Result> HandleCore(Query message)
+            protected override async Task<Model> HandleCore(Query message)
             {
                 var order = await FirstAsync();
-                return new Result()
+                return new Model()
                 {
                     OrderDate = order.OrderDate,
-                    OrderItems = order.OrderItems.Select(oi => new Result.OrderItem()
+                    OrderItems = order.OrderItems.Select(oi => new Model.OrderItem()
                     {
                         ImageUrl = oi.ItemOrdered.ImageUrl,
                         ProductId = oi.ItemOrdered.CatalogItemId,

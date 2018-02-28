@@ -19,14 +19,14 @@ namespace RolleiShop.Features.Catalog
 {
     public class Index
     {
-        public class Query : IRequest<Result>
+        public class Query : IRequest<Model>
         {
             public int? BrandFilterApplied { get; set; } 
             public int? TypesFilterApplied { get; set; } 
             public int? Page { get; set; }
         }
 
-        public class Result
+        public class Model
         {
             public IEnumerable<CatalogItem> CatalogItems { get; set; }
             public IEnumerable<SelectListItem> Brands { get; set; }
@@ -54,7 +54,7 @@ namespace RolleiShop.Features.Catalog
                 }
         }
 
-        public class Handler : AsyncRequestHandler<Query, Result>
+        public class Handler : AsyncRequestHandler<Query, Model>
         {
             private readonly ApplicationDbContext _context;
             private readonly IUrlComposer _urlComposer;
@@ -66,7 +66,7 @@ namespace RolleiShop.Features.Catalog
                 _urlComposer = urlComposer;
             }
 
-            protected override async Task<Result> HandleCore(Query message)
+            protected override async Task<Model> HandleCore(Query message)
             {
                 int itemsPage = 8;
                 int pageNumber = message.Page ?? 0;
@@ -74,7 +74,7 @@ namespace RolleiShop.Features.Catalog
                 return await GetCatalogItems (pageNumber, itemsPage, message.BrandFilterApplied, message.TypesFilterApplied);
             }
 
-            private async Task<Result> GetCatalogItems (int pageIndex, int itemsPage, int? brandId, int? typeId)
+            private async Task<Model> GetCatalogItems (int pageIndex, int itemsPage, int? brandId, int? typeId)
             {
                 var filterSpecification = new CatalogFilterSpecification (brandId, typeId);
                 IEnumerable<CatalogItem> root = await ListAsync (filterSpecification);
@@ -89,9 +89,9 @@ namespace RolleiShop.Features.Catalog
                     x.ImageUrl = _urlComposer.ComposeImgUrl(x.ImageUrl);
                 });
 
-                var result = new Result ()
+                var result = new Model ()
                 {
-                    CatalogItems = itemsOnPage.Select (i => new Result.CatalogItem ()
+                    CatalogItems = itemsOnPage.Select (i => new Model.CatalogItem ()
                     {
                         Id = i.Id,
                         Name = i.Name,
@@ -102,7 +102,7 @@ namespace RolleiShop.Features.Catalog
                     Types = await GetTypes (),
                     BrandFilterApplied = brandId ?? 0,
                     TypesFilterApplied = typeId ?? 0,
-                    PaginationInfo = new Result.PaginationInfoViewModel ()
+                    PaginationInfo = new Model.PaginationInfoViewModel ()
                     {
                         ActualPage = pageIndex,
                         ItemsPerPage = itemsOnPage.Count,
@@ -121,7 +121,11 @@ namespace RolleiShop.Features.Catalog
 
             private  async Task<IEnumerable<SelectListItem>> GetBrands ()
             {
-                IEnumerable<CatalogBrand> brands = await _context.Set<CatalogBrand>().ToListAsync();
+                var brands = await _context
+                    .CatalogBrands
+                    .AsNoTracking()
+                    .ToListAsync();
+
                 var items = new List<SelectListItem>
                 {
                     new SelectListItem () { Value = null, Text = "All", Selected = true }
@@ -136,7 +140,10 @@ namespace RolleiShop.Features.Catalog
 
             private async Task<IEnumerable<SelectListItem>> GetTypes ()
             {
-                IEnumerable<CatalogType> types  = await _context.Set<CatalogType>().ToListAsync();
+                var types  = await _context.CatalogTypes
+                    .AsNoTracking()
+                    .ToListAsync();
+
                 var items = new List<SelectListItem>
                 {
                     new SelectListItem () { Value = null, Text = "All", Selected = true }
@@ -151,13 +158,15 @@ namespace RolleiShop.Features.Catalog
 
             private async Task<List<CatalogItem>> ListAsync(ISpecification<CatalogItem> spec)
             {
-                var queryableResultWithIncludes = spec.Includes
-                    .Aggregate(_context.Set<CatalogItem>().AsQueryable(),
+                var queryableModelWithIncludes = spec.Includes
+                    .Aggregate(_context.CatalogItems
+                            .AsNoTracking()
+                            .AsQueryable(),
                         (current, include) => current.Include(include));
-                var secondaryResult = spec.IncludeStrings
-                    .Aggregate(queryableResultWithIncludes,
+                var secondaryModel = spec.IncludeStrings
+                    .Aggregate(queryableModelWithIncludes,
                         (current, include) => current.Include(include));
-                return await secondaryResult
+                return await secondaryModel
                                 .Where(spec.Criteria)
                                 .ToListAsync();
             }
