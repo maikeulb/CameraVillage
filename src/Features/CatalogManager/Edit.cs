@@ -73,7 +73,7 @@ namespace RolleiShop.Features.CatalogManager
 
             private async Task<CatalogItem> SingleAsync(int id)
             {
-                return await _context.Set<CatalogItem>()
+                return await _context.CatalogItems
                     .Include(c => c.CatalogBrand)
                     .Include(c => c.CatalogType)
                     .SingleOrDefaultAsync(c => c.Id == id);
@@ -114,10 +114,12 @@ namespace RolleiShop.Features.CatalogManager
 
             protected override async Task<Result> HandleCore(Command message)
             {
-                var catalogItem = _context.Set<CatalogItem>().Find(message.Id);
+                var catalogItem = await _context.CatalogItems
+                    .AsNoTracking()
+                    .SingleOrDefaultAsync(m=>m.Id == message.Id);
 
                 if (catalogItem == null)
-                    return Result.Fail<Command> ("catalogItem does not exit");
+                    return Result.Fail<Command> ("Catalog Item does not exit");
 
                 catalogItem.UpdateDetails (message);
                 _context.CatalogItems.Update (catalogItem);

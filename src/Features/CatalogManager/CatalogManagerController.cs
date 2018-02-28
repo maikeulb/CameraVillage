@@ -48,9 +48,11 @@ namespace RolleiShop.Features.CatalogManager
 
         public async Task<IActionResult> Details (Details.Query query)
         {
-            var model = await _mediator.Send(query);
+            var modelOrError = await _mediator.Send (query);
 
-            return View(model);
+            return modelOrError.IsSuccess
+                ? (IActionResult)View(modelOrError.Value)
+                : (IActionResult)BadRequest(modelOrError.Error);
         }
 
         public async Task<IActionResult> Create ()
@@ -91,18 +93,22 @@ namespace RolleiShop.Features.CatalogManager
 
         public async Task<IActionResult> Delete(Delete.Query query)
         {
-            var model = await _mediator.Send(query);
+            var modelOrError = await _mediator.Send (query);
 
-            return View(model);
+            return modelOrError.IsSuccess
+                ? (IActionResult)View(modelOrError.Value)
+                : (IActionResult)BadRequest(modelOrError.Error);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Delete.Command command)
         {
-            await _mediator.Send(command);
+            var result = await _mediator.Send(command);
 
-            return RedirectToAction ("Index");
+            return result.IsSuccess
+                ? (IActionResult)RedirectToAction ("Index")
+                : (IActionResult)BadRequest(result.Error);
         }
 
         private async Task PopulateDropdownLists()
@@ -113,7 +119,9 @@ namespace RolleiShop.Features.CatalogManager
 
         private async Task<IEnumerable<SelectListItem>> GetBrands ()
         {
-            IEnumerable<CatalogBrand> brands = await _context.Set<CatalogBrand>().ToListAsync();
+            var brands = await _context.CatalogBrands
+                .AsNoTracking()
+                .ToListAsync();
             var items = new List<SelectListItem>();
             foreach (CatalogBrand brand in brands)
             {
@@ -124,7 +132,9 @@ namespace RolleiShop.Features.CatalogManager
 
         private async Task<IEnumerable<SelectListItem>> GetTypes ()
         {
-            IEnumerable<CatalogType> types  = await _context.Set<CatalogType>().ToListAsync();
+            var types = await _context.CatalogTypes
+                .AsNoTracking()
+                .ToListAsync();
             var items = new List<SelectListItem>();
             foreach (CatalogType type in types)
             {

@@ -19,12 +19,12 @@ namespace RolleiShop.Features.CatalogManager
 {
     public class Index
     {
-        public class Query : IRequest<Result>
+        public class Query : IRequest<Model>
         {
             public int? Page { get; set; }
         }
 
-        public class Result
+        public class Model
         {
             public IEnumerable<CatalogItem> CatalogItems { get; set; }
             public PaginationInfoViewModel PaginationInfo { get; set; }
@@ -51,7 +51,7 @@ namespace RolleiShop.Features.CatalogManager
                 }
         }
 
-        public class Handler : AsyncRequestHandler<Query, Result>
+        public class Handler : AsyncRequestHandler<Query, Model>
         {
             private readonly ApplicationDbContext _context;
 
@@ -60,7 +60,7 @@ namespace RolleiShop.Features.CatalogManager
                 _context = context;
             }
 
-            protected override async Task<Result> HandleCore(Query message)
+            protected override async Task<Model> HandleCore(Query message)
             {
                 int itemsPage = 10;
                 int pageNumber = message.Page ?? 0;
@@ -68,7 +68,7 @@ namespace RolleiShop.Features.CatalogManager
                 return await GetCatalogItems (pageNumber, itemsPage);
             }
 
-            private async Task<Result> GetCatalogItems (int pageIndex, int itemsPage)
+            private async Task<Model> GetCatalogItems (int pageIndex, int itemsPage)
             {
                 IEnumerable<CatalogItem> root = await ListAsync ();
                 var totalItems = root.Count ();
@@ -77,9 +77,9 @@ namespace RolleiShop.Features.CatalogManager
                     .Take (itemsPage)
                     .ToList ();
 
-                var result = new Result ()
+                var model = new Model ()
                 {
-                    CatalogItems = itemsOnPage.Select (i => new Result.CatalogItem ()
+                    CatalogItems = itemsOnPage.Select (i => new Model.CatalogItem ()
                     {
                         Id = i.Id,
                         Name = i.Name,
@@ -88,7 +88,7 @@ namespace RolleiShop.Features.CatalogManager
                         Price = i.Price,
                         AvailableStock = i.AvailableStock,
                     }),
-                    PaginationInfo = new Result.PaginationInfoViewModel ()
+                    PaginationInfo = new Model.PaginationInfoViewModel ()
                     {
                         ActualPage = pageIndex,
                         ItemsPerPage = itemsOnPage.Count,
@@ -97,17 +97,18 @@ namespace RolleiShop.Features.CatalogManager
                     }
                 };
 
-                foreach (var n in result.CatalogItems)
+                foreach (var n in model.CatalogItems)
                 { }
-                result.PaginationInfo.Next = (result.PaginationInfo.ActualPage == result.PaginationInfo.TotalPages - 1) ? "is-disabled" : "";
-                result.PaginationInfo.Previous = (result.PaginationInfo.ActualPage == 0) ? "is-disabled" : "";
+                model.PaginationInfo.Next = (model.PaginationInfo.ActualPage == model.PaginationInfo.TotalPages - 1) ? "is-disabled" : "";
+                model.PaginationInfo.Previous = (model.PaginationInfo.ActualPage == 0) ? "is-disabled" : "";
 
-                return result;
+                return model;
             }
 
             private async Task<List<CatalogItem>> ListAsync()
             {
-                return await _context.Set<CatalogItem>()
+                return await _context.CatalogItems
+                    .AsNoTracking()
                     .Include(c => c.CatalogBrand)
                     .Include(c => c.CatalogType)
                     .ToListAsync();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using CSharpFunctionalExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RolleiShop.Data.Context;
@@ -17,12 +18,12 @@ namespace RolleiShop.Features.CatalogManager
 {
     public class Details
     {
-        public class Query : IRequest<Result>
+        public class Query : IRequest<Result<Model>>
         {
             public int Id { get; set; }
         }
 
-        public class Result
+        public class Model
         {
             public int Id { get; set; }
             public string Name { get; set; }
@@ -32,7 +33,7 @@ namespace RolleiShop.Features.CatalogManager
             public decimal Price { get; set; }
         }
 
-        public class Handler : AsyncRequestHandler<Query, Result>
+        public class Handler : AsyncRequestHandler<Query, Result<Model>>
         {
             private readonly ICatalogService _catalogService;
             private readonly IUrlComposer _urlComposer;
@@ -44,11 +45,16 @@ namespace RolleiShop.Features.CatalogManager
                 _urlComposer = urlComposer;
             }
 
-            protected override async Task<Result> HandleCore(Query message)
+            protected override async Task<Result<Model>> HandleCore(Query message)
             {
-                Result result =  await _catalogService.GetCatalogDetailItem (message.Id);
-                result.ImageUrl = _urlComposer.ComposeImgUrl(result.ImageUrl);
-                return result;
+                var model =  await _catalogService.GetCatalogDetailItem (message.Id);
+
+                if (model == null)
+                    return Result.Fail<Model> ("Catalog Item Details does not exit");
+
+                model.ImageUrl = _urlComposer.ComposeImgUrl(model.ImageUrl);
+
+                return Result.Ok (model);
             }
         }
     }

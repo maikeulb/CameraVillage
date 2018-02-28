@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
+using CSharpFunctionalExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace RolleiShop.Features.CatalogManager
 {
     public class Delete
     {
-        public class Query : IRequest<Command>
+        public class Query : IRequest<Result<Command>>
         {
             public int Id { get; set; }
         }
@@ -30,7 +31,7 @@ namespace RolleiShop.Features.CatalogManager
             }
         }
 
-        public class QueryHandler : AsyncRequestHandler<Query, Command>
+        public class QueryHandler : AsyncRequestHandler<Query, Result<Command>>
         {
             private readonly ApplicationDbContext _context;
 
@@ -39,16 +40,22 @@ namespace RolleiShop.Features.CatalogManager
                 _context = context;
             }
 
-            protected override async Task<Command> HandleCore(Query message)
+            protected override async Task<Result<Command>> HandleCore(Query message)
             {
                 var catalogItem = await SingleAsync(message.Id);
-                return new Command
+
+                if (catalogItem == null)
+                    return Result.Fail<Command> ("Catalog Item does not exit");
+
+                var command = new Command
                 {
                     Id = catalogItem.Id,
                     Name = catalogItem.Name,
                     Brand = catalogItem.CatalogBrand.Brand,
                     Type = catalogItem.CatalogType.Type,
                 };
+
+                return Result.Ok (command);
             }
 
             private async Task<CatalogItem> SingleAsync(int id)
@@ -60,7 +67,7 @@ namespace RolleiShop.Features.CatalogManager
             }
         }
 
-        public class Command : IRequest
+        public class Command : IRequest<Result>
         {
             public int Id { get; set; }
             public string Name { get; set; }
@@ -68,7 +75,7 @@ namespace RolleiShop.Features.CatalogManager
             public string Type { get; set; }
         }
 
-        public class CommandHandler : AsyncRequestHandler<Command>
+        public class CommandHandler : AsyncRequestHandler<Command, Result>
         {
             private readonly ApplicationDbContext _context;
 
@@ -77,13 +84,19 @@ namespace RolleiShop.Features.CatalogManager
                 _context = context;
             }
 
-            protected override async Task HandleCore(Command message)
+            protected override async Task<Result> HandleCore(Command message)
             {
                 var catalogItem = await _context.CatalogItems
                     .AsNoTracking()
                     .SingleOrDefaultAsync(m=>m.Id == message.Id);
+
+                if (catalogItem == null)
+                    return Result.Fail<Command> ("Catalog Item does not exit");
+
                 _context.Remove(catalogItem);
                 await _context.SaveChangesAsync ();
+
+                return Result.Ok ();
             }
         }
     }

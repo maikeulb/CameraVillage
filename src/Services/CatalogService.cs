@@ -30,11 +30,11 @@ namespace RolleiShop.Services
             _logger = logger;
         }
 
-        public async Task<Details.Result> GetCatalogDetailItem (int catalogItemId)
+        public async Task<Details.Model> GetCatalogDetailItem (int catalogItemId)
         {
             var catalogItem = await _context.Set<CatalogItem>().FindAsync(catalogItemId);
 
-            var vm = new Details.Result
+            var vm = new Details.Model
             {
                 Id = catalogItem.Id,
                 Name = catalogItem.Name,
