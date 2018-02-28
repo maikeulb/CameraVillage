@@ -33,8 +33,8 @@ namespace RolleiShop.Features.CatalogManager
                 {
                     public int Id { get; set; }
                     public string Name { get; set; }
-                    public int BrandId { get; set; }
-                    public int TypeId { get; set; }
+                    public string Brand { get; set; }
+                    public string Type { get; set; }
                     public int AvailableStock { get; set; }
                     [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
                     public decimal Price { get; set; }
@@ -83,8 +83,8 @@ namespace RolleiShop.Features.CatalogManager
                     {
                         Id = i.Id,
                         Name = i.Name,
-                        BrandId = i.CatalogBrandId,
-                        TypeId = i.CatalogTypeId,
+                        Brand = i.CatalogBrand.Brand,
+                        Type = i.CatalogType.Type,
                         Price = i.Price,
                         AvailableStock = i.AvailableStock,
                     }),
@@ -107,7 +107,10 @@ namespace RolleiShop.Features.CatalogManager
 
             public async Task<List<CatalogItem>> ListAsync()
             {
-                return await _context.Set<CatalogItem>().ToListAsync();
+                return await _context.Set<CatalogItem>()
+                    .Include(c => c.CatalogBrand)
+                    .Include(c => c.CatalogType)
+                    .ToListAsync();
             }
         }
     }

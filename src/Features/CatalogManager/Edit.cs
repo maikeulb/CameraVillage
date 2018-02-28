@@ -41,13 +41,17 @@ namespace RolleiShop.Features.CatalogManager
 
             protected override async Task<Command> HandleCore(Query message)
             {
-                var catalogItem = await _context.Set<CatalogItem>().FindAsync(message.Id);
+                var catalogItem = await _context.Set<CatalogItem>()
+                    .Include(c => c.CatalogBrand)
+                    .Include(c => c.CatalogType)
+                    .SingleOrDefaultAsync(c => c.Id == message.Id);
+
                 return new Command
                 {
                     Id = catalogItem.Id,
                     Name = catalogItem.Name,
-                    BrandId = catalogItem.CatalogBrandId,
-                    TypeId = catalogItem.CatalogTypeId,
+                    Brand = catalogItem.CatalogBrand.Brand,
+                    Type = catalogItem.CatalogType.Type,
                     Description = catalogItem.Description,
                     Stock = catalogItem.AvailableStock,
                     Price = catalogItem.Price,
@@ -60,8 +64,8 @@ namespace RolleiShop.Features.CatalogManager
         {
             public int Id { get; set; }
             public string Name { get; set; }
-            public int BrandId { get; set; }
-            public int TypeId { get; set; }
+            public string Brand { get; set; }
+            public string Type { get; set; }
             public string Description { get; set; }
             public int Stock { get; set; }
             public decimal Price { get; set; }
