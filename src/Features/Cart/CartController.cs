@@ -52,7 +52,7 @@ namespace RolleiShop.Features.Cart
             var cartViewModel = await GetCartViewModelAsync();
             command.CartId = cartViewModel.Id;
             await _mediator.Send(command);
-            //commandorerror can be null
+
             return View(await GetCartViewModelAsync());
         }
 
@@ -63,7 +63,7 @@ namespace RolleiShop.Features.Cart
             var cartViewModel = await GetCartViewModelAsync();
             command.CartId = cartViewModel.Id;
             await _mediator.Send(command);
-           //commandorerror
+
             return View();
         }
 

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using CSharpFunctionalExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -70,18 +71,22 @@ namespace RolleiShop.Features.CatalogManager
 
         public async Task<IActionResult> Edit (Edit.Query query)
         {
-            var model = await _mediator.Send(query);
+            var modelOrError = await _mediator.Send (query);
 
-            return View(model);
+            return modelOrError.IsSuccess
+                ? (IActionResult)View(modelOrError.Value)
+                : (IActionResult)BadRequest(modelOrError.Error);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit (Edit.Command command)
         {
-            await _mediator.Send(command);
+            var result = await _mediator.Send(command);
 
-            return RedirectToAction ("Index");
+            return result.IsSuccess
+                ? (IActionResult)RedirectToAction ("Index")
+                : (IActionResult)BadRequest(result.Error);
         }
 
         public async Task<IActionResult> Delete(Delete.Query query)
