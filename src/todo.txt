@@ -13,3 +13,4 @@ fix name in navbar
 ***concurrency
 ***stored procs
 ***display, money
+remove automapper

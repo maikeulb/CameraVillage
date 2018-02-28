@@ -2,7 +2,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
+using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RolleiShop.Data.Context;
@@ -28,6 +28,7 @@ namespace RolleiShop.Features.ManageCatalog
             public string Name { get; set; }
             public string ImageUrl { get; set; }
             public string Description { get; set; }
+            [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
             public decimal Price { get; set; }
         }
 

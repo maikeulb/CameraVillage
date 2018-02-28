@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +36,7 @@ namespace RolleiShop.Features.ManageCatalog
                     public int BrandId { get; set; }
                     public int TypeId { get; set; }
                     public int AvailableStock { get; set; }
+                    [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
                     public decimal Price { get; set; }
                 }
 

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Rendering;

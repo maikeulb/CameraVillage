@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,7 @@ namespace RolleiShop.Features.ManageCatalog
             public int TypeId { get; set; }
             public int BrandId { get; set; }
             public int Stock { get; set; }
+            [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
             public decimal Price { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
