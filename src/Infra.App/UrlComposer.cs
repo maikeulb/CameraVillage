@@ -1,3 +1,5 @@
+using RolleiShop.Infra.App.Interfaces;
+
 namespace RolleiShop.Infra.App
 {
     public class UrlComposer : IUrlComposer

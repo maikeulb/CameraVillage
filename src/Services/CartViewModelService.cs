@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RolleiShop.Infra.App;
+using RolleiShop.Infra.App.Interfaces;
 using RolleiShop.Specifications;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;

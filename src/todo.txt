@@ -1,8 +1,7 @@
 5. fluent validation and model state / always valid?
 5. check valid tokenn
 
-**error handling (fluent error)
-
+**error handling (fluent error) + lang ext
 ***Add redis
 ***concurrency
 ***stored procs
