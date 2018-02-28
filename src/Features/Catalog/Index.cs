@@ -69,7 +69,7 @@ namespace RolleiShop.Features.Catalog
 
             protected override async Task<Result> HandleCore(Query message)
             {
-                int itemsPage = 10;
+                int itemsPage = 8;
                 int pageNumber = message.Page ?? 0;
 
                 return await GetCatalogItems (pageNumber, itemsPage, message.BrandFilterApplied, message.TypesFilterApplied);
