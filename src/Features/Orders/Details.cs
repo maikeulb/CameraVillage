@@ -53,10 +53,7 @@ namespace RolleiShop.Features.Orders
 
             protected override async Task<Result> HandleCore(Query message)
             {
-                var order = await _context.Orders
-                    .Include(o => o.OrderItems)
-                    .Include("OrderItems.ItemOrdered")
-                    .FirstOrDefaultAsync();
+                var order = await FirstAsync();
                 return new Result()
                 {
                     OrderDate = order.OrderDate,
@@ -72,6 +69,14 @@ namespace RolleiShop.Features.Orders
                     Status = "Pending",
                     Total = order.Total()
                 };
+            }
+
+            private async Task<Order> FirstAsync()
+            {
+                return await _context.Orders
+                    .Include(c => c.OrderItems)
+                    .Include("OrderItems.ItemOrdered")
+                    .FirstOrDefaultAsync();
             }
         }
     }

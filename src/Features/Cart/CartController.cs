@@ -52,7 +52,7 @@ namespace RolleiShop.Features.Cart
             var cartViewModel = await GetCartViewModelAsync();
             command.CartId = cartViewModel.Id;
             await _mediator.Send(command);
-
+            //commandorerror can be null
             return View(await GetCartViewModelAsync());
         }
 
@@ -63,7 +63,7 @@ namespace RolleiShop.Features.Cart
             var cartViewModel = await GetCartViewModelAsync();
             command.CartId = cartViewModel.Id;
             await _mediator.Send(command);
-
+           //commandorerror
             return View();
         }
 
@@ -82,6 +82,7 @@ namespace RolleiShop.Features.Cart
               Currency = "usd",
               CustomerId = customer.Id
             });
+
             return View();
         }
 
@@ -91,8 +92,8 @@ namespace RolleiShop.Features.Cart
                 return await _cartViewModelService.GetOrCreateCartForUser (User.Identity.Name);
 
             string anonymousId = GetOrSetCartCookie ();
-            return await _cartViewModelService.GetOrCreateCartForUser (anonymousId);
 
+            return await _cartViewModelService.GetOrCreateCartForUser (anonymousId);
         }
 
         private string GetOrSetCartCookie()

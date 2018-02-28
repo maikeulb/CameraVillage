@@ -39,7 +39,6 @@ namespace RolleiShop.Features.Orders
                 public int Units { get; set; }
                 public string ImageUrl { get; set; }
             }
-
         }
 
         public class Handler : AsyncRequestHandler<Query, IEnumerable<Result>>

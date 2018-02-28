@@ -37,7 +37,7 @@ namespace RolleiShop.Features.Catalog
         public async Task<IActionResult> Index(Index.Query query)
         {
             var model = await _mediator.Send(query);
-
+            //can be error
             return View(model);
         }
 

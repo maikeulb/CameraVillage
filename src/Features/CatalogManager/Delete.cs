@@ -42,14 +42,13 @@ namespace RolleiShop.Features.CatalogManager
             protected override async Task<Command> HandleCore(Query message)
             {
                 var catalogItem = await SingleAsync(message.Id);
-                var command = new Command
+                return new Command
                 {
                     Id = catalogItem.Id,
                     Name = catalogItem.Name,
                     Brand = catalogItem.CatalogBrand.Brand,
                     Type = catalogItem.CatalogType.Type,
                 };
-                return command;
             }
 
             private async Task<CatalogItem> SingleAsync(int id)
