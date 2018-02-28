@@ -35,9 +35,8 @@ namespace RolleiShop.Services
             var cart = (await ListAsync(cartSpec)).FirstOrDefault();
 
             if(cart == null)
-            {
                 return await CreateCartForUser(userName);
-            }
+
             return CreateViewModelFromCart(cart);
         }
 
@@ -56,22 +55,18 @@ namespace RolleiShop.Services
                     Quantity = i.Quantity,
                     CatalogItemId = i.CatalogItemId
                 };
-
                 var item = _context.Set<CatalogItem>().Find(i.CatalogItemId);
-
                 itemModel.ImageUrl = _urlComposer.ComposeImgUrl(item.ImageUrl);
                 itemModel.ProductName = item.Name;
                 return itemModel;
-            })
-                            .ToList();
+            }).ToList();
+
             return viewModel;
         }
 
         private async Task<CartViewModel> CreateCartForUser(string userId)
         {
             var cart = Cart.Create(userId);
-            /* { BuyerId = userId }; */
-
             _context.Set<Cart>().Add(cart);
             await _context.SaveChangesAsync();
 

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using EnsureThat;
 
 namespace RolleiShop.Services
 {
@@ -57,6 +58,7 @@ namespace RolleiShop.Services
 
         public async Task<int> GetCartItemCountAsync(string userName)
         {
+            Ensure.String.IsNotNullOrWhiteSpace(userName, nameof(userName));
             var cartSpec = new CartWithItemsSpecification(userName);
             var cart = (await ListAsync(cartSpec)).FirstOrDefault();
             if (cart == null)
@@ -67,7 +69,9 @@ namespace RolleiShop.Services
 
         public async Task SetQuantities(int cartId, Dictionary<string, int> quantities)
         {
+            EnsureArg.IsNotNull(quantities, nameof(quantities));
             var cart = await _context.Set<Cart>().FindAsync(cartId);
+            EnsureArg.IsNotNull(cart, nameof(cart));
             foreach (var item in cart.Items)
             {
                 if (quantities.TryGetValue(item.Id.ToString(), out var quantity))
@@ -82,12 +86,11 @@ namespace RolleiShop.Services
 
         public async Task TransferCartAsync(string anonymousId, string userName)
         {
-            /* Guard.Against.NullOrEmpty(anonymousId, nameof(anonymousId)); */
-            /* Guard.Against.NullOrEmpty(userName, nameof(userName)); */
+            Ensure.String.IsNotNullOrWhiteSpace(anonymousId, nameof(anonymousId));
+            Ensure.String.IsNotNullOrWhiteSpace(userName, nameof(userName));
             var cartSpec = new CartWithItemsSpecification(anonymousId);
             var cart = (await ListAsync(cartSpec)).FirstOrDefault();
             if (cart == null) return;
-            /* cart.BuyerId = userName; */
             cart.TransferCart(userName);
             await UpdateAsync(cart);
         }

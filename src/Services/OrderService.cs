@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using EnsureThat;
 
 namespace RolleiShop.Services
 {
@@ -25,6 +26,7 @@ namespace RolleiShop.Services
         public async Task CreateOrderAsync(int cartId)
         {
             var cart = await _context.Set<Cart>().FindAsync(cartId);
+            EnsureArg.IsNotNull(cart, nameof(cart));
 
             var items = new List<OrderItem>();
             foreach (var item in cart.Items)

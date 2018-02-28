@@ -1,7 +1,9 @@
-5. fluent validation and model state / always valid?
-5. check valid tokenn
-
+6. add domain event
 **error handling (fluent error) + lang ext
 ***Add redis
+
 ***concurrency
 ***stored procs
+
+null guard
+async contexts

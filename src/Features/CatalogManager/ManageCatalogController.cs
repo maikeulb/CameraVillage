@@ -70,10 +70,8 @@ namespace RolleiShop.Features.CatalogManager
 
         public async Task<IActionResult> Edit (Edit.Query query)
         {
-            if (query.Id == null)
-                return NotFound ();
-
             var model = await _mediator.Send(query);
+
             return View(model);
         }
 
