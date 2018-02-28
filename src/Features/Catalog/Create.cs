@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
@@ -43,16 +44,19 @@ namespace RolleiShop.Features.Catalog
             private readonly IOrderService _orderService;
             private readonly ApplicationDbContext _context;
             private readonly IHostingEnvironment _environment;
+            private readonly ILogger _logger;
 
             public Handler(ICartService cartService, 
                     IHostingEnvironment environment,
                     IOrderService orderService,
-                    ApplicationDbContext context)
+                    ApplicationDbContext context,
+                    ILogger<Create.Handler> logger)
             {
                 _cartService = cartService;
                 _orderService = orderService;
                 _environment = environment;
                 _context = context;
+                _logger = logger;
             }
 
             protected override async Task HandleCore(Command message)
@@ -62,7 +66,7 @@ namespace RolleiShop.Features.Catalog
                 using (var fileStream = new FileStream (Path.Combine (uploadPath, message.ImageUpload.FileName), FileMode.Create))
                 {
                     await message.ImageUpload.CopyToAsync (fileStream);
-                    message.ImageUrl = "http://images/products" + message.ImageName;
+                    message.ImageUrl = "http://catalogbaseurl/images/products/" + ImageName;
                 }
                 var item = CatalogItem.Create (
                     message.CatalogTypeId,
@@ -71,9 +75,10 @@ namespace RolleiShop.Features.Catalog
                     message.Price,
                     message.Name,
                     message.Description,
-                    message.ImageName,
+                    ImageName,
                     message.ImageUrl
                 );
+                _logger.LogInformation("************after************{}", item.ImageName);
                 _context.CatalogItems.Add (item);
                 await _context.SaveChangesAsync ();
             }
