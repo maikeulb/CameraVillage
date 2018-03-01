@@ -55,7 +55,7 @@ namespace RolleiShop.Services
                     Quantity = i.Quantity,
                     CatalogItemId = i.CatalogItemId
                 };
-                var item = _context.Set<CatalogItem>().Find(i.CatalogItemId);
+                var item = _context.CatalogItems.Find(i.CatalogItemId);
                 itemModel.ImageUrl = _urlComposer.ComposeImgUrl(item.ImageUrl);
                 itemModel.ProductName = item.Name;
                 return itemModel;
@@ -67,7 +67,7 @@ namespace RolleiShop.Services
         private async Task<CartViewModel> CreateCartForUser(string userId)
         {
             var cart = Cart.Create(userId);
-            _context.Set<Cart>().Add(cart);
+            _context.Carts.Add(cart);
             await _context.SaveChangesAsync();
 
             return new CartViewModel()
@@ -81,7 +81,7 @@ namespace RolleiShop.Services
         private async Task<List<Cart>> ListAsync(ISpecification<Cart> spec)
         {
             var queryableResultWithIncludes = spec.Includes
-                .Aggregate(_context.Set<Cart>().AsQueryable(),
+                .Aggregate(_context.Carts.AsQueryable(),
                     (current, include) => current.Include(include));
             var secondaryResult = spec.IncludeStrings
                 .Aggregate(queryableResultWithIncludes,

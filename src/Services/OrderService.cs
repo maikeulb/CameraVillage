@@ -25,20 +25,20 @@ namespace RolleiShop.Services
 
         public async Task CreateOrderAsync(int cartId)
         {
-            var cart = await _context.Set<Cart>().FindAsync(cartId);
+            var cart = await _context.Carts.FindAsync(cartId);
             EnsureArg.IsNotNull(cart, nameof(cart));
 
             var items = new List<OrderItem>();
             foreach (var item in cart.Items)
             {
-                var catalogItem = await _context.Set<CatalogItem>().FindAsync(item.CatalogItemId);
+                var catalogItem = await _context.CatalogItems.FindAsync(item.CatalogItemId);
                 var itemOrdered = new CatalogItemOrdered(catalogItem.Id, catalogItem.Name, catalogItem.ImageUrl);
                 var orderItem = new OrderItem(itemOrdered, item.UnitPrice, item.Quantity);
                 items.Add(orderItem);
             }
             var order = Order.Create(cart.BuyerId, items);
 
-            _context.Set<Order>().Add(order);
+            _context.Orders.Add(order);
             await _context.SaveChangesAsync();
         }
     }

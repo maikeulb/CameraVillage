@@ -29,7 +29,7 @@ namespace RolleiShop.Services
 
         public async Task AddItemToCart(int cartId, int catalogItemId, decimal price, int quantity)
         {
-            var cart = await _context.Set<Cart>().FindAsync(cartId);
+            var cart = await _context.Carts.FindAsync(cartId);
 
             cart.AddItem(catalogItemId, price, quantity);
 
@@ -40,7 +40,7 @@ namespace RolleiShop.Services
 
         public async Task RemoveItemFromCart(int cartId, int catalogItemId)
         {
-            var cart = await _context.Set<Cart>().FindAsync(cartId);
+            var cart = await _context.Carts.FindAsync(cartId);
 
             cart.RemoveItem(catalogItemId);
 
@@ -50,9 +50,9 @@ namespace RolleiShop.Services
 
         public async Task DeleteCartAsync(int cartId)
         {
-            var cart = await _context.Set<Cart>().FindAsync(cartId);
+            var cart = await _context.Carts.FindAsync(cartId);
 
-            _context.Set<Cart>().Remove(cart);
+            _context.Carts.Remove(cart);
             await _context.SaveChangesAsync();
         }
 
@@ -70,7 +70,7 @@ namespace RolleiShop.Services
         public async Task SetQuantities(int cartId, Dictionary<string, int> quantities)
         {
             EnsureArg.IsNotNull(quantities, nameof(quantities));
-            var cart = await _context.Set<Cart>().FindAsync(cartId);
+            var cart = await _context.Carts.FindAsync(cartId);
             EnsureArg.IsNotNull(cart, nameof(cart));
             foreach (var item in cart.Items)
             {
@@ -98,7 +98,7 @@ namespace RolleiShop.Services
         private async Task<List<Cart>> ListAsync(ISpecification<Cart> spec)
         {
             var queryableResultWithIncludes = spec.Includes
-                .Aggregate(_context.Set<Cart>().AsQueryable(),
+                .Aggregate(_context.Carts.AsQueryable(),
                     (current, include) => current.Include(include));
             var secondaryResult = spec.IncludeStrings
                 .Aggregate(queryableResultWithIncludes,
