@@ -15,28 +15,32 @@ using RolleiShop.Infra.App;
 using RolleiShop.Infra.App.Interfaces;
 using RolleiShop.Specifications;
 
-namespace RolleiShop.Features.Cart
+namespace RolleiShop.Apis.Cart
 {
-    public class Index
+    public class AddToCart
     {
         public class Command : IRequest
         {
-            public Dictionary<string, int> Items { get; set; }
+            public int ProductId { get; set; }
             public int Id { get; set; }
         }
 
         public class Handler : AsyncRequestHandler<Command>
         {
             private readonly ICartService _cartService;
+            private readonly ApplicationDbContext _context;
 
-            public Handler(ICartService cartService)
+            public Handler(ICartService cartService, 
+                    ApplicationDbContext context)
             {
                 _cartService = cartService;
+                _context = context;
             }
 
             protected override async Task HandleCore(Command message)
             {
-                await _cartService.SetQuantities(message.Id, message.Items);
+                var catalogItem =  await _context.CatalogItems.FindAsync(message.ProductId);
+                await _cartService.AddItemToCart (message.Id, catalogItem.Id, catalogItem.Price, 1);
             }
         }
     }

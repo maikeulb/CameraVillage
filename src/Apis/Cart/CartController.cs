@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MediatR;
 using RolleiShop.Data.Context;
 using RolleiShop.ViewModels;
 using RolleiShop.Services;
@@ -26,10 +27,12 @@ namespace RolleiShop.Apis.Cart
         private readonly ApplicationDbContext _context;
         private readonly ICartService _cartService;
         private readonly ICartViewModelService _cartViewModelService;
+        private readonly IMediator _mediator;
 
         public CartController (
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
+            IMediator mediator,
             ILogger<CartController> logger,
             ApplicationDbContext context,
             ICartService cartService,
@@ -39,26 +42,27 @@ namespace RolleiShop.Apis.Cart
             _userManager = userManager;
             _logger = logger;
             _context = context;
+            _mediator = mediator;
             _cartService = cartService;
             _cartViewModelService = cartViewModelService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToCart ([FromBody] ProductViewModel product)
+        public async Task<IActionResult> AddToCart ([FromBody] AddToCart.Command command)
         {
-            var catalogItem =  await _context.Set<CatalogItem>().FindAsync(product.ProductId);
             var cartViewModel = await GetCartViewModelAsync ();
-            await _cartService.AddItemToCart (cartViewModel.Id, catalogItem.Id, catalogItem.Price, 1);
+            command.Id = cartViewModel.Id;
+            await _mediator.Send(command);
 
             return Ok ();
         }
 
         [HttpDelete]
-        public async Task<IActionResult> RemoveFromCart ([FromBody] ProductViewModel product)
+        public async Task<IActionResult> RemoveFromCart ([FromBody] RemoveFromCart.Command command)
         {
-            var catalogItem =  await _context.Set<CatalogItem>().FindAsync(product.ProductId);
             var cartViewModel = await GetCartViewModelAsync ();
-            await _cartService.RemoveItemFromCart (cartViewModel.Id, catalogItem.Id);
+            command.Id = cartViewModel.Id;
+            await _mediator.Send(command);
 
             return Ok ();
         }
@@ -83,10 +87,5 @@ namespace RolleiShop.Apis.Cart
             Response.Cookies.Append ("RolleiShop", anonymousId, cookieOptions);
             return anonymousId;
         }
-    }
-
-    public class ProductViewModel
-    {
-        public int ProductId { get; set; }
     }
 }

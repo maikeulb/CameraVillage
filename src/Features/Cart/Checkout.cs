@@ -22,7 +22,7 @@ namespace RolleiShop.Features.Cart
         public class Command : IRequest
         {
             public Dictionary<string, int> Items { get; set; }
-            public int CartId { get; set; }
+            public int Id { get; set; }
         }
 
         public class Handler : AsyncRequestHandler<Command>
@@ -39,9 +39,9 @@ namespace RolleiShop.Features.Cart
 
             protected override async Task HandleCore(Command message)
             {
-                await _cartService.SetQuantities(message.CartId, message.Items);
-                await _orderService.CreateOrderAsync(message.CartId);
-                await _cartService.DeleteCartAsync(message.CartId);
+                await _cartService.SetQuantities(message.Id, message.Items);
+                await _orderService.CreateOrderAsync(message.Id);
+                await _cartService.DeleteCartAsync(message.Id);
             }
         }
     }

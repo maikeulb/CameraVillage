@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -50,7 +49,7 @@ namespace RolleiShop.Features.Cart
         public async Task<IActionResult> Index(Index.Command command)
         {
             var cartViewModel = await GetCartViewModelAsync();
-            command.CartId = cartViewModel.Id;
+            command.Id = cartViewModel.Id;
             await _mediator.Send(command);
 
             return View(await GetCartViewModelAsync());
@@ -61,27 +60,16 @@ namespace RolleiShop.Features.Cart
         public async Task<IActionResult> Checkout(Checkout.Command command)
         {
             var cartViewModel = await GetCartViewModelAsync();
-            command.CartId = cartViewModel.Id;
+            command.Id = cartViewModel.Id;
             await _mediator.Send(command);
 
             return View();
         }
 
         [Authorize]
-        public IActionResult Charge(string  stripeEmail, string stripeToken)
+        public IActionResult Charge(Charge.Query query)
         {
-            var customers = new StripeCustomerService();
-            var charges = new StripeChargeService();
-            var customer = customers.Create(new StripeCustomerCreateOptions {
-              Email = stripeEmail,
-              SourceToken = stripeToken
-            });
-            var charge = charges.Create(new StripeChargeCreateOptions {
-              Amount = 500,
-              Description = "Sample Charge",
-              Currency = "usd",
-              CustomerId = customer.Id
-            });
+            _mediator.Send(query);
 
             return View();
         }
