@@ -107,12 +107,44 @@ namespace RolleiShop
              CreateRoles(serviceProvider).Wait();
         }
 
+        /* private async Task CreateRoles(IServiceProvider serviceProvider) */
+        /* { */
+        /*     var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>(); */
+        /*     var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>(); */
+        /*     string roleName =  "Admin"; */
+        /*     IdentityResult roleResult; */
+
+        /*     var roleExist = await RoleManager.RoleExistsAsync(roleName); */
+        /*     if (!roleExist) */
+        /*         roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName)); */
+
+        /*     var adminUser = new ApplicationUser */
+        /*     { */
+        /*         UserName = Configuration.GetSection("AppSettings")["UserEmail"], */
+        /*         Email = Configuration.GetSection("AppSettings")["UserEmail"] */
+        /*     }; */
+
+        /*     string userPassword = Configuration.GetSection("AppSettings")["UserPassword"]; */
+        /*     var user = await UserManager.FindByEmailAsync(Configuration.GetSection("AppSettings")["UserEmail"]); */
+
+        /*     if(user == null) */
+        /*     { */
+        /*         var createAdminUser = await UserManager.CreateAsync(adminUser, userPassword); */
+        /*         if (createAdminUser.Succeeded) */
+        /*             await UserManager.AddToRoleAsync(adminUser, "Admin"); */
+        /*     } */
+        /* } */
+
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            string roleName =  "Admin";
+
+            //admin user TODO reafactor this
+            string roleName = "Admin";
+            string demoRoleName =  "DemoAdmin";
             IdentityResult roleResult;
+            IdentityResult demoRoleResult;
 
             var roleExist = await RoleManager.RoleExistsAsync(roleName);
             if (!roleExist)
@@ -124,14 +156,35 @@ namespace RolleiShop
                 Email = Configuration.GetSection("AppSettings")["UserEmail"]
             };
 
-            string userPassword = Configuration.GetSection("AppSettings")["UserPassword"];
+            var userPassword = Configuration.GetSection("AppSettings")["UserPassword"];
             var user = await UserManager.FindByEmailAsync(Configuration.GetSection("AppSettings")["UserEmail"]);
 
             if(user == null)
             {
                 var createAdminUser = await UserManager.CreateAsync(adminUser, userPassword);
                 if (createAdminUser.Succeeded)
-                    await UserManager.AddToRoleAsync(adminUser, "Admin");
+                    await UserManager.AddToRoleAsync(adminUser, roleName);
+            }
+
+            // demo admin
+            var demoRoleExist = await RoleManager.RoleExistsAsync(demoRoleName);
+            if (!demoRoleExist)
+                demoRoleResult = await RoleManager.CreateAsync(new IdentityRole(demoRoleName));
+
+            var demoAdminUser = new ApplicationUser
+            {
+                UserName = Configuration.GetSection("AppSettings")["DemoAdminEmail"],
+                Email = Configuration.GetSection("AppSettings")["DemoAdminEmail"]
+            };
+
+            var demoAdminPassword = Configuration.GetSection("AppSettings")["DemoAdminPassword"];
+            var demoUser = await UserManager.FindByEmailAsync(Configuration.GetSection("AppSettings")["DemoAdminEmail"]);
+
+            if(demoUser == null)
+            {
+                var createDemoAdminUser = await UserManager.CreateAsync(demoAdminUser, demoAdminPassword);
+                if (createDemoAdminUser.Succeeded)
+                    await UserManager.AddToRoleAsync(demoAdminUser, demoRoleName);
             }
         }
     }

@@ -53,7 +53,15 @@
       <input for="Price" asp-for="Price" type="number"></input>
     </div>
 
-    <button type="submit" class="ui primary button">Submit</button>
+    @if (User.IsInRole("Admin"))
+    {
+      <button type="submit" class="ui primary button">Submit</button>
+    }
+    else
+    {
+      <button type="submit" class="ui disabled button">Submit</button>
+    }
+
   </form>
 
 @section scripts

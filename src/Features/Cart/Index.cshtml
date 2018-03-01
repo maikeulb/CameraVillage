@@ -42,7 +42,9 @@
               </section>
               <section class="two wide column">$ @Math.Round(item.Quantity * item.UnitPrice, 2).ToString("N2")</section>
               <section class="one wide column">
-                <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-productId="@item.Id">Remove</a>
+                <form asp-action="Remove" asp-controller="Cart" method="post">
+                  <button class="ui text" asp-items="@item.Id" type="submit">Remove</button>
+                </form>
               </section>
             </article>
           </div>

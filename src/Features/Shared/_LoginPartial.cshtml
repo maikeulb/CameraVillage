@@ -12,7 +12,7 @@
        My Orders
   </a>
 
-  @if (User.IsInRole("Admin")) 
+  @if (User.IsInRole("Admin") | User.IsInRole("DemoAdmin")) 
   {
     <a asp-controller="CatalogManager" asp-action="Index" class="item">Manage</a>
   }

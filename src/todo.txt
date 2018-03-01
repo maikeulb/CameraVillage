@@ -1,5 +1,4 @@
 6. add domain event
-**error handling (fluent error) + lang ext
 ***Add redis
 
 ***concurrency
@@ -8,3 +7,5 @@
 global exception handler
 add command results to cart feature
 add remove cart feature
+add demo buttons
+env variables for config

@@ -15,18 +15,29 @@
   </br>
   <div class="item">
     <div class="header">Brand</div>
-      @Html.DisplayFor(model => model.BrandId)
+      @Html.DisplayFor(model => model.Brand)
   </div>
   </br>
   <div class="item">
     <div class="header">Format</div>
-      @Html.DisplayFor(model => model.TypeId)
+      @Html.DisplayFor(model => model.Type)
   </div>
 </div>
   </br>
+    @if (User.IsInRole("Admin"))
+    {
   <form asp-action="Delete">
     <input type="hidden" asp-for="Id" />
-    <input type="submit" value="Delete" class="ui button" /> |
+    <input type="submit" value="Delete" class="ui primary button" /> |
     <a asp-action="Index">Back to List</a> 
   </form>
+    }
+    else
+    {
+  <form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" value="Delete" class="ui disabled button" /> |
+    <a asp-action="Index">Back to List</a> 
+  </form>
+    }
 </main>

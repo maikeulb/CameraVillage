@@ -95,6 +95,12 @@ namespace RolleiShop.Services
             await UpdateAsync(cart);
         }
 
+        public async Task UpdateAsync(Cart entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
         private async Task<List<Cart>> ListAsync(ISpecification<Cart> spec)
         {
             var queryableResultWithIncludes = spec.Includes
@@ -106,12 +112,6 @@ namespace RolleiShop.Services
             return await secondaryResult
                             .Where(spec.Criteria)
                             .ToListAsync();
-        }
-
-        public async Task UpdateAsync(Cart entity)
-        {
-            _context.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
         }
     }
 }

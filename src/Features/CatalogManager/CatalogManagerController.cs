@@ -22,7 +22,6 @@ using RolleiShop.Infra.App.Interfaces;
 
 namespace RolleiShop.Features.CatalogManager
 {
-    [Authorize(Roles="Admin")]
     public class CatalogManagerController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -39,6 +38,7 @@ namespace RolleiShop.Features.CatalogManager
             _context = context;
         }
 
+        [Authorize(Roles="Admin, DemoAdmin")]
         public async Task<IActionResult> Index(Index.Query query)
         {
             var model = await _mediator.Send(query);
@@ -46,6 +46,7 @@ namespace RolleiShop.Features.CatalogManager
             return View(model);
         }
 
+        [Authorize(Roles="Admin, DemoAdmin")]
         public async Task<IActionResult> Details (Details.Query query)
         {
             var modelOrError = await _mediator.Send (query);
@@ -55,6 +56,7 @@ namespace RolleiShop.Features.CatalogManager
                 : (IActionResult)BadRequest(modelOrError.Error);
         }
 
+        [Authorize(Roles="Admin, DemoAdmin")]
         public async Task<IActionResult> Create ()
         {
             await PopulateDropdownLists();
@@ -64,6 +66,7 @@ namespace RolleiShop.Features.CatalogManager
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Create (Create.Command command)
         {
             await _mediator.Send(command);
@@ -71,6 +74,7 @@ namespace RolleiShop.Features.CatalogManager
             return RedirectToAction ("Index");
         }
 
+        [Authorize(Roles="Admin, DemoAdmin")]
         public async Task<IActionResult> Edit (Edit.Query query)
         {
             var modelOrError = await _mediator.Send (query);
@@ -82,6 +86,7 @@ namespace RolleiShop.Features.CatalogManager
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit (Edit.Command command)
         {
             var result = await _mediator.Send(command);
@@ -91,6 +96,7 @@ namespace RolleiShop.Features.CatalogManager
                 : (IActionResult)BadRequest(result.Error);
         }
 
+        [Authorize(Roles="Admin, DemoAdmin")]
         public async Task<IActionResult> Delete(Delete.Query query)
         {
             var modelOrError = await _mediator.Send (query);
@@ -102,6 +108,7 @@ namespace RolleiShop.Features.CatalogManager
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Delete(Delete.Command command)
         {
             var result = await _mediator.Send(command);
