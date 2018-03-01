@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,10 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 using RolleiShop.Data.Context;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
@@ -60,6 +64,8 @@ namespace RolleiShop.Features.Catalog
             private readonly ApplicationDbContext _context;
             private readonly IUrlComposer _urlComposer;
             private readonly IMemoryCache _cache;
+            private readonly IDistributedCache _distributedCache;
+            private readonly ILogger _logger;
             private static readonly string _brandsKey = "brands";
             private static readonly string _typesKey = "types";
             private static readonly string _itemsKeyTemplate = "items-{0}-{1}-{2}-{3}";
@@ -67,11 +73,15 @@ namespace RolleiShop.Features.Catalog
 
             public Handler(ApplicationDbContext context,
                 IMemoryCache cache,
+                ILogger<Index.Handler> logger,
+                IDistributedCache distributedCache,
                 IUrlComposer urlComposer)
             {
                 _cache = cache;
+                _logger = logger;
                 _context = context;
                 _urlComposer = urlComposer;
+                _distributedCache = distributedCache;
             }
 
             protected override async Task<Model> HandleCore(Query message)
@@ -85,47 +95,43 @@ namespace RolleiShop.Features.Catalog
             private async Task<Model> GetCatalogItems (int pageIndex, int itemsPage, int? brandId, int? typeId)
             {
                 string cacheKey = String.Format(_itemsKeyTemplate, pageIndex, itemsPage, brandId, typeId);
-                return await _cache.GetOrCreateAsync(cacheKey, async entry =>
+                var filterSpecification = new CatalogFilterSpecification (brandId, typeId);
+                IEnumerable<CatalogItem> root = await ListAsync (filterSpecification, cacheKey);
+                var totalItems = root.Count ();
+                var itemsOnPage = root
+                    .Skip (itemsPage * pageIndex)
+                    .Take (itemsPage)
+                    .ToList ();
+                itemsOnPage.ForEach(x =>
                 {
-                    entry.SlidingExpiration = _defaultCacheDuration;
-                    var filterSpecification = new CatalogFilterSpecification (brandId, typeId);
-                    IEnumerable<CatalogItem> root = await ListAsync (filterSpecification);
-                    var totalItems = root.Count ();
-                    var itemsOnPage = root
-                        .Skip (itemsPage * pageIndex)
-                        .Take (itemsPage)
-                        .ToList ();
-                    itemsOnPage.ForEach(x =>
-                    {
-                        x.ImageUrl = _urlComposer.ComposeImgUrl(x.ImageUrl);
-                    });
-                    var result = new Model ()
-                    {
-                        CatalogItems = itemsOnPage.Select (i => new Model.CatalogItem ()
-                        {
-                            Id = i.Id,
-                            Name = i.Name,
-                            ImageUrl = i.ImageUrl,
-                            Price = i.Price
-                        }),
-                        Brands = await GetBrands (),
-                        Types = await GetTypes (),
-                        BrandFilterApplied = brandId ?? 0,
-                        TypesFilterApplied = typeId ?? 0,
-                        PaginationInfo = new Model.PaginationInfoViewModel ()
-                        {
-                            ActualPage = pageIndex,
-                            ItemsPerPage = itemsOnPage.Count,
-                            TotalItems = totalItems,
-                            TotalPages = int.Parse (Math.Ceiling (((decimal) totalItems / itemsPage)).ToString ())
-                        }
-                    };
-                    foreach (var n in result.CatalogItems)
-                    { }
-                    result.PaginationInfo.Next = (result.PaginationInfo.ActualPage == result.PaginationInfo.TotalPages - 1) ? "is-disabled" : "";
-                    result.PaginationInfo.Previous = (result.PaginationInfo.ActualPage == 0) ? "is-disabled" : "";
-                    return result;
+                    x.ImageUrl = _urlComposer.ComposeImgUrl(x.ImageUrl);
                 });
+                var result = new Model ()
+                {
+                    CatalogItems = itemsOnPage.Select (i => new Model.CatalogItem ()
+                    {
+                        Id = i.Id,
+                        Name = i.Name,
+                        ImageUrl = i.ImageUrl,
+                        Price = i.Price
+                    }),
+                    Brands = await GetBrands (),
+                    Types = await GetTypes (),
+                    BrandFilterApplied = brandId ?? 0,
+                    TypesFilterApplied = typeId ?? 0,
+                    PaginationInfo = new Model.PaginationInfoViewModel ()
+                    {
+                        ActualPage = pageIndex,
+                        ItemsPerPage = itemsOnPage.Count,
+                        TotalItems = totalItems,
+                        TotalPages = int.Parse (Math.Ceiling (((decimal) totalItems / itemsPage)).ToString ())
+                    }
+                };
+                foreach (var n in result.CatalogItems)
+                { }
+                result.PaginationInfo.Next = (result.PaginationInfo.ActualPage == result.PaginationInfo.TotalPages - 1) ? "is-disabled" : "";
+                result.PaginationInfo.Previous = (result.PaginationInfo.ActualPage == 0) ? "is-disabled" : "";
+                return result;
             }
 
             private  async Task<IEnumerable<SelectListItem>> GetBrands ()
@@ -169,17 +175,36 @@ namespace RolleiShop.Features.Catalog
                 });
             }
 
-            private async Task<List<CatalogItem>> ListAsync(ISpecification<CatalogItem> spec)
+            private async Task<List<CatalogItem>> ListAsync(ISpecification<CatalogItem> spec, string cacheKey)
             {
+                var cachedCatalogItemKey = _distributedCache.Get(cacheKey);
+                if (cachedCatalogItemKey == null) 
+                {
+                    _logger.LogInformation("Getting CatalogItems from Database");
                     var queryableModelWithIncludes = spec.Includes
                         .Aggregate(_context.CatalogItems.AsQueryable(),
                             (current, include) => current.Include(include));
-                    var secondaryModel = spec.IncludeStrings
+                    var catalogItems = spec.IncludeStrings
                         .Aggregate(queryableModelWithIncludes,
                             (current, include) => current.Include(include));
-                    return await secondaryModel
-                                    .Where(spec.Criteria)
-                                    .ToListAsync();
+                    var selectedCatalogItems = catalogItems
+                        .Where(spec.Criteria);
+                    string serializedSelectedCatalogItemsString = JsonConvert.SerializeObject(selectedCatalogItems);
+                    byte[] encodedSelectedCatalogItems = Encoding.UTF8.GetBytes(serializedSelectedCatalogItemsString);
+                    var cacheEntryOptions = new DistributedCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(1000));
+                    _distributedCache.Set(cacheKey, encodedSelectedCatalogItems, cacheEntryOptions);
+                    return await selectedCatalogItems.ToListAsync();
+                }
+                else
+                {
+                    _logger.LogInformation("Getting CatalogItems from Redis Cache");
+                    byte[] encodedSelectedCatalogItems = _distributedCache.Get(cacheKey);
+                    string serializedSelectedCatalogItemsString = Encoding.UTF8.GetString(encodedSelectedCatalogItems);
+                    List<CatalogItem> selectedCatalogItems = JsonConvert.DeserializeObject<List<CatalogItem>>(serializedSelectedCatalogItemsString);
+                    
+                    return selectedCatalogItems;
+                }
             }
         }
     }

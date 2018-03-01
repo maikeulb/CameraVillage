@@ -59,6 +59,12 @@ namespace RolleiShop
 
             services.AddMemoryCache();
 
+            services.AddDistributedRedisCache( options =>
+            {
+                options.InstanceName = "RolleiShop";
+                options.Configuration = "172.17.0.6";
+            });
+
             services.AddMvc (options =>
                 {
                     options.Filters.Add (typeof (ValidatorActionFilter));
