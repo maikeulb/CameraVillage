@@ -128,7 +128,7 @@ namespace RolleiShop.Features.Catalog
 
                 var items = new List<SelectListItem>
                 {
-                    new SelectListItem () { Value = null, Text = "All", Selected = true }
+                    new SelectListItem () { Value =string.Empty, Text = "All", Selected = true }
                 };
                 foreach (CatalogBrand brand in brands)
                 {
@@ -146,7 +146,7 @@ namespace RolleiShop.Features.Catalog
 
                 var items = new List<SelectListItem>
                 {
-                    new SelectListItem () { Value = null, Text = "All", Selected = true }
+                    new SelectListItem () { Value = string.Empty , Text = "All", Selected = true }
                 };
                 foreach (CatalogType type in types)
                 {
