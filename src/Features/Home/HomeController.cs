@@ -12,6 +12,7 @@ namespace RolleiShop.Features.Home
     {
         public IActionResult Index()
         {
+           throw new Exception();
             return View();
         }
 
@@ -31,7 +32,7 @@ namespace RolleiShop.Features.Home
 
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
     }
 }
