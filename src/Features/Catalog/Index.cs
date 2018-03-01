@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using RolleiShop.Data.Context;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
@@ -58,10 +59,17 @@ namespace RolleiShop.Features.Catalog
         {
             private readonly ApplicationDbContext _context;
             private readonly IUrlComposer _urlComposer;
+            private readonly IMemoryCache _cache;
+            private static readonly string _brandsKey = "brands";
+            private static readonly string _typesKey = "types";
+            private static readonly string _itemsKeyTemplate = "items-{0}-{1}-{2}-{3}";
+            private static readonly TimeSpan _defaultCacheDuration = TimeSpan.FromSeconds(30);
 
             public Handler(ApplicationDbContext context,
+                IMemoryCache cache,
                 IUrlComposer urlComposer)
             {
+                _cache = cache;
                 _context = context;
                 _urlComposer = urlComposer;
             }
@@ -76,99 +84,103 @@ namespace RolleiShop.Features.Catalog
 
             private async Task<Model> GetCatalogItems (int pageIndex, int itemsPage, int? brandId, int? typeId)
             {
-                var filterSpecification = new CatalogFilterSpecification (brandId, typeId);
-                IEnumerable<CatalogItem> root = await ListAsync (filterSpecification);
-                var totalItems = root.Count ();
-                var itemsOnPage = root
-                    .Skip (itemsPage * pageIndex)
-                    .Take (itemsPage)
-                    .ToList ();
-
-                itemsOnPage.ForEach(x =>
+                string cacheKey = String.Format(_itemsKeyTemplate, pageIndex, itemsPage, brandId, typeId);
+                return await _cache.GetOrCreateAsync(cacheKey, async entry =>
                 {
-                    x.ImageUrl = _urlComposer.ComposeImgUrl(x.ImageUrl);
+                    entry.SlidingExpiration = _defaultCacheDuration;
+                    var filterSpecification = new CatalogFilterSpecification (brandId, typeId);
+                    IEnumerable<CatalogItem> root = await ListAsync (filterSpecification);
+                    var totalItems = root.Count ();
+                    var itemsOnPage = root
+                        .Skip (itemsPage * pageIndex)
+                        .Take (itemsPage)
+                        .ToList ();
+                    itemsOnPage.ForEach(x =>
+                    {
+                        x.ImageUrl = _urlComposer.ComposeImgUrl(x.ImageUrl);
+                    });
+                    var result = new Model ()
+                    {
+                        CatalogItems = itemsOnPage.Select (i => new Model.CatalogItem ()
+                        {
+                            Id = i.Id,
+                            Name = i.Name,
+                            ImageUrl = i.ImageUrl,
+                            Price = i.Price
+                        }),
+                        Brands = await GetBrands (),
+                        Types = await GetTypes (),
+                        BrandFilterApplied = brandId ?? 0,
+                        TypesFilterApplied = typeId ?? 0,
+                        PaginationInfo = new Model.PaginationInfoViewModel ()
+                        {
+                            ActualPage = pageIndex,
+                            ItemsPerPage = itemsOnPage.Count,
+                            TotalItems = totalItems,
+                            TotalPages = int.Parse (Math.Ceiling (((decimal) totalItems / itemsPage)).ToString ())
+                        }
+                    };
+                    foreach (var n in result.CatalogItems)
+                    { }
+                    result.PaginationInfo.Next = (result.PaginationInfo.ActualPage == result.PaginationInfo.TotalPages - 1) ? "is-disabled" : "";
+                    result.PaginationInfo.Previous = (result.PaginationInfo.ActualPage == 0) ? "is-disabled" : "";
+                    return result;
                 });
-
-                var result = new Model ()
-                {
-                    CatalogItems = itemsOnPage.Select (i => new Model.CatalogItem ()
-                    {
-                        Id = i.Id,
-                        Name = i.Name,
-                        ImageUrl = i.ImageUrl,
-                        Price = i.Price
-                    }),
-                    Brands = await GetBrands (),
-                    Types = await GetTypes (),
-                    BrandFilterApplied = brandId ?? 0,
-                    TypesFilterApplied = typeId ?? 0,
-                    PaginationInfo = new Model.PaginationInfoViewModel ()
-                    {
-                        ActualPage = pageIndex,
-                        ItemsPerPage = itemsOnPage.Count,
-                        TotalItems = totalItems,
-                        TotalPages = int.Parse (Math.Ceiling (((decimal) totalItems / itemsPage)).ToString ())
-                    }
-                };
-
-                foreach (var n in result.CatalogItems)
-                { }
-                result.PaginationInfo.Next = (result.PaginationInfo.ActualPage == result.PaginationInfo.TotalPages - 1) ? "is-disabled" : "";
-                result.PaginationInfo.Previous = (result.PaginationInfo.ActualPage == 0) ? "is-disabled" : "";
-
-                return result;
             }
 
             private  async Task<IEnumerable<SelectListItem>> GetBrands ()
             {
-                var brands = await _context
-                    .CatalogBrands
-                    .AsNoTracking()
-                    .ToListAsync();
-
-                var items = new List<SelectListItem>
+                return await _cache.GetOrCreateAsync(_brandsKey, async entry =>
                 {
-                    new SelectListItem () { Value =string.Empty, Text = "All", Selected = true }
-                };
-                foreach (CatalogBrand brand in brands)
-                {
-                    items.Add (new SelectListItem () { Value = brand.Id.ToString (), Text = brand.Brand });
-                }
-
-                return items;
+                    entry.SlidingExpiration = _defaultCacheDuration;
+                    var brands = await _context
+                        .CatalogBrands
+                        .AsNoTracking()
+                        .ToListAsync();
+                    var items = new List<SelectListItem>
+                    {
+                        new SelectListItem () { Value =string.Empty, Text = "All", Selected = true }
+                    };
+                    foreach (CatalogBrand brand in brands)
+                    {
+                        items.Add (new SelectListItem () { Value = brand.Id.ToString (), Text = brand.Brand });
+                    }
+                    return items;
+                });
             }
 
             private async Task<IEnumerable<SelectListItem>> GetTypes ()
             {
-                var types  = await _context.CatalogTypes
-                    .AsNoTracking()
-                    .ToListAsync();
-
-                var items = new List<SelectListItem>
+                return await _cache.GetOrCreateAsync(_typesKey, async entry =>
                 {
-                    new SelectListItem () { Value = string.Empty , Text = "All", Selected = true }
-                };
-                foreach (CatalogType type in types)
-                {
-                    items.Add (new SelectListItem () { Value = type.Id.ToString (), Text = type.Type });
-                }
-
-                return items;
+                    entry.SlidingExpiration = _defaultCacheDuration;
+                    var types  = await _context.CatalogTypes
+                        .AsNoTracking()
+                        .ToListAsync();
+                    var items = new List<SelectListItem>
+                    {
+                        new SelectListItem () { Value = string.Empty , Text = "All", Selected = true }
+                    };
+                    foreach (CatalogType type in types)
+                    {
+                        items.Add (new SelectListItem () { Value = type.Id.ToString (), Text = type.Type });
+                    }
+                    return items;
+                });
             }
 
             private async Task<List<CatalogItem>> ListAsync(ISpecification<CatalogItem> spec)
             {
-                var queryableModelWithIncludes = spec.Includes
-                    .Aggregate(_context.CatalogItems.AsQueryable(),
-                        (current, include) => current.Include(include));
-                var secondaryModel = spec.IncludeStrings
-                    .Aggregate(queryableModelWithIncludes,
-                        (current, include) => current.Include(include));
-                return await secondaryModel
-                                .Where(spec.Criteria)
-                                .ToListAsync();
+                    var queryableModelWithIncludes = spec.Includes
+                        .Aggregate(_context.CatalogItems.AsQueryable(),
+                            (current, include) => current.Include(include));
+                    var secondaryModel = spec.IncludeStrings
+                        .Aggregate(queryableModelWithIncludes,
+                            (current, include) => current.Include(include));
+                    return await secondaryModel
+                                    .Where(spec.Criteria)
+                                    .ToListAsync();
             }
         }
-
     }
 }
