@@ -66,17 +66,9 @@ namespace RolleiShop
                 .AddFeatureFolders ()
                 .AddFluentValidation (cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup> (); });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
-            });
-
             services.AddMediatR(typeof(Startup));
 
-            /* StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe")["SecretKey"]); */
             StripeConfiguration.SetApiKey(Environment.GetEnvironmentVariable("ASPNETCORE_SECRET_KEY"));
-
-            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)

@@ -1,11 +1,9 @@
-6. add domain event
+***add domain event
 ***Add redis
 
 ***concurrency
 ***stored procs
 
-global exception handler
-add command results to cart feature
-add remove cart feature
-add demo buttons
-env variables for config
+***add command results to cart feature
+***add remove cart feature
+***env variables for config

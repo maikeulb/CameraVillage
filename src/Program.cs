@@ -34,8 +34,10 @@ namespace RolleiShop
                    ApplicationDbInitializer.Initialize(applicationDbContext, applicationDbInitializerLogger).Wait();
 
                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                   var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                   var configuration = services.GetRequiredService<IConfiguration>();
                    var identityDbInitializerLogger = services.GetRequiredService<ILogger<IdentityDbInitializer>>();
-                   IdentityDbInitializer.Initialize(userManager).Wait();
+                   IdentityDbInitializer.Initialize(userManager, roleManager, configuration).Wait();
                }
                catch (Exception ex)
                {

@@ -12,7 +12,6 @@ namespace RolleiShop.Features.Home
     {
         public IActionResult Index()
         {
-           throw new Exception();
             return View();
         }
 
