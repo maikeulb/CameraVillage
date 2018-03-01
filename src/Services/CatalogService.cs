@@ -30,22 +30,6 @@ namespace RolleiShop.Services
             _logger = logger;
         }
 
-        public async Task<Details.Model> GetCatalogDetailItem (int catalogItemId)
-        {
-            var catalogItem = await _context.Set<CatalogItem>().FindAsync(catalogItemId);
-
-            var vm = new Details.Model
-            {
-                Id = catalogItem.Id,
-                Name = catalogItem.Name,
-                ImageUrl = catalogItem.ImageUrl,
-                Description = catalogItem.Description,
-                Price = catalogItem.Price
-            };
-
-            return vm;
-        }
-
         public async Task<IEnumerable<SelectListItem>> GetBrands ()
         {
             _logger.LogInformation ("GetBrands called.");
@@ -90,6 +74,5 @@ namespace RolleiShop.Services
                             .Where(spec.Criteria)
                             .ToListAsync();
         }
-
     }
 }

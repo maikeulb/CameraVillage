@@ -21,26 +21,20 @@ namespace RolleiShop.Apis.CartComponent
     [Route ("api/[Controller]")]
     public class CartComponentController : Controller
     {
-        private readonly ILogger _logger;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ICartService _cartService;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger _logger;
         private readonly ICartViewModelService _cartViewModelService;
-        private readonly IOrderService _orderService;
 
         public CartComponentController (
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             ILogger<CartComponentController> logger,
-            ICartService cartService,
-            IOrderService orderService,
             ICartViewModelService cartViewModelService)
         {
             _userManager = userManager;
-            _logger = logger;
             _signInManager = signInManager;
-            _cartService = cartService;
-            _orderService = orderService;
+            _logger = logger;
             _cartViewModelService = cartViewModelService;
         }
 
@@ -55,9 +49,8 @@ namespace RolleiShop.Apis.CartComponent
         private async Task<CartViewModel> GetCartViewModelAsync()
         {
             if (_signInManager.IsSignedIn(User))
-            {
                 return await _cartViewModelService.GetOrCreateCartForUser(User.Identity.Name);
-            }
+
             string anonymousId = GetOrSetCartCookie();
             return await _cartViewModelService.GetOrCreateCartForUser(anonymousId);
         }
@@ -65,21 +58,18 @@ namespace RolleiShop.Apis.CartComponent
         private string GetOrSetCartCookie()
         {
             if (Request.Cookies.ContainsKey("RolleiShop"))
-            {
                 return Request.Cookies["RolleiShop"];
-            }
+
             string anonymousId = Guid.NewGuid().ToString();
             var cookieOptions = new CookieOptions();
             cookieOptions.Expires = DateTime.Today.AddYears(10);
             Response.Cookies.Append("RolleiShop", anonymousId, cookieOptions);
             return anonymousId;
         }
-
     }
 
     public class UpdateCartViewModel
     {
         public string UserName{ get; set; }
     }
-
 }

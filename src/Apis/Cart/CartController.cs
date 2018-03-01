@@ -20,30 +20,27 @@ namespace RolleiShop.Apis.Cart
     [Route ("api/[Controller]")]
     public class CartController : Controller
     {
-        private readonly ILogger _logger;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ICartService _cartService;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ICartViewModelService _cartViewModelService;
-        private readonly IOrderService _orderService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
+        private readonly ICartService _cartService;
+        private readonly ICartViewModelService _cartViewModelService;
 
         public CartController (
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
-            ApplicationDbContext context,
             ILogger<CartController> logger,
+            ApplicationDbContext context,
             ICartService cartService,
-            IOrderService orderService,
             ICartViewModelService cartViewModelService)
         {
+            _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
-            _signInManager = signInManager;
-            _cartService = cartService;
-            _orderService = orderService;
-            _cartViewModelService = cartViewModelService;
             _context = context;
+            _cartService = cartService;
+            _cartViewModelService = cartViewModelService;
         }
 
         [HttpPost]
@@ -68,9 +65,8 @@ namespace RolleiShop.Apis.Cart
         private string GetOrSetCartCookie ()
         {
             if (Request.Cookies.ContainsKey ("RolleiShop"))
-            {
                 return Request.Cookies["RolleiShop"];
-            }
+
             string anonymousId = Guid.NewGuid ().ToString ();
             var cookieOptions = new CookieOptions ();
             cookieOptions.Expires = DateTime.Today.AddYears (10);

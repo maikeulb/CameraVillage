@@ -6,9 +6,8 @@ using System.ComponentModel.DataAnnotations;
 using CSharpFunctionalExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using RolleiShop.Data.Context;
-using RolleiShop.Services;
-using RolleiShop.Services.Interfaces;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
 using RolleiShop.Infra.App;
@@ -35,26 +34,41 @@ namespace RolleiShop.Features.CatalogManager
 
         public class Handler : AsyncRequestHandler<Query, Result<Model>>
         {
-            private readonly ICatalogService _catalogService;
+            private readonly ApplicationDbContext _context;
             private readonly IUrlComposer _urlComposer;
 
-            public Handler(ICatalogService catalogService,
+            public Handler(ApplicationDbContext context,
                 IUrlComposer urlComposer)
             {
-                _catalogService = catalogService;
+                _context = context;
                 _urlComposer = urlComposer;
             }
 
             protected override async Task<Result<Model>> HandleCore(Query message)
             {
-                var model =  await _catalogService.GetCatalogDetailItem (message.Id);
+                var catalogItem = await SingleAsync(message.Id);
 
-                if (model == null)
-                    return Result.Fail<Model> ("Catalog Item Details does not exit");
+                if (catalogItem == null)
+                    return Result.Fail<Model> ("Catalog Item does not exit");
 
-                model.ImageUrl = _urlComposer.ComposeImgUrl(model.ImageUrl);
+                var model = new Model
+                {
+                    Id = catalogItem.Id,
+                    Name = catalogItem.Name,
+                    ImageUrl = _urlComposer.ComposeImgUrl(catalogItem.ImageUrl),
+                    Description = catalogItem.Description,
+                    Price = catalogItem.Price
+                };
 
                 return Result.Ok (model);
+            }
+
+            private async Task<CatalogItem> SingleAsync(int id)
+            {
+                return await _context.CatalogItems
+                    .Include(c => c.CatalogBrand)
+                    .Include(c => c.CatalogType)
+                    .SingleOrDefaultAsync(c => c.Id == id);
             }
         }
     }
