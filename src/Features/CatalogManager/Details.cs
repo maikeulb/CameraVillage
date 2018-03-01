@@ -68,7 +68,8 @@ namespace RolleiShop.Features.CatalogManager
                 return await _context.CatalogItems
                     .Include(c => c.CatalogBrand)
                     .Include(c => c.CatalogType)
-                    .SingleOrDefaultAsync(c => c.Id == id);
+                    .Where(c => c.Id == id)
+                    .SingleOrDefaultAsync();
             }
         }
     }

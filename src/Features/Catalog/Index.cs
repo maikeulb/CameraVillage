@@ -159,7 +159,7 @@ namespace RolleiShop.Features.Catalog
             private async Task<List<CatalogItem>> ListAsync(ISpecification<CatalogItem> spec)
             {
                 var queryableModelWithIncludes = spec.Includes
-                    .Aggregate(_context.CatalogItems.AsNoTracking().AsQueryable(),
+                    .Aggregate(_context.CatalogItems.AsQueryable(),
                         (current, include) => current.Include(include));
                 var secondaryModel = spec.IncludeStrings
                     .Aggregate(queryableModelWithIncludes,

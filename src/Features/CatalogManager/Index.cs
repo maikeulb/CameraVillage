@@ -108,9 +108,9 @@ namespace RolleiShop.Features.CatalogManager
             private async Task<List<CatalogItem>> ListAsync()
             {
                 return await _context.CatalogItems
-                    .AsNoTracking()
                     .Include(c => c.CatalogBrand)
                     .Include(c => c.CatalogType)
+                    .AsNoTracking()
                     .ToListAsync();
             }
         }

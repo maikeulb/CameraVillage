@@ -74,16 +74,14 @@ namespace RolleiShop.Features.Orders
             private async Task<List<Order>> ListAsync(ISpecification<Order> spec)
             {
                 var queryableModelWithIncludes = spec.Includes
-                    .Aggregate(_context.Orders
-                            .AsNoTracking()
-                            .AsQueryable(),
+                    .Aggregate(_context.Orders.AsQueryable(),
                         (current, include) => current.Include(include));
                 var secondaryModel = spec.IncludeStrings
                     .Aggregate(queryableModelWithIncludes,
                         (current, include) => current.Include(include));
-                return await secondaryModel
-                                .Where(spec.Criteria)
-                                .ToListAsync();
+                return await secondaryModel.Where(spec.Criteria)
+                    .AsNoTracking()
+                    .ToListAsync();
             }
         }
     }

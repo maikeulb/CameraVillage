@@ -23,17 +23,16 @@ namespace RolleiShop.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string userName)
         {
-            var vm = new CartComponentViewModel();
-            vm.ItemsCount = (await GetCartViewModelAsync()).Items.Sum(i => i.Quantity);
-            return View(vm);
+            var model = new CartComponentViewModel();
+            model.ItemsCount = (await GetCartViewModelAsync()).Items.Sum(i => i.Quantity);
+            return View(model);
         }
 
         private async Task<CartViewModel> GetCartViewModelAsync()
         {
             if (_signInManager.IsSignedIn(HttpContext.User))
-            {
                 return await _cartService.GetOrCreateCartForUser(User.Identity.Name);
-            }
+
             string anonymousId = GetCartIdFromCookie();
             if (anonymousId == null) return new CartViewModel();
             return await _cartService.GetOrCreateCartForUser(anonymousId);
@@ -42,9 +41,8 @@ namespace RolleiShop.ViewComponents
         private string GetCartIdFromCookie()
         {
             if (Request.Cookies.ContainsKey("RolleiShop"))
-            {
                 return Request.Cookies["RolleiShop"];
-            }
+
             return null;
         }
     }
