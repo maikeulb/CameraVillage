@@ -59,19 +59,16 @@ namespace RolleiShop.Features.CatalogManager
         public class Handler : AsyncRequestHandler<Command>
         {
             private readonly ICartService _cartService;
-            private readonly IOrderService _orderService;
             private readonly ApplicationDbContext _context;
             private readonly IHostingEnvironment _environment;
             private readonly ILogger _logger;
 
             public Handler(ICartService cartService, 
                     IHostingEnvironment environment,
-                    IOrderService orderService,
                     ApplicationDbContext context,
                     ILogger<Create.Handler> logger)
             {
                 _cartService = cartService;
-                _orderService = orderService;
                 _environment = environment;
                 _context = context;
                 _logger = logger;

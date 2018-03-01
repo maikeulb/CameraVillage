@@ -42,7 +42,6 @@ namespace RolleiShop
                 .AddEntityFrameworkStores<IdentityDbContext> ()
                 .AddDefaultTokenProviders ();
 
-            services.AddScoped<ICatalogService, CatalogService>();
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<ICartViewModelService, CartViewModelService>();
             services.AddScoped<IOrderService, OrderService>();
