@@ -27,7 +27,7 @@ namespace RolleiShop.Models.Entities
 
         public void IncrementQuantity ()
         {
-            Quantity += this.Quantity;
+            Quantity += 1;
         }
     }
 }
