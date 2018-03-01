@@ -57,16 +57,6 @@ namespace RolleiShop.Features.Cart
         }
 
         [HttpPost]
-        public async Task<IActionResult> Remove(Remove.Command command)
-        {
-            var cartViewModel = await GetCartViewModelAsync();
-            command.CartId = cartViewModel.Id;
-            await _mediator.Send(command);
-
-            return View(await GetCartViewModelAsync());
-        }
-
-        [HttpPost]
         [Authorize]
         public async Task<IActionResult> Checkout(Checkout.Command command)
         {

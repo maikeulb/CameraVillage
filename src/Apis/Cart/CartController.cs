@@ -53,6 +53,16 @@ namespace RolleiShop.Apis.Cart
             return Ok ();
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> RemoveFromCart ([FromBody] ProductViewModel product)
+        {
+            var catalogItem =  await _context.Set<CatalogItem>().FindAsync(product.ProductId);
+            var cartViewModel = await GetCartViewModelAsync ();
+            await _cartService.RemoveItemFromCart (cartViewModel.Id, catalogItem.Id);
+
+            return Ok ();
+        }
+
         private async Task<CartViewModel> GetCartViewModelAsync ()
         {
             if (_signInManager.IsSignedIn (User))

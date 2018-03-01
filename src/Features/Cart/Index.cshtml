@@ -24,11 +24,11 @@
           <section class="one wide column"></section>
       </div>
       <h4 class="ui divider"></h4>
-
+        <div id="cart_items">
         @for (int i=0; i< Model.Items.Count; i++)
         {
           var item = Model.Items[i];
-
+          <h2>@item.CatalogItemId</h2>
           <div class="ui centered grid">
             <article class="row">
               <section class="four wide column"><img class="" src="@item.ImageUrl" /></section>
@@ -42,13 +42,13 @@
               </section>
               <section class="two wide column">$ @Math.Round(item.Quantity * item.UnitPrice, 2).ToString("N2")</section>
               <section class="one wide column">
-                <form asp-action="Remove" asp-controller="Cart" method="post">
-                  <button class="ui text" asp-items="@item.Id" type="submit">Remove</button>
-                </form>
+                <button id="cart-item" data-catalog-item-id="@item.CatalogItemId" class="remove-from-cart
+                  ui basic button">Remove</button>
               </section>
             </article>
           </div>
         }
+      </div>
       <div class="ui grid">
         <div class="right floated eight wide mobile four wide tablet four wide
           computer column">
@@ -92,10 +92,66 @@
           </div>
         </div>
       </div>
-
   }
   else
   {
   <p>Cart is empty.</p>
   }
 </div>
+@section scripts
+{
+<script>
+  $(document).ready(function () {
+    var button;
+
+    $("#cart_items").on("click","#cart-item", removeFromCart);
+
+    function removeFromCart (e) {
+      button = $(e.target);
+      var productId = button.attr("data-catalog-item-id");
+      alert(productId)
+      removeFromCartCall(productId);
+    };
+
+    function removeFromCartCall(productId) {
+    var contentTypeAttribute = 'application/json';
+    var dataAttribute = JSON.stringify({
+      productId: productId
+    });
+      $.ajax({
+         url: "/api/cart/",
+         method: "DELETE",
+         contentType: contentTypeAttribute,
+         data: dataAttribute,
+         success: function (data) {
+          updateCartCall();
+          alert('cool')  
+         },
+         error: function(xhr, ajaxOptions, thrownError){
+          alert('something went wrong')  
+         },
+      });
+    }
+
+    function updateCartCall(productId) {
+    var contentTypeAttribute = 'application/json';
+    var dataAttribute = JSON.stringify({});
+      $.ajax({
+         url: "/api/cartComponent/",
+         method: "POST",
+         contentType: contentTypeAttribute,
+         success: function (data) {
+          new Noty({
+              text: 'Item Added To Cart'
+          }).setTimeout(2000).show();
+          $('.cartstatus-badge').html(data.itemsCount);
+          alert('whats good')  
+         },
+         error: function(xhr, ajaxOptions, thrownError){
+          alert('something went wrong')  
+         },
+      });
+    }
+});
+</script>
+}
