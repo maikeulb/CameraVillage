@@ -33,12 +33,24 @@
           <div class="ui fluid large submit button">Login</div>
         </div>
         <div class="ui error message"></div>
-        <div class="ui message">
-        DemoUser
-        DemoUserPassword
-        DemoAdmin:
-        DemoAdminPassword: 
-        
+        <div id="demo_login" class="ui message">
+
+          <button 
+              id="demo_user"
+              type="button"
+              data-return-url = "@ViewData["ReturnUrl"]"
+              data-email = "demouser@@email.com"
+              data-password = "P@ssw0rd!"
+              class="ui button primary">
+              Demo User
+          </button>
+          <button 
+              type="button"
+              data-email = "demoadmin@email.com"
+              data-password ="P@ssw0rd!"
+              class="ui button primary">
+              Demo Admin
+          </button>
         </div>
         @if (ViewData.ModelState.Count > 0)
         {
@@ -59,3 +71,53 @@
     </div>
   </div>
 </div>
+@section scripts
+{
+<script>
+  $(document).ready(function () {
+    var button;
+    $("#demo_user").on("click", loginUser);
+
+    function loginUser (e) {
+      button = $(e.target);
+      var email = button.attr("data-email");
+      var password = button.attr("data-password");
+      var returnUrl = button.attr("data-return-url");
+      var token = $('input[name="__RequestVerificationToken"]').val();
+      alert(returnUrl);
+      console.log(returnUrl);
+      alert("@ViewData["ReturnUrl"]");
+      console.log("@ViewData["ReturnUrl"]");
+      loginUserCall(email, password, returnUrl, token);
+    };
+
+    function loginUserCall(email, password, returnUrl, token) {
+      var data = {};
+      data.Email = email;
+      data.Password = password;
+      $.ajax({
+         url: "/Account/Login",
+         method: "POST",
+         data:{
+           model: data,
+           __RequestVerificationToken: token,
+           returnUrl:"Home/Index"  
+         },
+          
+         success: function (data) {
+           new Noty({
+              text: 'Login Successful'
+          }).setTimeout(2000).show();
+         alert(data);
+         console.log(data);
+         window.location='/';
+         }
+        ,
+         error: function(xhr, ajaxOptions, thrownError){
+          alert('something went wrong')  
+         },
+      });
+    }
+  })
+</script>
+}

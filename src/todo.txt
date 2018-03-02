@@ -1,7 +1,5 @@
 ***concurrency
 ***stored procs
 
-***add command results to cart feature
-***refactor apis (break down to cq objects)
 ***Fix Ajax remove cartitem (for cart view)
 ***add ajax demo user button

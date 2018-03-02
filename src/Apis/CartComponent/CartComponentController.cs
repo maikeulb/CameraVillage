@@ -41,9 +41,9 @@ namespace RolleiShop.Apis.CartComponent
         [HttpPost]
         public async Task<IActionResult> UpdateCart()
         {
-            var vm = new CartComponentViewModel();
-            vm.ItemsCount = (await GetCartViewModelAsync()).Items.Sum(i => i.Quantity);
-            return Ok(vm);
+            var model = new CartComponentViewModel();
+            model.ItemsCount = (await GetCartViewModelAsync()).Items.Sum(i => i.Quantity);
+            return Ok(model);
         }
 
         private async Task<CartViewModel> GetCartViewModelAsync()
@@ -66,10 +66,5 @@ namespace RolleiShop.Apis.CartComponent
             Response.Cookies.Append("RolleiShop", anonymousId, cookieOptions);
             return anonymousId;
         }
-    }
-
-    public class UpdateCartViewModel
-    {
-        public string UserName{ get; set; }
     }
 }

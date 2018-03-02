@@ -25,7 +25,6 @@ namespace RolleiShop.Apis.Cart
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
-        private readonly ICartService _cartService;
         private readonly ICartViewModelService _cartViewModelService;
         private readonly IMediator _mediator;
 
@@ -35,7 +34,6 @@ namespace RolleiShop.Apis.Cart
             IMediator mediator,
             ILogger<CartController> logger,
             ApplicationDbContext context,
-            ICartService cartService,
             ICartViewModelService cartViewModelService)
         {
             _signInManager = signInManager;
@@ -43,7 +41,6 @@ namespace RolleiShop.Apis.Cart
             _logger = logger;
             _context = context;
             _mediator = mediator;
-            _cartService = cartService;
             _cartViewModelService = cartViewModelService;
         }
 
