@@ -1,6 +1,2 @@
-***concurrency
-***stored procs
-
 ***Fix Ajax remove cartitem (for cart view)
 ***Fix Ajax redirect
-***add ajax demo user button
