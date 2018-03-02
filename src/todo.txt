@@ -1,4 +1,4 @@
-***Fix Ajax remove cartitem (for cart view)
+***Fix Ajax for removing items from shopping cart
 ***Fix Ajax redirect
-***add localization
-***Consider ResponseCompression and ResponseCaching
+***Fix Ajax redirect
+***streamline cartviewmodelcompoennt 3 files
