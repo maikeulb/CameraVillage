@@ -3,19 +3,19 @@ using System.IO;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Authorization;
 using RolleiShop.Data.Context;
-using RolleiShop.Services;
-using RolleiShop.Services.Interfaces;
 using RolleiShop.Identity;
+using RolleiShop.Infra.App.Interfaces;
 using RolleiShop.Models.Entities;
 using RolleiShop.Models.Interfaces;
-using RolleiShop.Infra.App.Interfaces;
+using RolleiShop.Services;
+using RolleiShop.Services.Interfaces;
 
 namespace RolleiShop.Features.Catalog
 {
@@ -34,11 +34,11 @@ namespace RolleiShop.Features.Catalog
 
         [HttpGet]
         [HttpPost]
-        public async Task<IActionResult> Index(Index.Query query)
+        public async Task<IActionResult> Index (Index.Query query)
         {
-            var model = await _mediator.Send(query);
+            var model = await _mediator.Send (query);
 
-            return View(model);
+            return View (model);
         }
 
         [HttpGet ("Error")]

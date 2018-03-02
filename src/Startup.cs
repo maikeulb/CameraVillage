@@ -61,8 +61,8 @@ namespace RolleiShop
 
             services.AddDistributedRedisCache( options =>
             {
-                options.InstanceName = "RolleiShop";
-                options.Configuration = "172.17.0.6";
+                options.Configuration = Configuration.GetConnectionString("Redis");
+                options.InstanceName = Configuration.GetSection("AppSettings").GetValue<string>("RedisInstanceName");
             });
 
             services.AddMvc (options =>
