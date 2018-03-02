@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Home" xml:space="preserve">
-    <value>حول</value>
+    <value>自宅</value>
   </data>
   <data name="Catalog" xml:space="preserve">
-    <value>تواصل</value>
+    <value>カタログ</value>
   </data>
   <data name="Cart" xml:space="preserve">
-    <value>الرئيسية</value>
+    <value>カート</value>
   </data>
   <data name="Rollei Shop" xml:space="preserve">
-    <value>تبديل الملاحة</value>
+    <value>ローリーショップ</value>
   </data>
   <data name="Cameras" xml:space="preserve">
-    <value>تبديل الملاحة</value>
+    <value>カメラ</value>
   </data>
 </root>
