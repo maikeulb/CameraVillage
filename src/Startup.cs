@@ -3,9 +3,12 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using RolleiShop.Identity;
 using RolleiShop.Models.Interfaces;
 using RolleiShop.Data.Context;
@@ -17,6 +20,7 @@ using Stripe;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 using NLog.Web;
 
 namespace RolleiShop
@@ -65,12 +69,29 @@ namespace RolleiShop
                 options.InstanceName = Configuration.GetSection("AppSettings").GetValue<string>("RedisInstanceName");
             });
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
             services.AddMvc (options =>
                 {
                     options.Filters.Add (typeof (ValidatorActionFilter));
                 })
                 .AddFeatureFolders ()
-                .AddFluentValidation (cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup> (); });
+                .AddFluentValidation (cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup> (); })
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("ja"),
+                    new CultureInfo("ko")
+                };
+                options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
 
             services.AddMediatR(typeof(Startup));
 
@@ -79,6 +100,9 @@ namespace RolleiShop
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

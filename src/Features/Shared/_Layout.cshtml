@@ -1,6 +1,11 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using System.Globalization
+@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Identity
 @using RolleiShop.Models.Entities
 @using RolleiShop.Identity
+@inject IViewLocalizer Localizer
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -191,9 +196,12 @@
   </head>
   <body class="site">
     <div class="ui vertical thin sidebar menu">
-      <a asp-controller="Home" asp-action="Index" class="active header item">Home</a>
-      <a asp-controller="Catalog" asp-action="Index" class="item">Cameras</a>
-      <a asp-controller="Cart" asp-action="Index" class="item">Cart</a>
+      <a asp-controller="Home" asp-action="Index" class="active header
+        item">@Localizer["Home"]</a>
+      <a asp-controller="Catalog" asp-action="Index"
+        class="item">@Localizer["Cameras"]</a>
+      <a asp-controller="Cart" asp-action="Index"
+        class="item">@Localizer["Cart"]</a>
       @await Html.PartialAsync("_LoginPartial")
     </div>
 
@@ -209,10 +217,11 @@
             <span style=" padding-right: 15px;">
               <img class="ui avatar image" src="~/images/logo.png" height="25">
             </span>
-            Rollei Shop
+            @Localizer["Rollei Shop"]
           </a>
 
-         <a asp-controller="Catalog" asp-action="Index" class="item">Cameras</a>
+         <a asp-controller="Catalog" asp-action="Index"
+           class="item">@Localizer["Cameras"]</a>
 
           <div class="right item">
             @await Html.PartialAsync("_LoginPartial")
@@ -223,13 +232,14 @@
             <span style=" padding-right: 15px;">
               <img class="ui avatar image" src="~/images/logo.png" height="25">
             </span>
-            Rollei Shop
+            @Localizer["Rollei Shop"]
           </a>
         </div>
       </div>
 
       <main class="site-content">
         @RenderBody()
+        @await Html.PartialAsync("_SelectLanguagePartial")
       </main>
 
     </div>
@@ -271,7 +281,14 @@
                 }
               </script>
 
+              <script>
+(function () {
+    $("#selectLanguage select").change(function () {
+        $(this).parent().submit();
+    });
+}());
     @RenderSection("scripts", required: false)
+              </script>
 
   </body>
 </html>

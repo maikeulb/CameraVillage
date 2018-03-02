@@ -1,9 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
     <div class="ui container center aligned">
-      <div class = "ui huge header"> Welcome to RolleiShop </div>
+      <div class = "ui huge header">@ViewData["Title"] </div>
     </div>
 
     <div class="ui vertical masthead center aligned segment">
@@ -26,28 +25,26 @@
           </div>
           <div class="eight wide column">
             <div>
-              <p>This is an MVC application demonstrating a basic ecommerce
-                shop with in ASP.NET Core 2.0, EF Core 2.0, Identity 2.0,
-                Stripe, and a slew of libraries. The backend follows a
-                DDD/CQRS-esque Architecture powered by MediatR. I built this
-                using the superb Microsoft sample projects, tutorials, and
-                documentation, along with varous online resources. </p>
-
-              <p>The name Rollei, refers to the German camera manufacturer,
-                makers of the famous Rolleiflex cameras. Rollei happens to be
-                my favorite camera brand, having owned several Rollei 35's and
-                Rolleiflex TLRs.</p>
-
-              <p>The map points to Map Camera loked in Shinjyuko, Tokyo. Map
-                Camera is one of the finest camera stores for new and used
-                camera gear.</p>
+              <p>@ViewData["Message1"]</p>
+              <p>@ViewData["Message2"]</p>
+              <p>@ViewData["Message3"]</p>
             </div>
           </div>
         </div>
     </div>
+        @await Html.PartialAsync("_SelectLanguagePartial")
+
+        <script>
+  (function () {
+    $("#selectLanguage select").change(function () {
+        $(this).parent().submit();
+    });
+}());
+              </script>
 
 @section scripts
 {
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.5.0/rellax.min.js"></script>
   <script>
     var rellax = new Rellax('.rellax');
