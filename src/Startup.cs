@@ -85,8 +85,7 @@ namespace RolleiShop
                 var supportedCultures = new[]
                 {
                     new CultureInfo("en-US"),
-                    new CultureInfo("ja"),
-                    new CultureInfo("ko")
+                    new CultureInfo("ja-JA"),
                 };
                 options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
                 options.SupportedCultures = supportedCultures;

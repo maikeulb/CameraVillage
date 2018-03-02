@@ -32,19 +32,9 @@
           </div>
         </div>
     </div>
-        @await Html.PartialAsync("_SelectLanguagePartial")
-
-        <script>
-  (function () {
-    $("#selectLanguage select").change(function () {
-        $(this).parent().submit();
-    });
-}());
-              </script>
 
 @section scripts
 {
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.5.0/rellax.min.js"></script>
   <script>
     var rellax = new Rellax('.rellax');
