@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Log in" xml:space="preserve">
-    <value>S'identifier</value>
+    <value>ログイン</value>
   </data>
   <data name="Log out" xml:space="preserve">
-    <value>Déconnecter</value>
+    <value>ログアウト</value>
   </data>
   <data name="Orders" xml:space="preserve">
-    <value>Faire en sorte</value>
+    <value>注文</value>
   </data>
   <data name="Manage" xml:space="preserve">
-    <value>Faire en sorte</value>
+    <value>管理する</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Enregistrez</value>
+    <value>登録</value>
   </data>
 </root>
