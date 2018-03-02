@@ -96,7 +96,7 @@ namespace RolleiShop.Features.Catalog
             {
                 string cacheKey = String.Format (_itemsKeyTemplate, pageIndex, itemsPage, brandId, typeId);
                 var filterSpecification = new CatalogFilterSpecification (brandId, typeId);
-                IEnumerable<Model.CatalogItem> root = ListAsync (filterSpecification, cacheKey);
+                IEnumerable<Model.CatalogItem> root = await ListAsync (filterSpecification, cacheKey);
                 var totalItems = root.Count ();
                 var itemsOnPage = root
                     .Skip (itemsPage * pageIndex)
@@ -168,9 +168,9 @@ namespace RolleiShop.Features.Catalog
                 });
             }
 
-            private List<Model.CatalogItem> ListAsync (ISpecification<CatalogItem> spec, string cacheKey)
+            private async Task<List<Model.CatalogItem>> ListAsync (ISpecification<CatalogItem> spec, string cacheKey)
             {
-                var cachedCatalogItemKey = _distributedCache.Get (cacheKey);
+                var cachedCatalogItemKey = await _distributedCache.GetAsync (cacheKey);
                 if (cachedCatalogItemKey == null)
                 {
                     _logger.LogInformation ("Retrieve CatalogItems from Database");
@@ -182,25 +182,25 @@ namespace RolleiShop.Features.Catalog
                             (current, include) => current.Include (include));
                     IQueryable<CatalogItem> selectedCatalogItems = queryableCatalogItems
                         .Where (spec.Criteria);
-                    IEnumerable<Model.CatalogItem> catalogItems = selectedCatalogItems
+                    IQueryable<Model.CatalogItem> catalogItems = selectedCatalogItems
                         .Select (i => new Model.CatalogItem ()
                     {
                         Id = i.Id,
                         Name = i.Name,
                         ImageUrl = i.ImageUrl,
                         Price = i.Price
-                    }).AsEnumerable();
-                    string serializedCatalogItemsString = JsonConvert.SerializeObject (catalogItems);
+                    });
+                    string serializedCatalogItemsString = JsonConvert.SerializeObject (catalogItems.AsEnumerable());
                     byte[] encodedCatalogItems = Encoding.UTF8.GetBytes (serializedCatalogItemsString);
                     var cacheEntryOptions = new DistributedCacheEntryOptions ()
                         .SetSlidingExpiration (TimeSpan.FromSeconds (1000));
-                     _distributedCache.Set (cacheKey, encodedCatalogItems, cacheEntryOptions);
-                    return catalogItems.ToList();
+                    await _distributedCache.SetAsync (cacheKey, encodedCatalogItems, cacheEntryOptions);
+                    return await catalogItems.ToListAsync();
                 }
                 else
                 {
                     _logger.LogInformation ("Retrieve CatalogItems from Redis Cache");
-                    byte[] encodedCatalogItems =  _distributedCache.Get (cacheKey);
+                    byte[] encodedCatalogItems = await _distributedCache.GetAsync (cacheKey);
                     string serializedCatalogItemsString = Encoding.UTF8.GetString (encodedCatalogItems);
                     IEnumerable<Model.CatalogItem> catalogItems = JsonConvert.DeserializeObject<IEnumerable<Model.CatalogItem>> (serializedCatalogItemsString);
                     return catalogItems.ToList();
