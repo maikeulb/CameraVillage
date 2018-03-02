@@ -108,13 +108,7 @@ namespace RolleiShop.Features.Catalog
                 });
                 var result = new Model ()
                 {
-                    CatalogItems = itemsOnPage.Select (i => new Model.CatalogItem ()
-                    {
-                        Id = i.Id,
-                        Name = i.Name,
-                        ImageUrl = i.ImageUrl,
-                        Price = i.Price
-                    }),
+                    CatalogItems = itemsOnPage,
                     Brands = await GetBrands (),
                     Types = await GetTypes (),
                     BrandFilterApplied = brandId ?? 0,
