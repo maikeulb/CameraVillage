@@ -22,7 +22,7 @@ namespace RolleiShop.Features.Cart
         public class Command : IRequest
         {
             public int CatalogItemId { get; set; }
-            public int CartId { get; set; }
+            public int Id { get; set; }
         }
 
         public class Handler : AsyncRequestHandler<Command>
@@ -36,7 +36,7 @@ namespace RolleiShop.Features.Cart
 
             protected override async Task HandleCore(Command message)
             {
-                await _cartService.RemoveItemFromCart(message.CartId, message.CatalogItemId);
+                await _cartService.RemoveItemFromCart(message.Id, message.CatalogItemId);
             }
         }
     }
