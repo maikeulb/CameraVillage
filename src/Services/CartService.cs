@@ -35,7 +35,6 @@ namespace RolleiShop.Services
 
             _context.Entry(cart).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-
         }
 
         public async Task RemoveItemFromCart(int cartId, int catalogItemId)
@@ -101,6 +100,11 @@ namespace RolleiShop.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<string>> GetUsers ()
+        {
+            return await _context.Carts.Select(c => c.BuyerId).ToListAsync();
+        }
+
         private async Task<List<Cart>> ListAsync(ISpecification<Cart> spec)
         {
             var queryableResultWithIncludes = spec.Includes
@@ -109,9 +113,7 @@ namespace RolleiShop.Services
             var secondaryResult = spec.IncludeStrings
                 .Aggregate(queryableResultWithIncludes,
                     (current, include) => current.Include(include));
-            return await secondaryResult
-                            .Where(spec.Criteria)
-                            .ToListAsync();
+            return await secondaryResult.Where(spec.Criteria).ToListAsync();
         }
     }
 }
