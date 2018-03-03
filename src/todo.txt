@@ -1,4 +1,5 @@
 ***Fix Ajax for removing items from shopping cart
 ***Fix Ajax redirect
 ***Fix Ajax redirect
+***change productocatalog
 ***streamline cartviewmodelcompoennt 3 files

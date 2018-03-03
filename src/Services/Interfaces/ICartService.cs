@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using RolleiShop.Models.Entities;
 
 namespace RolleiShop.Services.Interfaces
 {
@@ -11,5 +12,9 @@ namespace RolleiShop.Services.Interfaces
         Task SetQuantities(int cartId, Dictionary<string, int> quantities);
         Task DeleteCartAsync(int cartId);
         Task TransferCartAsync(string anonymousId, string userName);
+        Task<IEnumerable<string>> GetUsers ();
+        Task<Cart> GetCartAsync(string userName);
+        Task<IEnumerable<Cart>> GetCartsWithMatchingProductId(int productId);
+        Task UpdateAsync(Cart cart);
     }
 }

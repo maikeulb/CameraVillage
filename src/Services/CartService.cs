@@ -105,10 +105,16 @@ namespace RolleiShop.Services
             return await _context.Carts.Select(c => c.BuyerId).ToListAsync();
         }
 
-        public async Task<Cart> GetBasketAsync(string userName)
+        public async Task<Cart> GetCartAsync(string userName)
         {
             Ensure.String.IsNotNullOrWhiteSpace(userName, nameof(userName));
             return await _context.Carts.SingleOrDefaultAsync(c => c.BuyerId == userName);
+        }
+
+        public async Task<IEnumerable<Cart>> GetCartsWithMatchingProductId(int productId)
+        {
+            EnsureArg.IsNotNull(productId, nameof(productId));
+            return await _context.Carts.Where(c => c.Items.Any(i => i.CatalogItemId == productId)).ToListAsync();
         }
 
         private async Task<List<Cart>> ListAsync(ISpecification<Cart> spec)

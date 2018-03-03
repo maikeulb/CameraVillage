@@ -1,6 +1,10 @@
 using RolleiShop.Models.Entities;
+using System.Collections.Generic;
+using RolleiShop.Services;
+using RolleiShop.Services.Interfaces;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 
@@ -25,72 +29,57 @@ namespace Rolleishop.Notifications
         }
     }
 
-    /* public class ProductPriceChangedNotificationHandler : INotificationHandler<ProdutPriceChangedNotification> */
-    /* { */
-    /*     private readonly ApplicationDbContext _context; */
+    public class ProductPriceChangedNotificationHandler : INotificationHandler<ProductPriceChangedNotification>
+    {
+        private readonly ICartService _cartService;
 
-    /*     public ProductPriceChangedIntegrationEventHandler(IdentityDbContext context) */
-    /*     { */
-    /*         _context = context */
-    /*     } */
+        public ProductPriceChangedNotificationHandler(ICartService cartService)
+        {
+            _cartService = cartService;
+        }
 
-    /*     public async Task Handle(ProductPriceChangedNotification notification) */
-    /*     { */
-    /*         var userIds = _context.Carts.GetUsers(); */
-            
-    /*         foreach (var id in userIds) */
-    /*         { */
-    /*             var cart = await GetCartAsync(id) */
+        public async Task Handle(ProductPriceChangedNotification notification, CancellationToken cancellationToken)
+        {
+            var userIds = await _cartService.GetUsers();
+            var iterlist = userIds.ToList(); // TODO CLEANUP
+            foreach (var id in iterlist)
+            {
+                var cart = await _cartService.GetCartAsync(id);
 
-    /*             await UpdatePriceInCartItems(notification.ProductId, notification.NewPrice, notification.OldPrice, cart); */                      
-    /*         } */
-    /*     } */
+                await UpdatePriceInCartItems(notification.ProductId, notification.NewPrice, notification.OldPrice, cart);                      
+            }
+        }
 
-    /*     private async Task GetCartAsync(int productId, decimal newPrice, decimal oldPrice, CustomerCart cart) */
-    /*     { */
-    /*         var cart = _context.Carts. */
+        private async Task UpdatePriceInCartItems(int productId, decimal newPrice, decimal oldPrice, Cart cart)
+        {
+            IEnumerable<Cart> cartsToUpdate = await _cartService.GetCartsWithMatchingProductId(productId); // TODO make one command (linq -> select)
 
-    /*         var itemsToUpdate = cart?.Items?.Where(x => x.ProductId == match).ToList(); */
+            IEnumerable<CartItem> itemsToUpdate = Enumerable.Empty<CartItem>();
+                
+            foreach (var cartp in cartsToUpdate)
+            {
+                itemsToUpdate = cartp.Items; 
+            } 
 
-    /*         if (itemsToUpdate != null) */
-    /*         { */
-    /*             foreach (var item in itemsToUpdate) */
-    /*             { */
-    /*                 if(item.UnitPrice == oldPrice) */
-    /*                 { */ 
-    /*                     var originalPrice = item.UnitPrice; */
-    /*                     item.UnitPrice = newPrice; */
-    /*                     item.OldUnitPrice = originalPrice; */
-    /*                 } */
-    /*             } */
-    /*             await _repository.UpdateCartAsync(cart); */
-    /*         } */         
-    /*     } */
+            /* cartsToUpdate.Items.Select (i => new CartItem () */
+                    /* { */
+                        /* UnitPrice = i.UnitPrice, */
+                        /* Quantiy = i.Quantity, */
+                        /* CatalogItemId = i.CatalogItemId, */
+                    /* }); */
 
-    /*     private async Task UpdatePriceInCartItems(int productId, decimal newPrice, decimal oldPrice, CustomerCart cart) */
-    /*     { */
-    /*         string match = productId.ToString(); */
-    /*         var itemsToUpdate = cart?.Items?.Where(x => x.ProductId == match).ToList(); */
-
-    /*         if (itemsToUpdate != null) */
-    /*         { */
-    /*             foreach (var item in itemsToUpdate) */
-    /*             { */
-    /*                 if(item.UnitPrice == oldPrice) */
-    /*                 { */ 
-    /*                     var originalPrice = item.UnitPrice; */
-    /*                     item.UnitPrice = newPrice; */
-    /*                     item.OldUnitPrice = originalPrice; */
-    /*                 } */
-    /*             } */
-    /*             await _repository.UpdateCartAsync(cart); */
-    /*         } */         
-    /*     } */
-
-
-    /*     private async Task UpdateCartAsync(int productId, decimal newPrice, decimal oldPrice, CustomerCart cart) */
-    /*     { */
-    /*         var created = await _context. */
-    /*     } */
-    /* } */
+            if (itemsToUpdate != null)
+            {
+                foreach (var item in itemsToUpdate)
+                {
+                    if(item.UnitPrice == oldPrice)
+                    { 
+                        var originalPrice = item.UnitPrice;
+                        item.UnitPrice = newPrice;
+                    }
+                }
+                await _cartService.UpdateAsync(cart);
+            }         
+        }
+    }
 }
