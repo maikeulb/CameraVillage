@@ -3,3 +3,5 @@
 ***Fix Ajax redirect
 ***change productocatalog
 ***streamline cartviewmodelcompoennt 3 files
+***real admin not working
+***clean up notiication handler (ugly linq)

@@ -11,6 +11,25 @@
   <form asp-action="Edit" class="ui form edit">
     <div asp-validation-summary="All" class="text-danger"></div>
 
+    @if (User.IsInRole("Admin"))
+    {
+    <div class="field">
+      <label asp-for="Name" class="label"></label>
+      <input asp-for="Name" type="text"></input>
+    </div>
+
+    <div class="field">
+      <label asp-for="Brand" class="label"></label>
+      <input asp-for="Brand" type="text"></input>
+    </div>
+
+    <div class="field">
+      <label asp-for="Type" class="label"></label>
+      <input asp-for="Type" type="text"></input>
+    </div>
+    }
+    else
+    {
     <div class="disabled field">
       <label asp-for="Name" class="label"></label>
       <input asp-for="Name" readonly="" type="text"></input>
@@ -25,7 +44,7 @@
       <label asp-for="Type" class="label"></label>
       <input asp-for="Type" readonly="" type="text"></input>
     </div>
-
+    }
     <div class="field">
       <label asp-for="Description" class="label"></label>
       <textarea  asp-for="Description" type="text"></textarea>

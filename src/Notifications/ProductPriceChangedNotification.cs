@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace Rolleishop.Notifications
+namespace RolleiShop.Notifications
 {
     public class ProductPriceChangedNotification : INotification
     {        
@@ -72,11 +72,7 @@ namespace Rolleishop.Notifications
             {
                 foreach (var item in itemsToUpdate)
                 {
-                    if(item.UnitPrice == oldPrice)
-                    { 
-                        var originalPrice = item.UnitPrice;
                         item.UnitPrice = newPrice;
-                    }
                 }
                 await _cartService.UpdateAsync(cart);
             }         

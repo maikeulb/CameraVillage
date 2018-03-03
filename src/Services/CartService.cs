@@ -78,7 +78,6 @@ namespace RolleiShop.Services
                     item.UpdateQuantity(quantity);
                 }
             }
-
             _context.Entry(cart).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
@@ -108,7 +107,8 @@ namespace RolleiShop.Services
         public async Task<Cart> GetCartAsync(string userName)
         {
             Ensure.String.IsNotNullOrWhiteSpace(userName, nameof(userName));
-            return await _context.Carts.SingleOrDefaultAsync(c => c.BuyerId == userName);
+            var cartSpec = new CartWithItemsSpecification(userName);
+            return (await ListAsync(cartSpec)).FirstOrDefault();
         }
 
         public async Task<IEnumerable<Cart>> GetCartsWithMatchingProductId(int productId)

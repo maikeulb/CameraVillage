@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using RolleiShop.Data.Context;
 using RolleiShop.Services;
+using RolleiShop.Notifications;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Identity;
 using RolleiShop.Models.Entities;
@@ -90,6 +91,8 @@ namespace RolleiShop.Features.CatalogManager
         public async Task<IActionResult> Edit (Edit.Command command)
         {
             var result = await _mediator.Send(command);
+
+            await _mediator.Publish(new ProductPriceChangedNotification(command.Id, command.Price, command.Price));
 
             return result.IsSuccess
                 ? (IActionResult)RedirectToAction ("Index")
