@@ -105,6 +105,12 @@ namespace RolleiShop.Services
             return await _context.Carts.Select(c => c.BuyerId).ToListAsync();
         }
 
+        public async Task<Cart> GetBasketAsync(string userName)
+        {
+            Ensure.String.IsNotNullOrWhiteSpace(userName, nameof(userName));
+            return await _context.Carts.SingleOrDefaultAsync(c => c.BuyerId == userName);
+        }
+
         private async Task<List<Cart>> ListAsync(ISpecification<Cart> spec)
         {
             var queryableResultWithIncludes = spec.Includes
