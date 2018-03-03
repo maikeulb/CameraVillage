@@ -61,13 +61,6 @@ namespace RolleiShop.Notifications
                 itemsToUpdate = cartp.Items; 
             } 
 
-            /* cartsToUpdate.Items.Select (i => new CartItem () */
-                    /* { */
-                        /* UnitPrice = i.UnitPrice, */
-                        /* Quantiy = i.Quantity, */
-                        /* CatalogItemId = i.CatalogItemId, */
-                    /* }); */
-
             if (itemsToUpdate != null)
             {
                 foreach (var item in itemsToUpdate)
@@ -77,5 +70,26 @@ namespace RolleiShop.Notifications
                 await _cartService.UpdateAsync(cart);
             }         
         }
+
+        /* private async Task UpdatePriceInCatalog(int productId, decimal newPrice, decimal oldPrice, Cart cart) */
+        /* { */
+        /*     IEnumerable<Cart> cartsToUpdate = await _cartService.GetCartsWithMatchingProductId(productId); // TODO make one command (linq -> select) */
+
+        /*     IEnumerable<CartItem> itemsToUpdate = Enumerable.Empty<CartItem>(); */
+                
+        /*     foreach (var cartp in cartsToUpdate) */
+        /*     { */
+        /*         itemsToUpdate = cartp.Items; */ 
+        /*     } */ 
+
+        /*     if (itemsToUpdate != null) */
+        /*     { */
+        /*         foreach (var item in itemsToUpdate) */
+        /*         { */
+        /*                 item.UnitPrice = newPrice; */
+        /*         } */
+        /*         await _cartService.UpdateAsync(cart); */
+        /*     } */         
+        /* } */
     }
 }

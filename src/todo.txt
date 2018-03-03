@@ -5,3 +5,7 @@
 ***streamline cartviewmodelcompoennt 3 files
 ***real admin not working
 ***clean up notiication handler (ugly linq)
+***open up editing price for demo user**
+***domain event for updatingcatalog**
+***cache list of keys
+***send user notification via flash message

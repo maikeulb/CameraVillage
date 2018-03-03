@@ -66,6 +66,17 @@ namespace RolleiShop.Features.Cart
             return View();
         }
 
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ClearCart(ClearCart.Command command)
+        {
+            var cartViewModel = await GetCartViewModelAsync();
+            command.Id = cartViewModel.Id;
+            await _mediator.Send(command);
+
+            return RedirectToAction ("Index");
+        }
+
         [Authorize]
         public IActionResult Charge(Charge.Query query)
         {
