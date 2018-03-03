@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RolleiShop.Identity;
-using RolleiShop.Infra.App;
+using RolleiShop.Infrastructure;
 using RolleiShop.Features.Manage.ManageViewModels;
 
 namespace RolleiShop.Features.Manage

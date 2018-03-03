@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 using RolleiShop.Features.Account.AccountViewModels;
 using RolleiShop.Features.Home;
 using RolleiShop.Identity;
-using RolleiShop.Infra.App;
+using RolleiShop.Infrastructure;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
 

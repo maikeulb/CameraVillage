@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RolleiShop.Models.Entities;
+using RolleiShop.Entities;
 
 namespace RolleiShop.Data.Configurations
 {

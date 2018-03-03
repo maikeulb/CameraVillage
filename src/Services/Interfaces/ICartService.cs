@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RolleiShop.Models.Entities;
+using RolleiShop.Entities;
 
 namespace RolleiShop.Services.Interfaces
 {

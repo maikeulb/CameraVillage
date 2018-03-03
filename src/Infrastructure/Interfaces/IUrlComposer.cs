@@ -1,4 +1,4 @@
-namespace RolleiShop.Infra.App.Interfaces
+namespace RolleiShop.Infrastructure.Interfaces
 {
     public interface IUrlComposer
     {

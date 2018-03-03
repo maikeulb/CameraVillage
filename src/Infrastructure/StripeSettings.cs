@@ -1,4 +1,4 @@
-namespace RolleiShop.Infra.App
+namespace RolleiShop.Infrastructure
 {
     public class StripeSettings
     {

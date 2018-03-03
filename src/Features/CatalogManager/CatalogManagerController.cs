@@ -17,9 +17,8 @@ using RolleiShop.Services;
 using RolleiShop.Notifications;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Identity;
-using RolleiShop.Models.Entities;
-using RolleiShop.Models.Interfaces;
-using RolleiShop.Infra.App.Interfaces;
+using RolleiShop.Entities;
+using RolleiShop.Infrastructure.Interfaces;
 
 namespace RolleiShop.Features.CatalogManager
 {

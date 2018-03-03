@@ -20,7 +20,7 @@ namespace RolleiShop.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.Cart", b =>
+            modelBuilder.Entity("RolleiShop.Entities.Cart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -32,7 +32,7 @@ namespace RolleiShop.Migrations
                     b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.CartItem", b =>
+            modelBuilder.Entity("RolleiShop.Entities.CartItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -52,7 +52,7 @@ namespace RolleiShop.Migrations
                     b.ToTable("CartItem");
                 });
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.CatalogBrand", b =>
+            modelBuilder.Entity("RolleiShop.Entities.CatalogBrand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -66,7 +66,7 @@ namespace RolleiShop.Migrations
                     b.ToTable("CatalogBrand");
                 });
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.CatalogItem", b =>
+            modelBuilder.Entity("RolleiShop.Entities.CatalogItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -102,7 +102,7 @@ namespace RolleiShop.Migrations
                     b.ToTable("Catalog");
                 });
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.CatalogType", b =>
+            modelBuilder.Entity("RolleiShop.Entities.CatalogType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -116,7 +116,7 @@ namespace RolleiShop.Migrations
                     b.ToTable("CatalogType");
                 });
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.Order", b =>
+            modelBuilder.Entity("RolleiShop.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -130,7 +130,7 @@ namespace RolleiShop.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.OrderItem", b =>
+            modelBuilder.Entity("RolleiShop.Entities.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -148,33 +148,33 @@ namespace RolleiShop.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.CartItem", b =>
+            modelBuilder.Entity("RolleiShop.Entities.CartItem", b =>
                 {
-                    b.HasOne("RolleiShop.Models.Entities.Cart")
+                    b.HasOne("RolleiShop.Entities.Cart")
                         .WithMany("Items")
                         .HasForeignKey("CartId");
                 });
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.CatalogItem", b =>
+            modelBuilder.Entity("RolleiShop.Entities.CatalogItem", b =>
                 {
-                    b.HasOne("RolleiShop.Models.Entities.CatalogBrand", "CatalogBrand")
+                    b.HasOne("RolleiShop.Entities.CatalogBrand", "CatalogBrand")
                         .WithMany()
                         .HasForeignKey("CatalogBrandId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("RolleiShop.Models.Entities.CatalogType", "CatalogType")
+                    b.HasOne("RolleiShop.Entities.CatalogType", "CatalogType")
                         .WithMany()
                         .HasForeignKey("CatalogTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("RolleiShop.Models.Entities.OrderItem", b =>
+            modelBuilder.Entity("RolleiShop.Entities.OrderItem", b =>
                 {
-                    b.HasOne("RolleiShop.Models.Entities.Order")
+                    b.HasOne("RolleiShop.Entities.Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId");
 
-                    b.OwnsOne("RolleiShop.Models.Entities.CatalogItemOrdered", "ItemOrdered", b1 =>
+                    b.OwnsOne("RolleiShop.Entities.CatalogItemOrdered", "ItemOrdered", b1 =>
                         {
                             b1.Property<int>("OrderItemId");
 
@@ -186,9 +186,9 @@ namespace RolleiShop.Migrations
 
                             b1.ToTable("OrderItems");
 
-                            b1.HasOne("RolleiShop.Models.Entities.OrderItem")
+                            b1.HasOne("RolleiShop.Entities.OrderItem")
                                 .WithOne("ItemOrdered")
-                                .HasForeignKey("RolleiShop.Models.Entities.CatalogItemOrdered", "OrderItemId")
+                                .HasForeignKey("RolleiShop.Entities.CatalogItemOrdered", "OrderItemId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });

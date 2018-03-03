@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using RolleiShop.Infra.App;
-using RolleiShop.Infra.App.Interfaces;
+using RolleiShop.Infrastructure;
+using RolleiShop.Infrastructure.Interfaces;
 using RolleiShop.Specifications;
-using RolleiShop.Models.Entities;
-using RolleiShop.Models.Interfaces;
+using RolleiShop.Specifications.Interfaces;
+using RolleiShop.Entities;
 using RolleiShop.ViewModels;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Data.Context;

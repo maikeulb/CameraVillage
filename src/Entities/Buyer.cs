@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using RolleiShop.Models.Entities;
+using RolleiShop.Entities;
 using RolleiShop.Services.Interfaces;
 
-namespace RolleiShop.Models.Entities
+namespace RolleiShop.Entities
 {
     public class Buyer : Entity
     {

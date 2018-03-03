@@ -12,13 +12,13 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RolleiShop.Data.Context;
-using RolleiShop.Infra.App;
-using RolleiShop.Infra.App.Interfaces;
-using RolleiShop.Models.Entities;
-using RolleiShop.Models.Interfaces;
+using RolleiShop.Infrastructure;
+using RolleiShop.Infrastructure.Interfaces;
+using RolleiShop.Entities;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Specifications;
+using RolleiShop.Specifications.Interfaces;
 
 namespace RolleiShop.Features.Catalog
 {

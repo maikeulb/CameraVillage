@@ -9,3 +9,4 @@
 ***domain event for updatingcatalog**
 ***cache list of keys
 ***send user notification via flash message
+***sticky footer

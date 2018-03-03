@@ -15,11 +15,10 @@ using RolleiShop.Data.Context;
 using RolleiShop.ViewModels;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
-using RolleiShop.Models.Entities;
-using RolleiShop.Models.Interfaces;
+using RolleiShop.Entities;
 using RolleiShop.Features.Account.AccountViewModels;
 using RolleiShop.Features.Home;
-using RolleiShop.Infra.App;
+using RolleiShop.Infrastructure;
 using RolleiShop.Identity;
 
 namespace RolleiShop.Apis.Account

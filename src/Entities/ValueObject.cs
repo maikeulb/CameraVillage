@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace RolleiShop.Models.Entities
+namespace RolleiShop.Entities
 {
   public abstract class ValueObject<T> : IEquatable<T>
       where T : ValueObject<T>

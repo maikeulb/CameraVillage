@@ -14,8 +14,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using RolleiShop.Data.Context;
-using RolleiShop.Models.Entities;
-using RolleiShop.Models.Interfaces;
+using RolleiShop.Entities;
 using RolleiShop.Specifications;
 
 namespace RolleiShop.Features.Orders

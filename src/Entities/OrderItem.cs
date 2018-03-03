@@ -1,9 +1,9 @@
 using RolleiShop.Services.Interfaces;
-using RolleiShop.Models.Entities;
+using RolleiShop.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace RolleiShop.Models.Entities
+namespace RolleiShop.Entities
 {
     public class OrderItem : Entity
     {

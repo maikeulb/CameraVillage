@@ -1,4 +1,4 @@
-﻿using RolleiShop.Models.Interfaces;
+﻿using RolleiShop.Specifications.Interfaces;
 using System;
 using System.Linq.Expressions;
 using System.Collections.Generic;

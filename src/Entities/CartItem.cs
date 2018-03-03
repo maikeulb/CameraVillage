@@ -1,4 +1,4 @@
-namespace RolleiShop.Models.Entities
+namespace RolleiShop.Entities
 {
     public class CartItem : Entity
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace RolleiShop.Models.Entities
+namespace RolleiShop.Entities
 {
     public abstract class Entity
     {

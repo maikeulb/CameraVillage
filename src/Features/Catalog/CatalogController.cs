@@ -11,9 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RolleiShop.Data.Context;
 using RolleiShop.Identity;
-using RolleiShop.Infra.App.Interfaces;
-using RolleiShop.Models.Entities;
-using RolleiShop.Models.Interfaces;
+using RolleiShop.Infrastructure.Interfaces;
+using RolleiShop.Entities;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
 

@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using RolleiShop.Services.Interfaces;
-using RolleiShop.Models.Entities;
-using RolleiShop.Models.Interfaces;
-using RolleiShop.Infra.App;
-using RolleiShop.Infra.App.Interfaces;
+using RolleiShop.Entities;
+using RolleiShop.Infrastructure;
+using RolleiShop.Infrastructure.Interfaces;
 using RolleiShop.Data.Context;
 using RolleiShop.Specifications;
+using RolleiShop.Specifications.Interfaces;
 using RolleiShop.Features.Catalog;
 using System.Threading.Tasks;
 using System.Collections.Generic;

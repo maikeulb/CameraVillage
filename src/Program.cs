@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using RolleiShop.Models.Entities;
+using RolleiShop.Entities;
 using RolleiShop.Data.Seed;
 using RolleiShop.Data.Context;
 using RolleiShop.Identity;

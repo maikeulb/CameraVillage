@@ -9,10 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using RolleiShop.Data.Context;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
-using RolleiShop.Models.Entities;
-using RolleiShop.Models.Interfaces;
-using RolleiShop.Infra.App;
-using RolleiShop.Infra.App.Interfaces;
+using RolleiShop.Entities;
+using RolleiShop.Infrastructure;
+using RolleiShop.Infrastructure.Interfaces;
 using RolleiShop.Specifications;
 using Stripe;
 

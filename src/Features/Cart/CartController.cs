@@ -1,6 +1,5 @@
-using RolleiShop.Models.Entities;
-using RolleiShop.Models.Interfaces;
-using RolleiShop.Infra.App;
+using RolleiShop.Entities;
+using RolleiShop.Infrastructure;
 using RolleiShop.Identity;
 using RolleiShop.Data.Context;
 using RolleiShop.Services.Interfaces;

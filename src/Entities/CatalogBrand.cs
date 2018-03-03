@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace RolleiShop.Models.Entities
+namespace RolleiShop.Entities
 {
     public class CatalogBrand : Entity
     {

@@ -8,10 +8,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RolleiShop.Data.Context;
-using RolleiShop.Models.Entities;
-using RolleiShop.Models.Interfaces;
-using RolleiShop.Infra.App;
-using RolleiShop.Infra.App.Interfaces;
+using RolleiShop.Entities;
+using RolleiShop.Infrastructure;
+using RolleiShop.Infrastructure.Interfaces;
 
 namespace RolleiShop.Features.CatalogManager
 {

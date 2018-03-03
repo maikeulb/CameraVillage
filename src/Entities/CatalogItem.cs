@@ -1,7 +1,7 @@
 using RolleiShop.Features.CatalogManager;
 using System;
 
-namespace RolleiShop.Models.Entities
+namespace RolleiShop.Entities
 {
     public class CatalogItem : Entity
     {

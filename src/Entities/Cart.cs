@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RolleiShop.Models.Entities
+namespace RolleiShop.Entities
 {
     public class Cart : Entity
     {

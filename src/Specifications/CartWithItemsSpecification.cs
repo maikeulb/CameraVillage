@@ -1,4 +1,4 @@
-using RolleiShop.Models.Entities;
+using RolleiShop.Entities;
 
 namespace RolleiShop.Specifications
 {

@@ -1,6 +1,6 @@
-using RolleiShop.Infra.App.Interfaces;
+using RolleiShop.Infrastructure.Interfaces;
 
-namespace RolleiShop.Infra.App
+namespace RolleiShop.Infrastructure
 {
     public class UrlComposer : IUrlComposer
     {

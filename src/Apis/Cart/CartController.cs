@@ -13,8 +13,7 @@ using RolleiShop.ViewModels;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.Identity;
-using RolleiShop.Models.Entities;
-using RolleiShop.Models.Interfaces;
+using RolleiShop.Entities;
 
 namespace RolleiShop.Apis.Cart
 {
