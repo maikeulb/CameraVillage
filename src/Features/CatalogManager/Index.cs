@@ -22,12 +22,17 @@ namespace RolleiShop.Features.CatalogManager
         public class Query : IRequest<Model>
         {
             public int? Page { get; set; }
+            public string SortOrder { get; set; }
         }
 
         public class Model
         {
             public IEnumerable<CatalogItem> CatalogItems { get; set; }
             public PaginationInfoViewModel PaginationInfo { get; set; }
+            public string NameSortParm { get; set; }
+            public string BrandSortParm { get; set; }
+            public string TypeSortParm { get; set; }
+            public string CurrentSort { get; set; }
 
                 public class CatalogItem
                 {
@@ -65,21 +70,10 @@ namespace RolleiShop.Features.CatalogManager
                 int itemsPage = 10;
                 int pageNumber = message.Page ?? 0;
 
-                return await GetCatalogItems (pageNumber, itemsPage);
-            }
-
-            private async Task<Model> GetCatalogItems (int pageIndex, int itemsPage)
-            {
-                IEnumerable<CatalogItem> root = await ListAsync ();
-                var totalItems = root.Count ();
-                var itemsOnPage = root
-                    .Skip (itemsPage * pageIndex)
-                    .Take (itemsPage)
-                    .ToList ();
-
-                var model = new Model ()
-                {
-                    CatalogItems = itemsOnPage.Select (i => new Model.CatalogItem ()
+                var catalogItems = _context.CatalogItems
+                    .Include(c => c.CatalogBrand)
+                    .Include(c => c.CatalogType)
+                    .Select (i => new Model.CatalogItem ()
                     {
                         Id = i.Id,
                         Name = i.Name,
@@ -87,31 +81,60 @@ namespace RolleiShop.Features.CatalogManager
                         Type = i.CatalogType.Type,
                         Price = i.Price,
                         AvailableStock = i.AvailableStock,
-                    }),
+                    });
+
+                switch (message.SortOrder)
+                {
+                    case "name_desc":
+                        catalogItems = catalogItems.OrderByDescending(s => s.Name);
+                        break;
+                    case "Brand":
+                        catalogItems = catalogItems.OrderBy(s => s.Brand);
+                        break;
+                    case "brand_desc":
+                        catalogItems = catalogItems.OrderBy(s => s.Brand);
+                        break;
+                    case "Type":
+                        catalogItems = catalogItems.OrderByDescending(s => s.Type);
+                        break;
+                    case "type_desc":
+                        catalogItems = catalogItems.OrderByDescending(s => s.Type);
+                        break;
+                    default: 
+                        catalogItems = catalogItems.OrderBy(s => s.Name);
+                        break;
+                }
+
+                var root = await catalogItems.ToListAsync();
+
+                var totalItems = root.Count ();
+                var itemsOnPage = root
+                    .Skip (itemsPage * pageNumber)
+                    .Take (itemsPage)
+                    .ToList ();
+
+                var model = new Model ()
+                {
+                    CurrentSort = message.SortOrder,
+                    NameSortParm = String.IsNullOrEmpty(message.SortOrder) ? "name_desc" : "",
+                    BrandSortParm = message.SortOrder == "Brand" ? "brand_desc" : "Brand",
+                    TypeSortParm = message.SortOrder == "Type" ? "type_desc" : "Type",
+
+                    CatalogItems = itemsOnPage,
+
                     PaginationInfo = new Model.PaginationInfoViewModel ()
                     {
-                        ActualPage = pageIndex,
+                        ActualPage = pageNumber,
                         ItemsPerPage = itemsOnPage.Count,
                         TotalItems = totalItems,
                         TotalPages = int.Parse (Math.Ceiling (((decimal) totalItems / itemsPage)).ToString ())
                     }
                 };
-
                 foreach (var n in model.CatalogItems)
                 { }
                 model.PaginationInfo.Next = (model.PaginationInfo.ActualPage == model.PaginationInfo.TotalPages - 1) ? "is-disabled" : "";
                 model.PaginationInfo.Previous = (model.PaginationInfo.ActualPage == 0) ? "is-disabled" : "";
-
                 return model;
-            }
-
-            private async Task<List<CatalogItem>> ListAsync()
-            {
-                return await _context.CatalogItems
-                    .Include(c => c.CatalogBrand)
-                    .Include(c => c.CatalogType)
-                    .AsNoTracking()
-                    .ToListAsync();
             }
         }
     }
