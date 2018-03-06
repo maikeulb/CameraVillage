@@ -1,6 +1,5 @@
 using RolleiShop.Entities;
 using System.Collections.Generic;
-using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
 using System;
 using System.Linq;
@@ -11,7 +10,7 @@ using MediatR;
 namespace RolleiShop.Notifications
 {
     public class ProductPriceChangedNotification : INotification
-    {        
+    {
         public DateTime CreationDate { get; }
 
         public int ProductId { get; private set; }
@@ -46,7 +45,7 @@ namespace RolleiShop.Notifications
             {
                 var cart = await _cartService.GetCartAsync(id);
 
-                await UpdatePriceInCartItems(notification.ProductId, notification.NewPrice, notification.OldPrice, cart);                      
+                await UpdatePriceInCartItems(notification.ProductId, notification.NewPrice, notification.OldPrice, cart);
             }
         }
 
@@ -55,11 +54,11 @@ namespace RolleiShop.Notifications
             IEnumerable<Cart> cartsToUpdate = await _cartService.GetCartsWithMatchingProductId(productId); // TODO make one command (linq -> select)
 
             IEnumerable<CartItem> itemsToUpdate = Enumerable.Empty<CartItem>();
-                
+
             foreach (var cartp in cartsToUpdate)
             {
-                itemsToUpdate = cartp.Items; 
-            } 
+                itemsToUpdate = cartp.Items;
+            }
 
             if (itemsToUpdate != null)
             {
@@ -68,7 +67,7 @@ namespace RolleiShop.Notifications
                         item.UnitPrice = newPrice;
                 }
                 await _cartService.UpdateAsync(cart);
-            }         
+            }
         }
 
         /* private async Task UpdatePriceInCatalog(int productId, decimal newPrice, decimal oldPrice, Cart cart) */
@@ -76,11 +75,11 @@ namespace RolleiShop.Notifications
         /*     IEnumerable<Cart> cartsToUpdate = await _cartService.GetCartsWithMatchingProductId(productId); // TODO make one command (linq -> select) */
 
         /*     IEnumerable<CartItem> itemsToUpdate = Enumerable.Empty<CartItem>(); */
-                
+
         /*     foreach (var cartp in cartsToUpdate) */
         /*     { */
-        /*         itemsToUpdate = cartp.Items; */ 
-        /*     } */ 
+        /*         itemsToUpdate = cartp.Items; */
+        /*     } */
 
         /*     if (itemsToUpdate != null) */
         /*     { */
@@ -89,7 +88,7 @@ namespace RolleiShop.Notifications
         /*                 item.UnitPrice = newPrice; */
         /*         } */
         /*         await _cartService.UpdateAsync(cart); */
-        /*     } */         
+        /*     } */
         /* } */
     }
 }

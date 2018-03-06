@@ -1,20 +1,8 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using RolleiShop.Data.Context;
 using RolleiShop.Identity;
-using RolleiShop.Infrastructure.Interfaces;
-using RolleiShop.Entities;
-using RolleiShop.Services;
-using RolleiShop.Services.Interfaces;
 
 namespace RolleiShop.Features.Catalog
 {

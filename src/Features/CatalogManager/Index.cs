@@ -1,18 +1,11 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RolleiShop.Data.Context;
-using RolleiShop.Services;
-using RolleiShop.Services.Interfaces;
-using RolleiShop.Entities;
-using RolleiShop.Infrastructure;
-using RolleiShop.Infrastructure.Interfaces;
 
 namespace RolleiShop.Features.CatalogManager
 {
@@ -99,7 +92,7 @@ namespace RolleiShop.Features.CatalogManager
                     case "type_desc":
                         catalogItems = catalogItems.OrderByDescending(s => s.Type);
                         break;
-                    default: 
+                    default:
                         catalogItems = catalogItems.OrderBy(s => s.Name);
                         break;
                 }

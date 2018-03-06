@@ -1,24 +1,14 @@
-using System;
 using System.IO;
-using System.Collections.Generic;
 using System.Net.Http.Headers;
-using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using RolleiShop.Data.Context;
-using RolleiShop.Services;
-using RolleiShop.Services.Interfaces;
 using RolleiShop.Entities;
-using RolleiShop.Infrastructure;
-using RolleiShop.Infrastructure.Interfaces;
-using RolleiShop.Specifications;
 
 namespace RolleiShop.Features.CatalogManager
 {
@@ -72,7 +62,7 @@ namespace RolleiShop.Features.CatalogManager
 
             protected override async Task HandleCore(Command message)
             {
-                var uploadPath = Path.Combine (_environment.WebRootPath, "images/products"); 
+                var uploadPath = Path.Combine (_environment.WebRootPath, "images/products");
                 var ImageName = ContentDispositionHeaderValue.Parse (message.ImageUpload.ContentDisposition).FileName.Trim ('"');
                 using (var fileStream = new FileStream (Path.Combine (uploadPath, message.ImageUpload.FileName), FileMode.Create))
                 {

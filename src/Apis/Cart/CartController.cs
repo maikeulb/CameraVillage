@@ -1,19 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MediatR;
 using RolleiShop.Data.Context;
-using RolleiShop.ViewModels;
-using RolleiShop.Services;
-using RolleiShop.Services.Interfaces;
 using RolleiShop.Identity;
-using RolleiShop.Entities;
+using RolleiShop.Services.Interfaces;
+using RolleiShop.ViewModels;
 
 namespace RolleiShop.Apis.Cart
 {
@@ -48,7 +43,7 @@ namespace RolleiShop.Apis.Cart
         {
             var cartViewModel = await GetCartViewModelAsync ();
             command.Id = cartViewModel.Id;
-            await _mediator.Send(command);
+            await _mediator.Send (command);
 
             return Ok ();
         }
@@ -58,7 +53,7 @@ namespace RolleiShop.Apis.Cart
         {
             var cartViewModel = await GetCartViewModelAsync ();
             command.Id = cartViewModel.Id;
-            await _mediator.Send(command);
+            await _mediator.Send (command);
 
             return Ok ();
         }

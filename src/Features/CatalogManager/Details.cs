@@ -1,15 +1,11 @@
-using System.IO;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using CSharpFunctionalExtensions;
 using MediatR;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RolleiShop.Data.Context;
 using RolleiShop.Entities;
-using RolleiShop.Infrastructure;
 using RolleiShop.Infrastructure.Interfaces;
 
 namespace RolleiShop.Features.CatalogManager

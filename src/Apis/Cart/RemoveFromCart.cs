@@ -1,18 +1,7 @@
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using RolleiShop.Data.Context;
-using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
-using RolleiShop.Entities;
-using RolleiShop.Infrastructure;
-using RolleiShop.Infrastructure.Interfaces;
-using RolleiShop.Specifications;
 
 namespace RolleiShop.Apis.Cart
 {
@@ -29,16 +18,16 @@ namespace RolleiShop.Apis.Cart
             private readonly ICartService _cartService;
             private readonly ApplicationDbContext _context;
 
-            public Handler(ICartService cartService, 
-                    ApplicationDbContext context)
+            public Handler (ICartService cartService,
+                ApplicationDbContext context)
             {
                 _cartService = cartService;
                 _context = context;
             }
 
-            protected override async Task HandleCore(Command message)
+            protected override async Task HandleCore (Command message)
             {
-                var catalogItem =  await _context.CatalogItems.FindAsync(message.ProductId);
+                var catalogItem = await _context.CatalogItems.FindAsync (message.ProductId);
                 await _cartService.RemoveItemFromCart (message.Id, catalogItem.Id);
             }
         }

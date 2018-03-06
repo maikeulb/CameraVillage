@@ -1,21 +1,6 @@
-using Stripe;
-using System;
-using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using MediatR;
-using RolleiShop.Data.Context;
-using RolleiShop.Entities;
-using RolleiShop.Specifications;
 
 namespace RolleiShop.Features.Orders
 {
@@ -27,10 +12,10 @@ namespace RolleiShop.Features.Orders
         {
             _mediator = mediator;
         }
-        
+
         public async Task<IActionResult> Index(Index.Query query)
         {
-            query.Name = User.Identity.Name; 
+            query.Name = User.Identity.Name;
             var model = await _mediator.Send(query);
 
             return View(model);

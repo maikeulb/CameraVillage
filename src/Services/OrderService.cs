@@ -1,16 +1,9 @@
-using RolleiShop.Services.Interfaces;
-using RolleiShop.Entities;
-using RolleiShop.Infrastructure;
-using RolleiShop.Infrastructure.Interfaces;
-using RolleiShop.Data.Context;
-using RolleiShop.Specifications;
-using RolleiShop.Specifications.Interfaces;
-using RolleiShop.Features.Catalog;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq;
-using System;
+using System.Threading.Tasks;
 using EnsureThat;
+using RolleiShop.Data.Context;
+using RolleiShop.Entities;
+using RolleiShop.Services.Interfaces;
 
 namespace RolleiShop.Services
 {
@@ -18,28 +11,28 @@ namespace RolleiShop.Services
     {
         private readonly ApplicationDbContext _context;
 
-        public OrderService(ApplicationDbContext context)
+        public OrderService (ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task CreateOrderAsync(int cartId)
+        public async Task CreateOrderAsync (int cartId)
         {
-            var cart = await _context.Carts.FindAsync(cartId);
-            EnsureArg.IsNotNull(cart, nameof(cart));
+            var cart = await _context.Carts.FindAsync (cartId);
+            EnsureArg.IsNotNull (cart, nameof (cart));
 
-            var items = new List<OrderItem>();
+            var items = new List<OrderItem> ();
             foreach (var item in cart.Items)
             {
-                var catalogItem = await _context.CatalogItems.FindAsync(item.CatalogItemId);
-                var itemOrdered = new CatalogItemOrdered(catalogItem.Id, catalogItem.Name, catalogItem.ImageUrl);
-                var orderItem = new OrderItem(itemOrdered, item.UnitPrice, item.Quantity);
-                items.Add(orderItem);
+                var catalogItem = await _context.CatalogItems.FindAsync (item.CatalogItemId);
+                var itemOrdered = new CatalogItemOrdered (catalogItem.Id, catalogItem.Name, catalogItem.ImageUrl);
+                var orderItem = new OrderItem (itemOrdered, item.UnitPrice, item.Quantity);
+                items.Add (orderItem);
             }
-            var order = Order.Create(cart.BuyerId, items);
+            var order = Order.Create (cart.BuyerId, items);
 
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+            _context.Orders.Add (order);
+            await _context.SaveChangesAsync ();
         }
     }
 }

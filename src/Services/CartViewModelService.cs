@@ -1,16 +1,15 @@
-using Microsoft.EntityFrameworkCore;
-using RolleiShop.Infrastructure;
-using RolleiShop.Infrastructure.Interfaces;
-using RolleiShop.Specifications;
-using RolleiShop.Specifications.Interfaces;
-using RolleiShop.Entities;
-using RolleiShop.ViewModels;
-using RolleiShop.Services.Interfaces;
-using RolleiShop.Data.Context;
-using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using RolleiShop.Data.Context;
+using RolleiShop.Entities;
+using RolleiShop.Infrastructure.Interfaces;
+using RolleiShop.Services.Interfaces;
+using RolleiShop.Specifications;
+using RolleiShop.Specifications.Interfaces;
+using RolleiShop.ViewModels;
 
 namespace RolleiShop.Services
 {
@@ -20,7 +19,7 @@ namespace RolleiShop.Services
         private readonly IUrlComposer _urlComposer;
         private readonly ApplicationDbContext _context;
 
-        public CartViewModelService(ApplicationDbContext context,
+        public CartViewModelService (ApplicationDbContext context,
             ILogger<CartViewModelService> logger,
             IUrlComposer urlComposer)
         {
@@ -29,66 +28,66 @@ namespace RolleiShop.Services
             _urlComposer = urlComposer;
         }
 
-        public async Task<CartViewModel> GetOrCreateCartForUser(string userName)
+        public async Task<CartViewModel> GetOrCreateCartForUser (string userName)
         {
-            var cartSpec = new CartWithItemsSpecification(userName);
-            var cart = (await ListAsync(cartSpec)).FirstOrDefault();
+            var cartSpec = new CartWithItemsSpecification (userName);
+            var cart = (await ListAsync (cartSpec)).FirstOrDefault ();
 
-            if(cart == null)
-                return await CreateCartForUser(userName);
+            if (cart == null)
+                return await CreateCartForUser (userName);
 
-            return CreateViewModelFromCart(cart);
+            return CreateViewModelFromCart (cart);
         }
 
-        private CartViewModel CreateViewModelFromCart(Cart cart)
+        private CartViewModel CreateViewModelFromCart (Cart cart)
         {
-            var viewModel = new CartViewModel();
+            var viewModel = new CartViewModel ();
 
             viewModel.Id = cart.Id;
             viewModel.BuyerId = cart.BuyerId;
-            viewModel.Items = cart.Items.Select(i =>
+            viewModel.Items = cart.Items.Select (i =>
             {
-                var itemModel = new CartViewModel.CartItem()
+                var itemModel = new CartViewModel.CartItem ()
                 {
-                    Id = i.Id,
-                    UnitPrice = i.UnitPrice,
-                    Quantity = i.Quantity,
-                    CatalogItemId = i.CatalogItemId
+                Id = i.Id,
+                UnitPrice = i.UnitPrice,
+                Quantity = i.Quantity,
+                CatalogItemId = i.CatalogItemId
                 };
-                var item = _context.CatalogItems.Find(i.CatalogItemId);
-                itemModel.ImageUrl = _urlComposer.ComposeImgUrl(item.ImageUrl);
+                var item = _context.CatalogItems.Find (i.CatalogItemId);
+                itemModel.ImageUrl = _urlComposer.ComposeImgUrl (item.ImageUrl);
                 itemModel.ProductName = item.Name;
                 return itemModel;
-            }).ToList();
+            }).ToList ();
 
             return viewModel;
         }
 
-        private async Task<CartViewModel> CreateCartForUser(string userId)
+        private async Task<CartViewModel> CreateCartForUser (string userId)
         {
-            var cart = Cart.Create(userId);
-            _context.Carts.Add(cart);
-            await _context.SaveChangesAsync();
+            var cart = Cart.Create (userId);
+            _context.Carts.Add (cart);
+            await _context.SaveChangesAsync ();
 
-            return new CartViewModel()
+            return new CartViewModel ()
             {
                 BuyerId = cart.BuyerId,
-                Id = cart.Id,
-                Items = new List<CartViewModel.CartItem>()
+                    Id = cart.Id,
+                    Items = new List<CartViewModel.CartItem> ()
             };
         }
 
-        private async Task<List<Cart>> ListAsync(ISpecification<Cart> spec)
+        private async Task<List<Cart>> ListAsync (ISpecification<Cart> spec)
         {
             var queryableResultWithIncludes = spec.Includes
-                .Aggregate(_context.Carts.AsQueryable(),
-                    (current, include) => current.Include(include));
+                .Aggregate (_context.Carts.AsQueryable (),
+                    (current, include) => current.Include (include));
             var secondaryResult = spec.IncludeStrings
-                .Aggregate(queryableResultWithIncludes,
-                    (current, include) => current.Include(include));
+                .Aggregate (queryableResultWithIncludes,
+                    (current, include) => current.Include (include));
             return await secondaryResult
-                            .Where(spec.Criteria)
-                            .ToListAsync();
+                .Where (spec.Criteria)
+                .ToListAsync ();
         }
     }
 }

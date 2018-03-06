@@ -1,8 +1,3 @@
-using RolleiShop.Services.Interfaces;
-using RolleiShop.Entities;
-using System;
-using System.Collections.Generic;
-
 namespace RolleiShop.Entities
 {
     public class OrderItem : Entity

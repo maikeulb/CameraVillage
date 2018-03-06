@@ -1,7 +1,4 @@
-using RolleiShop.Entities;
-using RolleiShop.Infrastructure;
 using RolleiShop.Identity;
-using RolleiShop.Data.Context;
 using RolleiShop.Services.Interfaces;
 using RolleiShop.ViewModels;
 using MediatR;
@@ -11,9 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace RolleiShop.Features.Cart
 {

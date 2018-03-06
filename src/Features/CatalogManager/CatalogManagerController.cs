@@ -1,24 +1,15 @@
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using CSharpFunctionalExtensions;
 using MediatR;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using RolleiShop.Data.Context;
-using RolleiShop.Services;
 using RolleiShop.Notifications;
-using RolleiShop.Services.Interfaces;
 using RolleiShop.Identity;
 using RolleiShop.Entities;
-using RolleiShop.Infrastructure.Interfaces;
 
 namespace RolleiShop.Features.CatalogManager
 {

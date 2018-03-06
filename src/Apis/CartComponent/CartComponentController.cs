@@ -1,19 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
-using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http;
-using RolleiShop.Entities;
 using RolleiShop.Identity;
-using RolleiShop.Data.Context;
-using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
-using RolleiShop.ViewModels;
 using RolleiShop.ViewComponents;
+using RolleiShop.ViewModels;
 
 namespace RolleiShop.Apis.CartComponent
 {
@@ -38,31 +33,31 @@ namespace RolleiShop.Apis.CartComponent
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateCart()
+        public async Task<IActionResult> UpdateCart ()
         {
-            var model = new CartComponentViewModel();
-            model.ItemsCount = (await GetCartViewModelAsync()).Items.Sum(i => i.Quantity);
-            return Ok(model);
+            var model = new CartComponentViewModel ();
+            model.ItemsCount = (await GetCartViewModelAsync ()).Items.Sum (i => i.Quantity);
+            return Ok (model);
         }
 
-        private async Task<CartViewModel> GetCartViewModelAsync()
+        private async Task<CartViewModel> GetCartViewModelAsync ()
         {
-            if (_signInManager.IsSignedIn(User))
-                return await _cartViewModelService.GetOrCreateCartForUser(User.Identity.Name);
+            if (_signInManager.IsSignedIn (User))
+                return await _cartViewModelService.GetOrCreateCartForUser (User.Identity.Name);
 
-            string anonymousId = GetOrSetCartCookie();
-            return await _cartViewModelService.GetOrCreateCartForUser(anonymousId);
+            string anonymousId = GetOrSetCartCookie ();
+            return await _cartViewModelService.GetOrCreateCartForUser (anonymousId);
         }
 
-        private string GetOrSetCartCookie()
+        private string GetOrSetCartCookie ()
         {
-            if (Request.Cookies.ContainsKey("RolleiShop"))
+            if (Request.Cookies.ContainsKey ("RolleiShop"))
                 return Request.Cookies["RolleiShop"];
 
-            string anonymousId = Guid.NewGuid().ToString();
-            var cookieOptions = new CookieOptions();
-            cookieOptions.Expires = DateTime.Today.AddYears(10);
-            Response.Cookies.Append("RolleiShop", anonymousId, cookieOptions);
+            string anonymousId = Guid.NewGuid ().ToString ();
+            var cookieOptions = new CookieOptions ();
+            cookieOptions.Expires = DateTime.Today.AddYears (10);
+            Response.Cookies.Append ("RolleiShop", anonymousId, cookieOptions);
             return anonymousId;
         }
     }
