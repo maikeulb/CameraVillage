@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:80"
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "P@ssw0rd!"
+
+  redis:
+    image: redis
