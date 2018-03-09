@@ -2,7 +2,9 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using RolleiShop.Identity;
+using RolleiShop.Infrastructure;
 
 namespace RolleiShop.Features.Catalog
 {
@@ -21,6 +23,7 @@ namespace RolleiShop.Features.Catalog
 
         [HttpGet]
         [HttpPost]
+        [ServiceFilter(typeof(TimerAction))]
         public async Task<IActionResult> Index (Index.Query query)
         {
             var model = await _mediator.Send (query);

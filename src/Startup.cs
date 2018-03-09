@@ -70,6 +70,7 @@ namespace RolleiShop
             services.AddMvc (options =>
                 {
                     options.Filters.Add (typeof (ValidatorActionFilter));
+                    options.Filters.AddService(typeof(TimerAction));
                 })
                 .AddFeatureFolders ()
                 .AddFluentValidation (cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup> (); })
@@ -89,6 +90,8 @@ namespace RolleiShop
             });
 
             services.AddMediatR (typeof (Startup));
+
+            services.AddScoped<TimerAction>();
 
             StripeConfiguration.SetApiKey (Environment.GetEnvironmentVariable ("ASPNETCORE_SECRET_KEY"));
         }

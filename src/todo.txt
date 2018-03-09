@@ -11,4 +11,11 @@
 ***send user notification via flash message
 ***sticky footer
 ***notifications
-
+** manage product
+** add wishlists
+** user manager
+** dadd remote validation, if it helps -> check if product exists
+** condition tag helper
+** response caching to home controller
+** compression controller
+** mediatr logging middleware
