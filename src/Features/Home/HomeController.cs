@@ -6,6 +6,7 @@ using Microsoft.Extensions.Localization;
 
 namespace RolleiShop.Features.Home
 {
+    [ResponseCache(Duration = 30)]
     public class HomeController : Controller
     {
         private readonly IStringLocalizer<HomeController> _localizer;
@@ -15,6 +16,8 @@ namespace RolleiShop.Features.Home
             _localizer = localizer;
         }
 
+        [HttpGet("Index")]
+        [HttpGet("")]
         public IActionResult Index()
         {
             ViewData["Message1"] = _localizer["This is an MVC application demonstrating a basic ecommerce shop with in ASP.NET Core 2.0, EF Core 2.0, Identity 2.0, Stripe, and a slew of libraries. The backend follows a DDD/CQRS-esque Architecture powered by MediatR. I built this using the superb Microsoft sample projects, tutorials, and documentation, along with varous online resources."];

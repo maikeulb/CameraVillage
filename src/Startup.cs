@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -67,10 +68,23 @@ namespace RolleiShop
 
             services.AddLocalization (options => options.ResourcesPath = "Resources");
 
+            services.AddResponseCaching();
+
             services.AddMvc (options =>
                 {
                     options.Filters.Add (typeof (ValidatorActionFilter));
                     options.Filters.AddService(typeof(TimerAction));
+                    options.CacheProfiles.Add("Default",
+                        new CacheProfile()
+                        {
+                            Duration = 30,
+                            Location = ResponseCacheLocation.Any
+                        });
+                    options.CacheProfiles.Add("None",
+                        new CacheProfile()
+                        {
+                            Location = ResponseCacheLocation.None,
+                         });
                 })
                 .AddFeatureFolders ()
                 .AddFluentValidation (cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup> (); })
@@ -98,6 +112,8 @@ namespace RolleiShop
 
         public void Configure (IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
+            app.UseResponseCaching();
+
             var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>> ();
             app.UseRequestLocalization (locOptions.Value);
 
