@@ -73,6 +73,7 @@
           <div class="ui right aligned basic segment" 
             
             style="padding-top:0">
+
             <form asp-controller="Cart" 
               asp-action="Charge" 
               method="POST">
@@ -84,6 +85,7 @@
                       data-amount="@Model.StripeTotal()">
                       document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
               </script>
+
               <button type="submit" class="ui primary button"
               data-tooltip="Feel free to test credit card payments, otherwise
               just click checkout"
@@ -91,6 +93,7 @@
                 >
                 PAY WITH CARD
               </button>
+
             </form>
           </div>
         </div>

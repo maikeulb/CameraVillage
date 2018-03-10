@@ -1,0 +1,4 @@
+dotnet restore
+dotnet ef databse update -c IdentityDbContext
+dotnet ef databse update -c ApplicationDbContext
+dotnet run

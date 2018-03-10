@@ -28,7 +28,6 @@ namespace RolleiShop.Features.Home
             return View();
         }
 
-
         [HttpPost]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {

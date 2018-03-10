@@ -1,6 +1,5 @@
 FROM microsoft/aspnetcore-build:2.0
 
-# Copy  client app and build Client
 COPY . /app
 WORKDIR /app
 

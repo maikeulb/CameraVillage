@@ -63,6 +63,7 @@
     $("#products").on("click","#product-item", addToCart);
 
     function addToCart (e) {
+      e.preventDefault();
       button = $(e.target);
       var productId = button.attr("data-product-id");
       addToCartCall(productId);
@@ -105,6 +106,7 @@
          },
       });
     }
+
 });
 </script>
 }
