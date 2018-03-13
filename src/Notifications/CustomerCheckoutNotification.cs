@@ -30,6 +30,9 @@ namespace RolleiShop.Notifications
 
     public class CustomerCheckoutNotificationHandler : INotificationHandler<CustomerCheckoutNotification>
     {
+        // This is the email model. OrderItems isn't necessary at the moment
+        // but I'm keeping it around to remind myself that to improve the email
+        // template by incorporating the OrderItems.
         public class Model
         {
             public int OrderNumber { get; set; }
@@ -58,13 +61,12 @@ namespace RolleiShop.Notifications
         public async Task Handle(CustomerCheckoutNotification notification, CancellationToken cancellationToken)
         {
             var model = await FirstAsync(new CustomerOrdersWithItemsSpecification(notification.Name));
-            /* model.OrderDate = model.OrderDate.ToString("dd/MM/yyyy"); */
 
-            string BodyContent = $@"<p>{notification.Name},</p>
-                <p>Thank you for your order!</p>
+            var bodyContent = $@"<p>Hello {notification.Name},</p>
+                <p> Thank you for your order!</p>
                 <p> Your order confirmation number is {model.Id} on {model.OrderDate.ToString("dd/MM/yyyy")}.</p>";
 
-            _emailService.Send("maikeulbgithub@gmail.com", "ASP.NET Core mvc send email example", BodyContent, true);
+            await _emailService.SendAsync("maikeulbgithub@gmail.com", "RolleiShop Confirmation", bodyContent, true);
         }
 
         private async Task<List<Order>> ListAsync(ISpecification<Order> spec)
