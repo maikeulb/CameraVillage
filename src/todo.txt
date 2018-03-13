@@ -11,3 +11,4 @@
   ** compression controller if not hosted using nginx
   ** mediatr logging middleware  - Low priority
 ** add email (send order with hangfire)
+** productpricechange -modal

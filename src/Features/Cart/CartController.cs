@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Threading.Tasks;
+using RolleiShop.Notifications;
 
 namespace RolleiShop.Features.Cart
 {
@@ -56,6 +57,8 @@ namespace RolleiShop.Features.Cart
             var cartViewModel = await GetCartViewModelAsync();
             command.Id = cartViewModel.Id;
             await _mediator.Send(command);
+
+            await _mediator.Publish(new CustomerCheckoutNotification(User.Identity.Name));
 
             return View();
         }
