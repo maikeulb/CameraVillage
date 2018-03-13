@@ -19,6 +19,8 @@ using RolleiShop.Infrastructure.Interfaces;
 using RolleiShop.Services;
 using RolleiShop.Services.Interfaces;
 using Stripe;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 
 namespace RolleiShop
 {
@@ -90,6 +92,23 @@ namespace RolleiShop
                 .AddFluentValidation (cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup> (); })
                 .AddViewLocalization (LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization ();
+
+
+            services.AddMailKit(optionBuilder =>
+            {
+                optionBuilder.UseMailKit(new MailKitOptions()
+                {
+                    Server = Configuration["Email:Server"],
+                    Port = Convert.ToInt32(Configuration["Email:Port"]),
+                    SenderName = Configuration["Email:SenderName"],
+                    SenderEmail = Configuration["Email:SenderEmail"],
+
+                    Account = Configuration["Email:Account"],
+                    Password = Configuration["Email:Password"],
+
+                    Security = true
+                });
+            });
 
             services.Configure<RequestLocalizationOptions> (options =>
             {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RolleiShop.Data.Context;
@@ -21,6 +22,7 @@ namespace RolleiShop.Features.Orders
         public class Model
         {
             public int OrderNumber { get; set; }
+            [DisplayFormat(DataFormatString = "{0:d}")]
             public DateTimeOffset OrderDate { get; set; }
             public decimal Total { get; set; }
             public string Status { get; set; }

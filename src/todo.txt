@@ -3,7 +3,7 @@
   ***change productocatalog
 ***clean up notiication handler (ugly linq)
   ***open up editing price for demo user** check
-  ***sticky footer
+  ***sticky footer to add language thing
   ** manage product - figure out how to limit stock
   ** user manager
   ** dadd remote validation, if it helps -> check if product exists
