@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
-using MailKit.Net.Smtp;
-using MimeKit;
-using MailKit;
-using NETCore.MailKit.Core;
 
 namespace RolleiShop.Features.Home
 {
@@ -14,13 +10,10 @@ namespace RolleiShop.Features.Home
     public class HomeController : Controller
     {
         private readonly IStringLocalizer<HomeController> _localizer;
-        private readonly IEmailService _emailService;
 
-        public HomeController(IStringLocalizer<HomeController> localizer,
-                              IEmailService emailService)
+        public HomeController(IStringLocalizer<HomeController> localizer)
         {
             _localizer = localizer;
-            _emailService = emailService;
         }
 
         [HttpGet("Index")]
@@ -45,21 +38,6 @@ namespace RolleiShop.Features.Home
             );
 
             return LocalRedirect(returnUrl);
-        }
-
-        [HttpGet("SendEmail")]
-        public IActionResult SendEmail()
-        {
-            ViewData["Message"] = "ASP.NET Core mvc send email example";
-
-            string name = "Moike";
-            string BodyContent = $@"<h1>{name} ASP.NET Core was previously called ASP.NET 5</h1> 
-                <p>It was renamed in January 2016.</p><p>It supports cross-platform frameworks ( Windows, Linux, Mac )
-                for building modern cloud-based internet-connected applications like IOT, web apps, and mobile back-end.</p>";
-
-            _emailService.Send("maikeulbgithub@gmail.com", "ASP.NET Core mvc send email example", BodyContent, true);
-
-            return RedirectToAction ("Index");
         }
 
         public IActionResult Error()
