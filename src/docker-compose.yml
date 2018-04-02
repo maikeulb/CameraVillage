@@ -9,10 +9,10 @@ services:
       - postgres
       - redis
 
-    postgres:
-      image: postgres
-      environment:
-        POSTGRES_PASSWORD: "P@ssw0rd!"
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "P@ssw0rd!"
 
-        redis:
-          image: redis
+  redis:
+    image: redis

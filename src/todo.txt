@@ -13,4 +13,6 @@
 ** add email (send order with hangfire)
   ** productpricechange -modal
   ** generate html template
+  ** generate html template
   ** turn off email in devmode
+  ** change fluent validation to notempty
