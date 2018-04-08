@@ -1,15 +1,11 @@
 ***Fix Ajax for removing items from shopping cart - Low priority
-***Fix Ajax redirect - Low priority
-  ***change productocatalog
-***clean up notiication handler (ugly linq)
-  ***open up editing price for demo user** check
-  ***sticky footer to add language thing
+***open up editing price for demo user** check
+***sticky footer to add language thing
   ** manage product - figure out how to limit stock
   ** user manager
   ** dadd remote validation, if it helps -> check if product exists
   ** response caching to home controller not working
   ** compression controller if not hosted using nginx
-  ** mediatr logging middleware  - Low priority
 ** add email (send order with hangfire)
   ** productpricechange -modal
   ** generate html template

@@ -26,6 +26,30 @@ namespace RolleiShop.Identity
             if (existUser == null)
                 await userManager.CreateAsync(user, userPassword);
 
+            // Demo Admin User
+            var demoAdminPassword = configuration.GetSection("AppSettings")["DemoAdminPassword"];
+            var demoAdminEmail = configuration.GetSection("AppSettings")["DemoAdminEmail"];
+            string demoAdminRole = "DemoAdmin";
+            IdentityResult demoAdminRoleResult;
+
+            var demoAdmin = new ApplicationUser
+            {
+                UserName = demoAdminEmail,
+                Email = demoAdminEmail
+            };
+
+            var demoAdminRoleExist = await roleManager.RoleExistsAsync(demoAdminRole);
+            if (!demoAdminRoleExist)
+                demoAdminRoleResult = await roleManager.CreateAsync(new IdentityRole(demoAdminRole));
+
+            var existDemoAdmin = await userManager.FindByEmailAsync(demoAdminEmail);
+            if (existDemoAdmin == null)
+            {
+                var createDemoAdmin = await userManager.CreateAsync(demoAdmin, demoAdminPassword);
+                if (createDemoAdmin.Succeeded)
+                    await userManager.AddToRoleAsync(demoAdmin, "DemoAdmin");
+            }
+
             // Admin User
             var adminPassword = configuration.GetSection("AppSettings")["AdminPassword"];
             var adminEmail = configuration.GetSection("AppSettings")["AdminEmail"];
@@ -50,29 +74,6 @@ namespace RolleiShop.Identity
                     await userManager.AddToRoleAsync(admin, "Admin");
             }
 
-            // Demo Admin User
-            var demoAdminPassword = configuration.GetSection("AppSettings")["DemoAdminPassword"];
-            var demoAdminEmail = configuration.GetSection("AppSettings")["DemoAdminEmail"];
-            string demoAdminRole = "DemoAdmin";
-            IdentityResult demoAdminRoleResult;
-
-            var demoAdmin = new ApplicationUser
-            {
-                UserName = demoAdminEmail,
-                Email = demoAdminEmail
-            };
-
-            var demoAdminRoleExist = await roleManager.RoleExistsAsync(demoAdminRole);
-            if (!demoAdminRoleExist)
-                demoAdminRoleResult = await roleManager.CreateAsync(new IdentityRole(demoAdminRole));
-
-            var existDemoAdmin = await userManager.FindByEmailAsync(demoAdminEmail);
-            if (demoAdmin == null)
-            {
-                var createDemoAdmin = await userManager.CreateAsync(demoAdmin, demoAdminPassword);
-                if (createDemoAdmin.Succeeded)
-                    await userManager.AddToRoleAsync(demoAdmin, "DemoAdmin");
-            }
         }
     }
 }
