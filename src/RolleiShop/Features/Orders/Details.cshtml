@@ -15,7 +15,8 @@
       </div>
       <div class="row">
         <div class="four wide mobile three wide computer column">@Model.OrderNumber</div>
-        <div class="four wide mobile three wide computer column">@Model.OrderDate.ToString("dd/MM/yyyy")</div>
+        <div class="four wide mobile three wide computer
+          column">@Model.OrderDate.ToString("MM/dd/yyyy")</div>
         <div class="four wide mobile three wide computer column">$@Model.Total.ToString("N2")</div>
         <div class="four wide mobile three wide computer column">@Model.Status</div>
       </div>

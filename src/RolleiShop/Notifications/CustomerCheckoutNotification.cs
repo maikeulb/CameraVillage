@@ -64,7 +64,7 @@ namespace RolleiShop.Notifications
 
             var bodyContent = $@"<p>Hello {notification.Name},</p>
                 <p> Thank you for your order!</p>
-                <p> Your order confirmation number is {model.Id} on {model.OrderDate.ToString("dd/MM/yyyy")}.</p>";
+                <p> Your order confirmation number is {model.Id} on {model.OrderDate.ToString("MM/dd/yyyy")}.</p>";
 
             await _emailService.SendAsync("maikeulbgithub@gmail.com", "RolleiShop Confirmation", bodyContent, true);
         }
