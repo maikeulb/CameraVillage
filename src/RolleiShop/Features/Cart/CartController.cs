@@ -75,9 +75,11 @@ namespace RolleiShop.Features.Cart
         }
 
         [Authorize]
-        public IActionResult Charge(Charge.Query query)
+        public async Task<IActionResult> Charge(Charge.Query query)
         {
-            _mediator.Send(query);
+            var cartViewModel = await GetCartViewModelAsync();
+            query.StripeTotal = cartViewModel.StripeTotal();
+            await _mediator.Send(query);
 
             return View();
         }

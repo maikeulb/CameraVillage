@@ -7,8 +7,9 @@ namespace RolleiShop.Features.Cart
     {
         public class Query : IRequest
         {
-            public string stripeEmail { get; set; }
-            public string stripeToken { get; set; }
+            public string StripeEmail { get; set; }
+            public string StripeToken { get; set; }
+            public decimal StripeTotal { get; set; }
         }
 
         public class Handler : RequestHandler<Query>
@@ -18,11 +19,11 @@ namespace RolleiShop.Features.Cart
                 var customers = new StripeCustomerService();
                 var charges = new StripeChargeService();
                 var customer = customers.Create(new StripeCustomerCreateOptions {
-                  Email = message.stripeEmail,
-                  SourceToken = message.stripeToken
+                  Email = message.StripeEmail,
+                  SourceToken = message.StripeToken
                 });
                 var charge = charges.Create(new StripeChargeCreateOptions {
-                  Amount = 500,
+                  Amount = (int) message.StripeTotal,
                   Description = "Sample Charge",
                   Currency = "usd",
                   CustomerId = customer.Id

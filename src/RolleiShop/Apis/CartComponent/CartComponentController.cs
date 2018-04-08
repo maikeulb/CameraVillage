@@ -37,6 +37,7 @@ namespace RolleiShop.Apis.CartComponent
         {
             var model = new CartComponentViewModel ();
             model.ItemsCount = (await GetCartViewModelAsync ()).Items.Sum (i => i.Quantity);
+
             return Ok (model);
         }
 
