@@ -64,11 +64,13 @@ namespace RolleiShop.Features.CatalogManager
             {
                 var uploadPath = Path.Combine (_environment.WebRootPath, "images/products");
                 var ImageName = ContentDispositionHeaderValue.Parse (message.ImageUpload.ContentDisposition).FileName.Trim ('"');
+
                 using (var fileStream = new FileStream (Path.Combine (uploadPath, message.ImageUpload.FileName), FileMode.Create))
                 {
                     await message.ImageUpload.CopyToAsync (fileStream);
                     message.ImageUrl = "http://catalogbaseurl/images/products/" + ImageName;
                 }
+
                 var item = CatalogItem.Create (
                     message.TypeId,
                     message.BrandId,
