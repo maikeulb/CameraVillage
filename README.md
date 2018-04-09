@@ -4,29 +4,36 @@ E-commerce application where users may browse the catalog, manage their
 shopping cart, submit orders (dummy or through stripe), and browse through
 their order history. Admin users may manage the catalog (add and edit catalog
 items). Features include distributed caching for the catalog items (via Redis),
-in-memory catching for the catalog types and brands, localization,
-file-uploads, external logging (via Nlog), server-side filtering (via
-specification pattern), and emails (via MailKit).
+in-memory catching for the catalog types and brands, localization, server-side
+filtering (via specification pattern), and emails (via MailKit).
 
 The application is written following a vertically sliced, CQRS architecture
 with a rich, encapsulated domain<sup>1</sup> (private collections and setters)
-with domain notifications (for sending emails and product price changes). The
-application IO is fully-asynchronous and the errors are handled with command
-results (similar to F#'s Option Type or Haskell's Maybe monad).
+with domain notifications (for sending emails and product price changes) to
+explicitly implement side effects. The application IO is fully-asynchronous and
+the errors are handled with command results (similar to F#'s Option Type or
+Haskell's Maybe monad).
 
-1. The only exceptions to this (as far as I'm aware) are the account classes
-   because I didn't want to rewrite the templated classes for integrating with
-   Identity.
+1. The only exceptions to this (as far as I'm aware) are is the application
+   user class because it interfaces with identity. I could have encapsulated
+   this entity but I didn't want to rewrite the scaffolded entity code.
 
 Technology
 ----------
-* ASP.NET Core
-* PostgreSQL (with Entity Framework)
+* ASP.NET Core 2.0
+* PostgreSQL
 * Redis
+* Identity 2.0
+* Entity Framework Core 2.0 
+* MediatR
+* FluentValidation
+* NLog
+* CSharpFunctionalExtensions
 * Semantic UI
-* Stripe
+* Stripe API
 * Noty
 * Rellax
+* Google Maps API
 
 Screenshots
 ---
@@ -78,10 +85,10 @@ Go to http://localhost:5000
 ```
 NOTE
 ----
-The resources I use to create this project come from several projects and
-tutorials provided by Microsoft (mostly eShopOnWeb, eShopOnContainers,
-MVCMusicStore, and ContosoUniversity), Jimmy Bogards Contoso University remake
-and writing, along with several blogs.
+The resources I use to create this project were plentiful, coming from several
+projects and tutorials provided by Microsoft (mostly eShopOnWeb,
+eShopOnContainers, MVCMusicStore, and ContosoUniversity), Pluralsight, Jimmy
+Bogards Contoso University remake, and several blogs.
 
 TODO
 ----
@@ -92,4 +99,5 @@ Add Serverside sorting by price
 Fix AJAX remove cart-items (low priority)  
 ADD compression middleware (maybe)  
 Turn off email in DEV mode  
-Improve Fluent validation
+Refresh catalog when price changes (it's currently cahched)  
+Further optimize queries  

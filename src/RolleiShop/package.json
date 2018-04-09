@@ -33,13 +33,9 @@
   "dependencies": {
     "@babel/core": "^7.0.0-beta.32",
     "@babel/preset-env": "^7.0.0-beta.32",
-    "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.6",
-    "buefy": "^0.6.1",
     "font-awesome": "^4.7.0",
-    "re-bulma": "^0.4.6",
     "semantic-ui": "^2.2.13",
     "semantic-ui-less": "^2.2.12",
-    "semantic-ui-menu": "^2.2.12",
-    "vue": "^2.5.9"
+    "semantic-ui-menu": "^2.2.12"
   }
 }
