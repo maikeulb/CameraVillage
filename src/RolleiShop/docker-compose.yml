@@ -9,9 +9,9 @@ services:
       - postgres
       - redis
     environment:
-      ConnectionStrings__Redis=: "172.17.0.5:6379"
-      ConnectionStrings__RolleiShop: "Server=172.17.0.2;Port=5432;Database=RolleiShop;User ID=postgres;Password=P@ssw0rd!;"
-      ConnectionStrings__Identity: "Server=172.17.0.2;Port=5432;Database=RolleiShopIdentity;User ID=postgres;Password=P@ssw0rd!;"
+      ConnectionStrings__Redis=: "redis:6379"
+      ConnectionStrings__RolleiShop: "Server=postgres;Port=5432;Database=RolleiShop;User ID=postgres;Password=P@ssw0rd!;"
+      ConnectionStrings__Identity: "Server=postgres;Port=5432;Database=RolleiShopIdentity;User ID=postgres;Password=P@ssw0rd!;"
 
   postgres:
     image: postgres

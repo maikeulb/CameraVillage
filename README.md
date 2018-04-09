@@ -92,12 +92,12 @@ Bogards Contoso University remake, and several blogs.
 
 TODO
 ----
-Dockerfile  
-Modularize javascript and configure webpack  
+Dockerfile -> unable to connect to redis
+configure webpack (for production)  
 Add more unit tests  
 Add Serverside sorting by price  
 Fix AJAX remove cart-items (low priority)  
-ADD compression middleware (maybe)  
-Turn off email in DEV mode  
+ADD compression middleware (maybe) / or host on NGINX  
+Turn off email in DEV mode (or supply dumy)  
 Refresh catalog when price changes (it's currently cahched)  
 Further optimize queries  
