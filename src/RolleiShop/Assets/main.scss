@@ -1,0 +1,168 @@
+// General
+.site-content {
+        min-height: calc(100vh - 70px);
+}
+
+footer {
+        height: 80px;
+        margin: auto;
+        padding-bottom: 20px;
+}
+
+button.stripe-button-el {
+        display: none;
+}
+
+body > .grid {
+        height: 100%;
+}
+
+.site-content {
+        padding-top: 40px;
+        padding-bottom: 20px;
+}
+
+// Pusher
+.column {
+        max-width: 450px;
+}
+
+.main.container {
+        margin-top: 7em;
+}
+
+.secondary.menu .toc.item {
+        display: none;
+}
+
+.text-danger {
+        color: red;
+}
+
+.secondary.menu .right.item .item.button {
+        display: none;
+}
+
+.secondary.menu .logo.header.item {
+        display: none;
+}
+
+.secondary.menu .right.item .ui.button {
+        margin-left: 0.5em;
+}
+
+.pusher {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+}
+
+.pusher > footer {
+        flex: 1;
+}
+
+body > .grid {
+        height: 100%;
+}
+
+.column {
+        max-width: 450px;
+}
+
+@media only screen and (max-width: 700px) {
+        .ui.secondary.menu .right.item {
+                display: none;
+        }
+
+        .ui.sidebar.menu > .button {
+                display: none;
+        }
+
+        .ui.secondary.menu .header.item {
+                display: none;
+        }
+
+        .ui.secondary.menu .logo.header.item {
+                display: flex;
+        }
+
+        .ui.secondary.menu .toc.item {
+                display: block;
+        }
+}
+
+.masthead.segment {
+        padding: 1em 0em;
+        margin-right: 1em;
+        margin-left: 1em;
+}
+
+.masthead h1.ui.header {
+        margin-top: 1em;
+        margin-bottom: 0em;
+        font-size: 1.7em;
+        font-weight: normal;
+}
+
+.masthead .image.full {
+        display: block;
+}
+
+.masthead .image.mobile {
+        display: none;
+}
+
+.ui.fluid.image.full.parallax {
+        height: 32em;
+}
+
+.ui.fluid.image.full.parallax {
+        background-attachment: fixed;
+        background-position: center;
+}
+
+.ui.fluid.image.full.parallax {
+        width: 100%;
+}
+
+.ui.fluid.image.mobile.parallax {
+        height: 32em;
+}
+
+.ui.fluid.image.mobile.parallax {
+        background-attachment: fixed;
+        background-position: center;
+}
+
+.ui.fluid.image.mobile.parallax {
+        width: 100%;
+}
+
+@media only screen and (max-width: 700px) {
+        .ui.secondary.menu .item,
+        .ui.secondary.menu .right.item {
+                display: none;
+        }
+
+        .ui.secondary.menu .logo,
+        .ui.secondary.menu .toc.item {
+                display: block;
+        }
+
+        .masthead.segment {
+                min-height: 350px;
+        }
+
+        .masthead h1.ui.header {
+                font-size: 1em;
+                margin-top: 0.5em;
+        }
+
+        .masthead .image.full {
+                display: none;
+        }
+
+        .masthead .image.mobile {
+                display: block;
+        }
+}
