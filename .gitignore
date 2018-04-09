@@ -278,3 +278,4 @@ __pycache__/
 *.bak
 __OmniSharpScratch__
 .envc
+.envrc
