@@ -14,7 +14,6 @@ namespace RolleiShop.Identity
             // Default User
             var userPassword = configuration.GetSection("AppSettings")["UserPassword"];
             var userEmail = configuration.GetSection("AppSettings")["UserEmail"];
-            System.Console.WriteLine(userEmail);
 
             var user = new ApplicationUser 
             { 
