@@ -2,22 +2,18 @@ version: '3'
 
 services:
   web:
-    build: .
-    ports:
-      - "5000:80"
-    depends_on:
-      - postgres
-      - redis
     environment:
+      AppSettings__AdminEmail: "admin@email.com"
+      AppSettings__AdminPassword: "P@ssw3rd!"
       ConnectionStrings__Redis: "redis:6379"
       ConnectionStrings__RolleiShop: "Server=postgres;Port=5432;Database=RolleiShop;User ID=postgres;Password=P@ssw0rd!;"
       ConnectionStrings__Identity: "Server=postgres;Port=5432;Database=RolleiShopIdentity;User ID=postgres;Password=P@ssw0rd!;"
       ApplicationSettings__RedisInstanceName: "rolleishop"
 
   postgres:
-    image: postgres
     environment:
       POSTGRES_PASSWORD: "P@ssw0rd!"
 
-  redis:
-    image: redis
+  nginx:
+    ports:
+      - "5000:80"

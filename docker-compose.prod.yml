@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  web:
+    restart: always
+    env_file:
+      - ./src/RolleiShop/.env
+
+  postgres:
+    restart: always
+    env_file:
+      - ./src/RolleiShop/.env
+
+  nginx:
+    restart: always
+    ports:
+      - "80:80"

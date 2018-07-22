@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  web:
+    build: ./src/RolleiShop
+    volumes:
+      - static:/app/wwwroot/
+    networks:
+      - web_nw
+      - db_nw
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_URLS: "http://*:5000"
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - db_nw
+
+  redis:
+    image: redis
+    networks:
+      - db_nw
+
+  nginx:
+    build: ./src/Nginx
+    volumes:
+      - static:/app/wwwroot/
+    networks:
+      - web_nw
+    depends_on:
+      - web
+
+networks:
+  db_nw:
+    driver: bridge
+  web_nw:
+    driver: bridge
+
+volumes:
+   db:
+   static:
