@@ -84,6 +84,7 @@ dotnet ef database update -c IdentityDbContext
 dotnet run
 Go to http://localhost:5000
 ```
+
 NOTE
 ----
 The resources I use to create this project were plentiful, coming from several
