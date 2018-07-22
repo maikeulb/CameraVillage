@@ -85,6 +85,34 @@ dotnet run
 Go to http://localhost:5000
 ```
 
+Deploy (Dockerized hosts)
+---
+This process is more thoroughly explained
+[here](https://www.digitalocean.com/community/tutorials/how-to-provision-and-manage-remote-docker-hosts-with-docker-machine-on-ubuntu-16-04),
+but I'll summarize the steps required (mostly for my own reference).
+
+Prerequisites: Docker Machine installed on your local machine and DigitalOcean
+API token.
+
+1. Create Dockerized hos
+```
+docker-machine create --driver digitalocean --digitalocean-access-token
+$DOTOKEN machine-name
+```
+2. Activate Dockerized host
+```
+eval (docker-machine env machine-name)
+```
+3. Build and run containers
+```
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+4. Unset Dockerized host
+```
+eval (docker-machine env -u)
+```
+
 NOTE
 ----
 The resources I use to create this project were plentiful, coming from several
@@ -94,12 +122,7 @@ Bogards Contoso University remake, and several blogs.
 
 TODO
 ----
-Dockerfile -> unable to connect to redis
 configure webpack (for production)  
 Add more unit tests  
 Add Serverside sorting by price  
 Fix AJAX remove cart-items (low priority)  
-ADD compression middleware (maybe) / or host on NGINX  
-Turn off email in DEV mode (or supply dumy)  
-Refresh catalog when price changes (it's currently cahched)  
-Further optimize queries  
